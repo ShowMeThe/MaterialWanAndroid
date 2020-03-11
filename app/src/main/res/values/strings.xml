@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MaterialWanAndroid</string>
+    <string name="welcome_to">Welcome To</string>
+    <string name="wanandroid">WanAndroid</string>
+    <string name="login">LOGIN</string>
+    <string name="register">Register</string>
+    <string name="please_input_your_username">Input Your Username</string>
+    <string name="please_input_your_password">Input Your Password</string>
+</resources>

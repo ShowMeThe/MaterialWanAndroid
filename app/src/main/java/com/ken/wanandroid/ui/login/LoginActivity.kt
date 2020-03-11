@@ -1,0 +1,135 @@
+package com.ken.wanandroid.ui.login
+
+import android.os.Bundle
+import android.util.Log
+import android.view.animation.AnticipateInterpolator
+import android.view.animation.AnticipateOvershootInterpolator
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.whenStarted
+import com.google.android.material.transition.MaterialSharedAxis
+import com.ken.wanandroid.R
+import com.ken.wanandroid.databinding.ActivityLoginBinding
+import com.ken.wanandroid.ui.login.fragment.LoginContainerFragment
+import com.ken.wanandroid.ui.login.fragment.LoginInFragment
+import com.ken.wanandroid.ui.login.vm.LoginViewModel
+import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.delay
+
+import showmethe.github.core.base.AppManager
+import showmethe.github.core.base.BaseActivity
+import showmethe.github.core.util.extras.set
+import showmethe.github.core.util.widget.StatusBarUtil.fixToolbarScreen
+import showmethe.github.core.util.widget.StatusBarUtil.registerActivity
+
+
+
+/**
+ * 登录和注册采用Fragment + MaterialTransition完成
+ */
+class LoginActivity : BaseActivity<ActivityLoginBinding,LoginViewModel>() {
+
+
+    override fun getViewId(): Int = R.layout.activity_login
+    override fun initViewModel(): LoginViewModel = createViewModel()
+    override fun onBundle(bundle: Bundle) {
+
+    }
+
+    override fun observerUI() {
+
+        viewModel.replaceFragment.observe(this, Observer {
+            it?.apply {
+                when(this){
+                    1 -> {
+                        //登录
+                        replaceFragment(LoginInFragment::class.java.name)
+                    }
+                    2 ->{
+                        //注册
+
+                    }
+                }
+            }
+        })
+
+        viewModel.backPress.observe(this, Observer {
+            it?.apply {
+                if(this){
+                    if(supportFragmentManager.fragments.size >= 2){
+                        supportFragmentManager.popBackStack()
+                    }
+                }
+            }
+        })
+
+
+    }
+
+    override fun init(savedInstanceState: Bundle?) {
+        fixToolbarScreen(toolBar)
+        registerActivity(true)
+
+        replaceFragment(LoginContainerFragment::class.java.name)
+
+    }
+
+    override fun initListener() {
+
+
+
+
+    }
+
+
+    private fun replaceFragment(tag: String, id: Int = R.id.frameLayout) {
+        var tempFragment = supportFragmentManager.findFragmentByTag(tag)
+        val transaction = supportFragmentManager.beginTransaction()
+        if (tempFragment == null) {
+            try {
+                tempFragment = Class.forName(tag).newInstance() as Fragment
+                tempFragment.enterTransition = createTransition()
+                transaction
+                    .addToBackStack(null)
+                    .add(id, tempFragment, tag)
+                    .setMaxLifecycle(tempFragment, Lifecycle.State.RESUMED)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        val fragments = supportFragmentManager.fragments
+        for (i in fragments.indices) {
+            val fragment = fragments[i]
+            if (fragment.tag == tag) {
+                transaction
+                    .addToBackStack(null)
+                    .show(fragment)
+            } else {
+                transaction
+                    .addToBackStack(null)
+                    .hide(fragment)
+            }
+        }
+        transaction.commitAllowingStateLoss()
+    }
+
+
+    private fun createTransition(): MaterialSharedAxis? {
+        val transition = MaterialSharedAxis.create(this, MaterialSharedAxis.Z, true)
+        transition.interpolator = AnticipateOvershootInterpolator()
+        transition.duration = 500
+        transition.addTarget(R.id.login_container)
+        transition.addTarget(R.id.login_layout)
+        return transition
+    }
+
+    override fun onBackPressed() {
+        if(supportFragmentManager.fragments.size >= 2){
+            viewModel.backPress set true
+        }else{
+             super.onBackPressed()
+        }
+    }
+}
