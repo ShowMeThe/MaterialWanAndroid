@@ -1,6 +1,7 @@
 package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
+import android.util.Log
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.FragmentHomeBinding
 import com.show.wanandroid.ui.main.vm.MainViewModel
@@ -8,6 +9,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import showmethe.github.core.http.coroutines.Result
 import androidx.lifecycle.Observer
 import showmethe.github.core.base.LazyFragment
+import showmethe.github.core.glide.TGlide
 
 class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
 
@@ -40,10 +42,13 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
     }
 
     override fun init() {
+        banner.setOnImageLoader { url, imageView ->
+            TGlide.loadNoCrop(url, imageView)
+        }
+        banner.bindToLife(this)
+
+
         router.toTarget("getBanner")
-
-
-
     }
 
     override fun initListener() {

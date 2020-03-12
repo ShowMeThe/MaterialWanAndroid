@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
 
 
 
-
+        initAdapter()
 
 
 
@@ -89,7 +89,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
 
         adapter = MainAdapter(fragments,supportFragmentManager, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
         vp.adapter = adapter
-        vp.offscreenPageLimit = 4
+        vp.offscreenPageLimit = fragments.size
     }
 
 }

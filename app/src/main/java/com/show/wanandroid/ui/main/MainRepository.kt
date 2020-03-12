@@ -1,5 +1,6 @@
 package com.show.wanandroid.ui.main
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.show.wanandroid.api.Main
 import com.show.wanandroid.entity.Banner
@@ -13,6 +14,7 @@ class MainRepository  : BaseRepository() {
     private val api: Main by inject()
 
     fun getBanner(call: MutableLiveData<Result<ArrayList<Banner>>>) {
+
         CallResult<ArrayList<Banner>>(owner) {
             post(call)
             hold {
