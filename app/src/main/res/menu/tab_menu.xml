@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tabHome"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home"/>
+
+    <item
+        android:id="@+id/tabArea"
+        android:icon="@drawable/ic_public"
+        android:title="@string/public_"/>
+
+    <item
+        android:id="@+id/tabNav"
+        android:icon="@drawable/ic_knowledge"
+        android:title="@string/knowledge"/>
+
+    <item
+        android:id="@+id/tabPro"
+        android:icon="@drawable/ic_project"
+        android:title="@string/ic_project"/>
+
+</menu>

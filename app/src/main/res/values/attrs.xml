@@ -4,4 +4,14 @@
     <declare-styleable name="JumpAnimView">
         <attr name="text_color" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="ShakingImageView">
+        <attr name="shake_orientation" format="enum">
+            <enum name="HORIZONTAL" value="0"/>
+            <enum name="VERTICAL" value="1"/>
+        </attr>
+        <attr name="shake_radius" format="dimension"/>
+        <attr name="shake_auto" format="boolean"/>
+        <attr name="shake_duration" format="integer"/>
+    </declare-styleable>
 </resources>

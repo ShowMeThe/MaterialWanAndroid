@@ -129,17 +129,15 @@ abstract class BaseFragment<V : ViewDataBinding,VM : BaseViewModel> : Fragment()
 
     }
 
-    /**
-     * startActivity，加入切换动画
-     */
-    fun startActivity(bundle: Bundle?, target: Class<*>) {
-        val intent = Intent(context, target)
+    inline fun <reified T>startActivity(bundle: Bundle? = null) {
+        val intent = Intent(context, T::class.java)
         if (bundle != null) {
             intent.putExtras(bundle)
         }
         startActivity(intent)
-        context.overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)
+        context.overridePendingTransition(R.anim.alpha_in,R.anim.alpha_out)
     }
+
 
 
     override fun onResume() {//和activity的onResume绑定，Fragment初始化的时候必调用，但切换fragment的hide和visible的时候可能不会调用！

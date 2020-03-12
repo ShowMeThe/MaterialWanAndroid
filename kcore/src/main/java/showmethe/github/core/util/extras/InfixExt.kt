@@ -62,7 +62,7 @@ infix fun <T:Any> MutableLiveData<T>?.set(newValue:T){
     this?.value = newValue
 }
 
-infix fun <T:Any>MutableLiveData<T>.sameAs( equals : T) : Boolean{
+infix fun <T:Any>MutableLiveData<T>.valueSameAs( equals : T) : Boolean{
     return if(value == null){
         false
     }else{

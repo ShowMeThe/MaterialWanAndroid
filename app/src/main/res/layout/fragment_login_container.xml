@@ -4,7 +4,7 @@
     <data>
         <variable
             name="Main"
-            type="com.ken.wanandroid.ui.login.fragment.LoginContainerFragment" />
+            type="com.show.wanandroid.ui.login.fragment.LoginContainerFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

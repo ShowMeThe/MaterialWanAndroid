@@ -1,5 +1,6 @@
 package showmethe.github.core.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.*
 import com.jeremyliao.liveeventbus.LiveEventBus
+import showmethe.github.core.R
 import showmethe.github.core.base.vmpath.VMRouter
 import showmethe.github.core.dialog.DialogLoading
 import showmethe.github.core.livebus.LiveBusHelper
@@ -34,7 +36,7 @@ abstract class LazyFragment <V : ViewDataBinding,VM : BaseViewModel> : Fragment(
         super.onCreate(savedInstanceState)
         context = activity as BaseActivity<*, *>
         if(arguments!=null){
-            onBundle(arguments!!)
+            onBundle(requireArguments())
         }
         viewModel = initViewModel()
         router = VMRouter(viewModel,this)
@@ -78,7 +80,14 @@ abstract class LazyFragment <V : ViewDataBinding,VM : BaseViewModel> : Fragment(
     }
 
 
-
+    inline fun <reified T>startActivity(bundle: Bundle? = null) {
+        val intent = Intent(context, T::class.java)
+        if (bundle != null) {
+            intent.putExtras(bundle)
+        }
+        startActivity(intent)
+        context.overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)
+    }
 
     /**
      * fragment可见的时候操作，取代onResume，且在可见状态切换到可见的时候调用
