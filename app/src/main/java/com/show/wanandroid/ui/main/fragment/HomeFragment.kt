@@ -21,6 +21,7 @@ import showmethe.github.core.util.extras.ObList
 import showmethe.github.core.util.extras.plus
 import showmethe.github.core.util.extras.post
 import showmethe.github.core.util.extras.valueSameAs
+import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 
 class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
 
@@ -83,6 +84,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
     }
 
     override fun init() {
+        fixToolbar(toolBar)
         refresh.setColorSchemeResources(R.color.colorAccent)
         rv.hideWhenScrolling(refresh)
         banner.setOnImageLoader { url, imageView ->
