@@ -98,7 +98,7 @@ object ToastFactory {
         title.text = message.toString()
         toast = Toast.makeText( ContextProvider.get().context, "", Toast.LENGTH_SHORT)
         toast?.apply {
-            setGravity(Gravity.TOP, 0, 100)
+            setGravity(Gravity.BOTTOM, 0, 200)
             duration = Toast.LENGTH_SHORT
             setText(message.toString())
             view = layout

@@ -50,7 +50,9 @@
     <declare-styleable name="LikeView">
         <attr name="like_state" format="boolean"/>
         <attr name="like" format="reference"/>
-        <attr name="unLike" format="reference"/>
+        <attr name="likeColor" format="color"/>
+        <attr name="unLikeColor" format="color"/>
+        <attr name="colors" format="color"/>
         <attr name="percentage" format="float"/>
     </declare-styleable>
 

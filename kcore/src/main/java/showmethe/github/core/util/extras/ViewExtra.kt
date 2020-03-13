@@ -23,34 +23,6 @@ fun ImageView.setImg(url : Any){
 }
 
 
-@BindingAdapter("loadMore")
-fun AutoRecyclerView.loadMore(loadingMore: (()->Unit)?){
-    setOnLoadMoreListener {
-        loadingMore?.invoke()
-    }
-}
-
-@BindingAdapter("onRefresh")
-fun SwipeRefreshLayout.onRefresh(onRefreshListener: SwipeRefreshLayout.OnRefreshListener?){
-    setOnRefreshListener(onRefreshListener)
-}
-
-@BindingAdapter("refreshing")
-fun SwipeRefreshLayout.refreshing(newValue: Boolean) {
-    if(isRefreshing != newValue)
-    isRefreshing = newValue
-}
-
-@BindingAdapter("contentState")
-fun SmartRelativeLayout.contentState(newValue: Int) {
-    when(newValue){
-        0 -> showLoading()
-        1 -> showEmpty()
-        2 -> showError()
-        4 -> showContent()
-    }
-}
-
 inline fun <T : View> T.onGlobalLayout(crossinline  onLayout: T.()->Unit){
     if (viewTreeObserver.isAlive) {
         viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {

@@ -24,7 +24,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintDimensionRatio="H,16:9"
+                app:layout_constraintDimensionRatio="H,16:8"
                 app:autoPlay="true"
                 app:imageScaleType="fitXY"
                 app:indicator_gravity="CENTER"
@@ -33,7 +33,22 @@
                 app:dotWith="12dp"
                 />
 
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/refresh"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/banner"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
 
+                <showmethe.github.core.widget.common.AutoRecyclerView
+                    android:id="@+id/rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:autoFix="false"
+                    />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

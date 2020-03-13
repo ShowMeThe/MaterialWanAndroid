@@ -1,16 +1,16 @@
 package showmethe.github.core.widget.common
 
-import android.content.Context
-import android.util.AttributeSet
-import android.view.View
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.graphics.*
-import android.graphics.drawable.Drawable
-import android.view.animation.*
+import android.util.AttributeSet
+import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.core.content.ContextCompat
 import showmethe.github.core.R
+
 import kotlin.math.cos
-import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sin
 
@@ -48,7 +48,7 @@ class LikeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private var widthDis =0
     private var heightDis =0
     private var likeImg  = -1
-    private var unLikeImg  = -1
+
 
     init {
         init(context,attrs)
@@ -65,11 +65,14 @@ class LikeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         val arrary = context.obtainStyledAttributes(attrs!!,R.styleable.LikeView)
         isLike = arrary.getBoolean(R.styleable.LikeView_like_state,false)
         likeImg = arrary.getResourceId(R.styleable.LikeView_like,-1)
-        unLikeImg =  arrary.getResourceId(R.styleable.LikeView_unLike,-1)
         percentage = arrary.getFloat(R.styleable.LikeView_percentage,0.35f)
-
-        like = BitmapFactory.decodeResource(resources, likeImg)
-        unlike = BitmapFactory.decodeResource(resources,unLikeImg)
+        val color = arrary.getColor(R.styleable.LikeView_colors,Color.parseColor("#f44336"))
+        colors = arrayOf(color)
+        val likeColor = arrary.getColor(R.styleable.LikeView_likeColor,Color.parseColor("#f44336"))
+        val unLikeColor = arrary.getColor(R.styleable.LikeView_unLikeColor,Color.parseColor("#f44336"))
+        val heartImage =  likeImg.drawableToBitmap()
+        like =   heartImage.tintBitmap(likeColor)
+        unlike = heartImage.tintBitmap(unLikeColor)
         arrary.recycle()
     }
 
@@ -189,6 +192,24 @@ class LikeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             return
         }
         set.start()
+    }
+
+    private fun Int.drawableToBitmap() : Bitmap{
+        val drawable = ContextCompat.getDrawable(context,this)
+        val bitmap = Bitmap.createBitmap(drawable!!.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return  bitmap
+    }
+
+    private fun Bitmap.tintBitmap(tintColor: Int): Bitmap {
+        val outBitmap = Bitmap.createBitmap(width, height, config)
+        val canvas = Canvas(outBitmap)
+        val paint = Paint()
+        paint.colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
+        canvas.drawBitmap(this, 0f, 0f, paint)
+        return outBitmap
     }
 
 }

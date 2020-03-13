@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container_toast"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/ll_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/px150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
         android:alpha="0.8"
         android:background="@drawable/item_toast"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:paddingBottom="@dimen/px30dp"
         android:paddingLeft="@dimen/px30dp"
         android:paddingRight="@dimen/px30dp"
@@ -28,7 +26,10 @@
 
         <TextView
             android:id="@+id/text"
-            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@color/white"
