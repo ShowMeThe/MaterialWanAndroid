@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.show.wanandroid.R
 
 class JumpAnimView @JvmOverloads constructor(
-    context: Context, var attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context,  attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     private val text = "Android"
@@ -19,11 +19,11 @@ class JumpAnimView @JvmOverloads constructor(
 
     init {
         orientation = HORIZONTAL
-        initAttr()
+        initAttr(attrs)
         init()
     }
 
-    private fun initAttr() {
+    private fun initAttr(attrs: AttributeSet?) {
         val array = context.obtainStyledAttributes(attrs, R.styleable.JumpAnimView)
         textColor = array.getColor(R.styleable.JumpAnimView_text_color,Color.parseColor("#333333"))
         array.recycle()

@@ -29,19 +29,21 @@
                 android:layout_height="@dimen/px150dp"
                 android:background="@color/colorAccent">
 
-                <ImageView
-                    android:layout_width="@dimen/px70dp"
-                    android:layout_height="@dimen/px70dp"
+                <com.show.wanandroid.widget.IconSwitch
+                    android:layout_width="@dimen/px60dp"
+                    android:layout_height="@dimen/px60dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/px48dp"
-                    android:src="@drawable/ic_drawable"
+                    app:transitionTint="@color/white"
+                    app:defaultTint="@color/white"
+                    app:iconDefault="@drawable/ic_drawable"
+                    app:iconTransition="@drawable/ic_search"
                     android:tint="@color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="sans-serif-black"
                     android:text="@string/home"
                     android:textColor="@color/white"
                     android:textSize="@dimen/px53dp"

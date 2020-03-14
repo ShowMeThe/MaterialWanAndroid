@@ -2,7 +2,7 @@
 <resources>
 
     <declare-styleable name="JumpAnimView">
-        <attr name="text_color" format="color"/>
+        <attr name="text_color" format="color|reference"/>
     </declare-styleable>
 
     <declare-styleable name="ShakingImageView">
@@ -13,5 +13,14 @@
         <attr name="shake_radius" format="dimension"/>
         <attr name="shake_auto" format="boolean"/>
         <attr name="shake_duration" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="IconSwitch">
+        <attr name="defaultTint" format="color"/>
+        <attr name="transitionTint" format="color"/>
+        <attr name="clickToTransition" format="boolean"/>
+        <attr name="transitionDuration" format="integer"/>
+        <attr name="iconDefault" format="reference"/>
+        <attr name="iconTransition" format="reference"/>
     </declare-styleable>
 </resources>
