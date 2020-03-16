@@ -14,13 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.show.wanandroid.entity.Article
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
+import com.show.wanandroid.widget.IconSwitch
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.glide.TGlide
-import showmethe.github.core.util.extras.ObList
-import showmethe.github.core.util.extras.plus
-import showmethe.github.core.util.extras.post
-import showmethe.github.core.util.extras.valueSameAs
+import showmethe.github.core.util.extras.*
 import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 
 class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
@@ -81,6 +79,13 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
             }
         })
 
+
+        viewModel.drawerWidth.observe(this, Observer {
+            it?.apply {
+                iconSwitch.transitionPosition = this
+            }
+        })
+
     }
 
     override fun init() {
@@ -123,6 +128,11 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
             }
         }
 
+        iconSwitch.setOnSwitchClickListener {
+            if(it == IconSwitch.STATE_DEFAULT){
+               viewModel.openDrawer set true
+            }
+        }
 
     }
 

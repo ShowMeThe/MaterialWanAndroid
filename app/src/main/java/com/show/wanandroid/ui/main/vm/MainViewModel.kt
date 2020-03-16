@@ -15,6 +15,8 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     @InjectOwner
     val repository = MainRepository()
+    val drawerWidth = MutableLiveData<Float>()
+    val openDrawer = MutableLiveData<Boolean>()
     val banner = MutableLiveData<Result<ArrayList<Banner>>>()
     val article = MutableLiveData<Result<Article>>()
 

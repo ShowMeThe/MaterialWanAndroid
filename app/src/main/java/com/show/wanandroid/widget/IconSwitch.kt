@@ -10,6 +10,8 @@ import android.util.Log
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.annotation.FloatRange
+import androidx.annotation.IntRange
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import com.show.wanandroid.R
 import java.util.*
@@ -27,12 +29,17 @@ class IconSwitch @JvmOverloads constructor(
         const val STATE_DEFAULT = 1
         const val STATE_TRANSITION = 2
     }
-
+    @FloatRange(from = 0.0,to = 1.0)
+    var transitionPosition = 0f
+    set(value) {
+        field = value
+        setPosition(field)
+    }
+    var state :Int = STATE_DEFAULT
     private var lock = false
     private var clickToTransition = true
     private var iconColor :ColorStateList? = null
     private var transitionColor :ColorStateList? = null
-    var state :Int = STATE_DEFAULT
     private val imageViews = arrayOf(ImageView(context),ImageView(context))
     private var drawableDefault :Drawable? = null
     private var drawableTransition : Drawable? = null
@@ -70,7 +77,6 @@ class IconSwitch @JvmOverloads constructor(
         transition.scaleY = 0f
         transition.alpha = 0f
 
-        Log.e("222222222222","$iconColor")
         if(iconColor != null){
             default.imageTintList = iconColor
         }
@@ -89,9 +95,8 @@ class IconSwitch @JvmOverloads constructor(
                 }else{
                     animDefault()
                 }
-                onSwitchClick?.invoke(state)
-                onStateUpdate?.invoke(state)
             }
+            onSwitchClick?.invoke(state)
         }
     }
 
@@ -136,6 +141,32 @@ class IconSwitch @JvmOverloads constructor(
             onStateUpdate?.invoke(state)
         }
     }
+
+    private fun setPosition(@FloatRange(from = 0.0,to = 1.0) position : Float){
+        if(lock) return
+        val default = if(state == STATE_DEFAULT){
+            1 - position
+        }else{
+            position
+        }
+
+        val transition = if(state == STATE_DEFAULT){
+                position
+            }else{
+            1- position
+        }
+
+        val defaultView = imageViews[0]
+        defaultView.alpha = default.toFloat()
+        defaultView.scaleX = default.toFloat()
+        defaultView.scaleY = default.toFloat()
+
+        val transitionView = imageViews[1]
+        transitionView.alpha = transition.toFloat()
+        transitionView.scaleX = transition.toFloat()
+        transitionView.scaleY = transition.toFloat()
+    }
+
 
 
     private var onSwitchClick : ((state:Int)->Unit)? = null
