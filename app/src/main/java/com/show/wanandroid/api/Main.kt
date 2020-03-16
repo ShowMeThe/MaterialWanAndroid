@@ -2,12 +2,28 @@ package com.show.wanandroid.api
 
 import com.ken.materialwanandroid.entity.Empty
 import com.show.wanandroid.entity.Article
+import com.show.wanandroid.entity.Auth
 import com.show.wanandroid.entity.Banner
 import retrofit2.Response
 import retrofit2.http.*
 import showmethe.github.core.http.JsonResult
 
 interface Main {
+
+    /**
+     * 登录
+     */
+    @FormUrlEncoded
+    @POST("user/login")
+    suspend fun login(@Field("username") username:String,@Field("password") password:String) : Response<JsonResult<Auth>>
+
+    /**
+     * 注册
+     */
+    @FormUrlEncoded
+    @POST("user/register")
+    suspend  fun register(@Field("username") username:String,@Field("password") password:String,
+                          @Field("repassword") repassword:String) : Response<JsonResult<Empty>>
 
     /**
      *  首页banner

@@ -7,6 +7,13 @@
         <variable
             name="Main"
             type="com.show.wanandroid.ui.login.fragment.LoginInFragment" />
+
+        <variable
+            name="Login"
+            type="com.show.wanandroid.entity.UserBean" />
+        <variable
+            name="Register"
+            type="com.show.wanandroid.entity.UserBean" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -62,6 +69,7 @@
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edName"
+                    android:text="@={Login.account}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -83,6 +91,7 @@
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edPswd"
+                    android:text="@={Login.password}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -105,6 +114,7 @@
                 android:gravity="center"
                 app:elevation="@dimen/px1dp"
                 android:elevation="@dimen/px1dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:textColor="@color/colorAccent"
                 android:layout_marginTop="@dimen/px80dp"
                 android:layout_marginEnd="@dimen/px110dp"
@@ -119,15 +129,18 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnToRegister"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px155dp"
+                android:layout_height="@dimen/px185dp"
                 app:backgroundTint="@color/white"
                 app:elevation="@dimen/px3dp"
                 android:text="@string/register"
                 android:textStyle="bold"
                 android:textSize="@dimen/px55dp"
+                app:iconTint="@color/colorAccent"
                 app:icon="@drawable/ic_register"
                 app:iconSize="@dimen/px82dp"
                 android:gravity="center"
+                app:strokeColor="@color/colorAccent"
+                app:strokeWidth="@dimen/px2dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:textColor="@color/colorAccent"
                 android:layout_marginEnd="@dimen/px110dp"
@@ -207,6 +220,7 @@
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edRegName"
+                    android:text="@={Register.account}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -228,6 +242,7 @@
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edRegPswd"
+                    android:text="@={Register.password}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -249,6 +264,7 @@
                 app:iconSize="@dimen/px82dp"
                 app:iconTint="@color/colorAccent"
                 android:gravity="center"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:textColor="@color/colorAccent"
                 android:layout_marginTop="@dimen/px30dp"
                 android:layout_marginEnd="@dimen/px110dp"

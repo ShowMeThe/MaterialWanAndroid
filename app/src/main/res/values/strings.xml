@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">MaterialWanAndroid</string>
-    <string name="welcome_to">Welcome To</string>
-    <string name="wanandroid">WanAndroid</string>
-    <string name="login">LOGIN</string>
-    <string name="register">Register</string>
-    <string name="please_input_your_username">Input Your Username</string>
-    <string name="please_input_your_password">Input Your Password</string>
+    <string name="welcome_to">欢迎来到</string>
+    <string name="wanandroid">玩安卓</string>
+    <string name="login">登 录</string>
+    <string name="register">注 册</string>
+    <string name="please_input_your_username">请输入账号名字</string>
+    <string name="please_input_your_password">请输入账号密码</string>
     <string name="home">首页</string>
     <string name="public_">公众号</string>
     <string name="knowledge">知识体系</string>

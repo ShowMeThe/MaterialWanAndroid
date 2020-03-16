@@ -2,16 +2,20 @@ package com.show.wanandroid.ui.login.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.show.wanandroid.ui.main.MainActivity
 import com.show.wanandroid.R
+import com.show.wanandroid.const.RdenConst
 import com.show.wanandroid.databinding.FragmentLoginBinding
 import com.show.wanandroid.ui.login.vm.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import showmethe.github.core.base.BaseFragment
+import showmethe.github.core.http.coroutines.Result
 import showmethe.github.core.util.extras.onGlobalLayout
 import showmethe.github.core.util.extras.set
 import showmethe.github.core.util.extras.valueSameAs
+import showmethe.github.core.util.rden.RDEN
 
 /**
  * 登录注册都是这个界面
@@ -26,10 +30,30 @@ class LoginInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
     }
 
     override fun observerUI() {
+        viewModel.auth.observe(this, Observer {
+            it?.apply {
+                when(status){
+                    Result.Success ->{
+                        response?.apply {
+                            RDEN.put(RdenConst.UserName,username)
+                            startActivity<MainActivity>()
+                        }
+                    }
+                }
+
+            }
+        })
+
+
+
     }
 
     override fun init(savedInstanceState: Bundle?) {
         binding?.main = this
+        viewModel.loginBean.account =  RDEN.get(RdenConst.UserName,"")
+        binding?.login = viewModel.loginBean
+        binding?.register = viewModel.registerBean
+
         behavior = BottomSheetBehavior.from(bottomReg)
         ivBack.onGlobalLayout {
             if(viewModel.replaceFragment.valueSameAs(2)){
@@ -50,14 +74,14 @@ class LoginInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
      * 登录 , 暂时登录到主页
      */
     fun onLogin(){
-        startActivity<MainActivity>()
+        router.toTarget("login")
     }
 
     /**
      * 注册
      */
     fun onRegister(){
-
+        router.toTarget("register")
     }
 
     /**

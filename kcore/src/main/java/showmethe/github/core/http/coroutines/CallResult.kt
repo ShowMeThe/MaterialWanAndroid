@@ -30,9 +30,12 @@ class CallResult<T> constructor(private var owner: LifecycleOwner?,callResult: C
     fun hold(result: suspend () -> Response<JsonResult<T>>){
         var response: Response<JsonResult<T>>?
         var netJob: Job? = null
+        var call : Result<T>
         owner?.apply {
             netJob = lifecycleScope.launchWhenStarted {
                 withContext(Dispatchers.Main) {
+                    call = Result(Result.Loading)
+                    makeCall(call)
                     onLoading?.invoke()
                 }
                 response  = withContext(Dispatchers.IO) {
@@ -44,14 +47,18 @@ class CallResult<T> constructor(private var owner: LifecycleOwner?,callResult: C
                     if (response != null) {
                         response?.run {
                             if(code() != 200){
-                                loadingOutTime?.invoke(Result(Result.OutTime))
+                                call = Result(Result.OutTime)
+                                makeCall(call)
+                                loadingOutTime?.invoke(call)
                                 netJob?.cancel()
                             }else{
                                 build(response)
                             }
                         }
                     } else {
-                        loadingOutTime?.invoke(Result(Result.OutTime))
+                        call = Result(Result.OutTime)
+                        makeCall(call)
+                        loadingOutTime?.invoke(call)
                         netJob?.cancel()
                     }
                 }

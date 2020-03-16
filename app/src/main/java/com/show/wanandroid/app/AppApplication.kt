@@ -1,6 +1,7 @@
 package com.show.wanandroid.app
 
 import com.show.wanandroid.api.Main
+import com.show.wanandroid.entity.Auth
 import showmethe.github.core.base.BaseApplication
 import showmethe.github.core.http.RetroHttp
 import showmethe.github.core.kinit.Module

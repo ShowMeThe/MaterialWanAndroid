@@ -113,7 +113,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding,LoginViewModel>() {
     private fun createTransition(): MaterialSharedAxis? {
         val transition = MaterialSharedAxis.create(this, MaterialSharedAxis.Z, true)
         transition.interpolator = AnticipateOvershootInterpolator()
-        transition.duration = 500
+        transition.duration = 400
         transition.addTarget(R.id.login_container)
         transition.addTarget(R.id.login_layout)
         return transition
@@ -122,7 +122,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding,LoginViewModel>() {
     private fun createAlphaTransition(): MaterialFade? {
         val transition = MaterialFade.create(this)
         transition.interpolator = LinearInterpolator()
-        transition.duration = 500
+        transition.duration = 400
         transition.addTarget(R.id.login_container)
         transition.addTarget(R.id.login_layout)
         return transition
