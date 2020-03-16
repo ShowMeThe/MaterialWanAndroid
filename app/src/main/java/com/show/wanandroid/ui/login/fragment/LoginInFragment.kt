@@ -6,7 +6,9 @@ import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.show.wanandroid.ui.main.MainActivity
 import com.show.wanandroid.R
-import com.show.wanandroid.const.RdenConst
+import com.show.wanandroid.const.HAS_LOGIN
+
+import com.show.wanandroid.const.User_Name
 import com.show.wanandroid.databinding.FragmentLoginBinding
 import com.show.wanandroid.ui.login.vm.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -35,7 +37,8 @@ class LoginInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                 when(status){
                     Result.Success ->{
                         response?.apply {
-                            RDEN.put(RdenConst.UserName,username)
+                            RDEN.put(User_Name,username)
+                            RDEN.put(HAS_LOGIN,true)
                             startActivity<MainActivity>()
                         }
                     }
@@ -50,7 +53,7 @@ class LoginInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
     override fun init(savedInstanceState: Bundle?) {
         binding?.main = this
-        viewModel.loginBean.account =  RDEN.get(RdenConst.UserName,"")
+        viewModel.loginBean.account =  RDEN.get(User_Name,"")
         binding?.login = viewModel.loginBean
         binding?.register = viewModel.registerBean
 

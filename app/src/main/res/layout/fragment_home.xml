@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="@string/home"
+                    android:text="@string/home_title"
                     android:textColor="@color/white"
                     android:textSize="@dimen/px53dp"
                     android:textStyle="bold" />
@@ -106,16 +106,36 @@
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
                 </androidx.core.widget.NestedScrollView>
-
-
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
         </LinearLayout>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_marginBottom="@dimen/px30dp"
+            android:layout_marginEnd="@dimen/px40dp"
+            android:layout_gravity="bottom|end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tint = "@color/white"
+            app:srcCompat="@drawable/ic_home"
+            app:fabSize="auto"
+            android:tint="@color/white"
+            android:tintMode="src_in"
+            app:rippleColor="@color/colorAccent"
+            app:backgroundTintMode="src_in"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_behavior="showmethe.github.core.util.widget.ScrollAwareFABBehavior"
+            />
+
+
+        <com.showmethe.speeddiallib.expand.ExpandMenuChildLayout
+            android:id="@+id/crl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.showmethe.speeddiallib.expand.ExpandBottomBehavior"
+            app:layout_anchor="@id/fab"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

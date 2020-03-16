@@ -1,5 +1,6 @@
 package com.show.wanandroid
 
+import com.show.wanandroid.const.HAS_LOGIN
 import showmethe.github.core.base.AppManager
 import showmethe.github.core.base.BaseActivity
 import showmethe.github.core.base.ContextProvider
@@ -16,5 +17,8 @@ fun toast(error: Int, message:String){
     if(error == -1001){
 
     }
+    RDEN.put("sessionId","")
+    RDEN.put(HAS_LOGIN,false)
+    RetroHttp.get().headerInterceptor.update("")
 }
 

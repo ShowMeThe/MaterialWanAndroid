@@ -1,7 +1,4 @@
 package com.show.wanandroid.const
 
-object RdenConst {
-
-    const val UserName = "username"
-
-}
+const val User_Name = "username"
+const val HAS_LOGIN = "HAS_LOGIN"

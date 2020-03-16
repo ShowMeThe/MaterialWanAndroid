@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Observer
 
 import com.show.wanandroid.R
+import com.show.wanandroid.const.HAS_LOGIN
+import com.show.wanandroid.const.User_Name
 import com.show.wanandroid.databinding.ActivityMainBinding
 import com.show.wanandroid.ui.main.adapter.MainAdapter
 import com.show.wanandroid.ui.main.fragment.HomeFragment
@@ -18,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import showmethe.github.core.base.BaseActivity
 import showmethe.github.core.util.extras.post
 import showmethe.github.core.util.extras.set
+import showmethe.github.core.util.rden.RDEN
 import showmethe.github.core.util.widget.StatusBarUtil.setFullScreen
 
 class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
@@ -56,6 +59,11 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
 
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        checkLogin()
+    }
 
 
 
@@ -105,5 +113,19 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
         vp.offscreenPageLimit = fragments.size
     }
 
+
+
+    private fun checkLogin(){
+        if(RDEN.get(HAS_LOGIN,false)){
+            ivHead.visibility = View.VISIBLE
+            tvUserName.visibility = View.VISIBLE
+            tvUserName.text = RDEN.get(User_Name,"")
+            tvLogin.visibility  = View.GONE
+        }else{
+            ivHead.visibility = View.GONE
+            tvUserName.visibility = View.GONE
+            tvLogin.visibility  = View.VISIBLE
+        }
+    }
 
 }

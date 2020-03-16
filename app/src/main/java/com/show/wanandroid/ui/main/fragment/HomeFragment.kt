@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.show.wanandroid.entity.Article
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.widget.IconSwitch
+import com.showmethe.speeddiallib.expand.ExpandIcon
+import com.showmethe.speeddiallib.expand.ExpandManager
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.glide.TGlide
@@ -90,6 +92,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
 
     override fun init() {
         fixToolbar(toolBar)
+        initExpand()
         refresh.setColorSchemeResources(R.color.colorAccent)
         rv.hideWhenScrolling(refresh)
         banner.setOnImageLoader { url, imageView ->
@@ -133,6 +136,10 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
                viewModel.openDrawer set true
             }
         }
+
+    }
+
+    private fun initExpand(){
 
     }
 
