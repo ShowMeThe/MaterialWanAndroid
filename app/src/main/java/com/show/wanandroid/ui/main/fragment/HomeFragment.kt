@@ -12,6 +12,7 @@ import showmethe.github.core.http.coroutines.Result
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
 import com.show.wanandroid.entity.Article
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.widget.IconSwitch
@@ -91,25 +92,16 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
     }
 
     override fun init() {
+        refresh.setColorSchemeResources(R.color.colorAccent)
         fixToolbar(toolBar)
         initExpand()
-        refresh.setColorSchemeResources(R.color.colorAccent)
-        rv.hideWhenScrolling(refresh)
-        banner.setOnImageLoader { url, imageView ->
-            TGlide.loadNoCrop(url, imageView)
-        }
-        banner.bindToLife(this)
-
-        adapter = ArticleListAdapter(context,list)
-        rv.adapter = adapter
-        rv.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL,false)
-        rv.addItemDecoration(RecycleViewDivider(LinearLayoutManager.VERTICAL,dividerColor = ContextCompat.getColor(context,R.color.colorAccent)))
+        initBanner()
+        initAdapter()
 
         router.toTarget("getBanner")
-
         pagerNumber post 0
-    }
 
+    }
 
 
     override fun initListener() {
@@ -117,6 +109,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
         refresh.setOnRefreshListener {
             pagerNumber post 0
         }
+
 
         rv.setOnLoadMoreListener {
             pagerNumber plus 1
@@ -137,10 +130,41 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
             }
         }
 
+        crl.setOnMenuClickListener {
+            when(it){
+                0 ->{
+                    rv.scrollToPosition(0)
+                }
+                1 ->{
+
+                }
+            }
+        }
+
+    }
+
+    private fun initBanner(){
+
+        banner.setOnImageLoader { url, imageView ->
+            TGlide.loadNoCrop(url, imageView)
+        }
+        banner.bindToLife(this)
     }
 
     private fun initExpand(){
+        val expands = ArrayList<ExpandIcon>()
+        expands.add(ExpandIcon().setIcon(R.drawable.ic_arrow_up).setBackgroundTint(R.color.colorPrimaryDark))
+        expands.add(ExpandIcon().setIcon(R.drawable.ic_search).setBackgroundTint(R.color.colorPrimaryDark))
+        ExpandManager.newBuilder().setExpandIcons(expands).motion(R.color.black,R.drawable.ic_close)
+            .bindTarget(crl).build()
+    }
 
+    private fun initAdapter(){
+        adapter = ArticleListAdapter(context,list)
+        rv.adapter = adapter
+
+        rv.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL,false)
+        rv.addItemDecoration(RecycleViewDivider(LinearLayoutManager.VERTICAL,dividerColor = ContextCompat.getColor(context,R.color.colorAccent)))
     }
 
 

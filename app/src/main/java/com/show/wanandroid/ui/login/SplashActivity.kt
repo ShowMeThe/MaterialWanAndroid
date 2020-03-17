@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ActivitySplashBinding
 import com.show.wanandroid.ui.login.vm.LoginViewModel
+import com.show.wanandroid.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -34,7 +35,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding,LoginViewModel>() {
         motion.transitionToEnd()
         GlobalScope.launch(Dispatchers.Main) {
             delay(2500)
-            startActivityWithPair<LoginActivity>()
+            startActivityWithPair<MainActivity>()
             finishAfterTransition()
         }
     }

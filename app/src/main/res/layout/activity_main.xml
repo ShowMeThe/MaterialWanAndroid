@@ -43,6 +43,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/drawLayout"
+            android:elevation="@dimen/px15dp"
             android:layout_gravity="start"
             android:layout_width="@dimen/px500dp"
             android:layout_height="match_parent">
