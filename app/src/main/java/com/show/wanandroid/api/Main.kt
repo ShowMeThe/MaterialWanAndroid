@@ -1,9 +1,7 @@
 package com.show.wanandroid.api
 
 import com.ken.materialwanandroid.entity.Empty
-import com.show.wanandroid.entity.Article
-import com.show.wanandroid.entity.Auth
-import com.show.wanandroid.entity.Banner
+import com.show.wanandroid.entity.*
 import retrofit2.Response
 import retrofit2.http.*
 import showmethe.github.core.http.JsonResult
@@ -31,6 +29,16 @@ interface Main {
     @GET("/banner/json")
     suspend  fun banner() : Response<JsonResult<ArrayList<Banner>>>
 
+    /**
+     * 文章Tab
+     */
+    @GET("/wxarticle/chapters/json")
+    suspend fun getChapters() : Response<JsonResult<ArrayList<TabBean>>>
+    /**
+     * Tab的文章
+     */
+    @GET("/wxarticle/list/{id}/{page}/json")
+    suspend fun getArticle(@Path("id") id:Int,@Path("page") page:Int) : Response<JsonResult<Article>>
 
     /**
      * 文章

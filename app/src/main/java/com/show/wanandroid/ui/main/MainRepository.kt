@@ -6,6 +6,8 @@ import com.ken.materialwanandroid.entity.Empty
 import com.show.wanandroid.api.Main
 import com.show.wanandroid.entity.Article
 import com.show.wanandroid.entity.Banner
+import com.show.wanandroid.entity.TabBean
+import com.show.wanandroid.entity.TabItem
 import com.show.wanandroid.toast
 import showmethe.github.core.base.BaseRepository
 import showmethe.github.core.http.coroutines.CallResult
@@ -27,6 +29,25 @@ class MainRepository  : BaseRepository() {
     }
 
 
+    fun getChapters(call: MutableLiveData<Result<ArrayList<TabBean>>>) {
+        CallResult<ArrayList<TabBean>>(owner){
+            post(call)
+            hold {
+                api.getChapters()
+            }
+        }
+    }
+
+    fun getArticle(id: Int, pager: Int, call: MutableLiveData<Result<Article>>) {
+        CallResult<Article>(owner) {
+            post(call)
+            hold {
+                api.getArticle(id, pager)
+            }
+        }
+    }
+
+
     fun getHomeArticle(pager: Int, call: MutableLiveData<Result<Article>>) {
         CallResult<Article>(owner) {
             post(call)
@@ -41,9 +62,11 @@ class MainRepository  : BaseRepository() {
         CallResult<Empty>(owner) {
             success { result, message ->
                 showToast("收藏成功")
-            }.error { result, code, message ->
+            }
+            error { result, code, message ->
                 toast(code, message)
-            }.hold {
+            }
+            hold {
                 api.homeCollect(id)
             }
         }
@@ -60,7 +83,6 @@ class MainRepository  : BaseRepository() {
             }
 
         }
-
     }
 
 }

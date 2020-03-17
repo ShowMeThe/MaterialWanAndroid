@@ -83,17 +83,13 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
         })
 
 
-        viewModel.drawerWidth.observe(this, Observer {
-            it?.apply {
-                iconSwitch.transitionPosition = this
-            }
-        })
+
 
     }
 
     override fun init() {
         refresh.setColorSchemeResources(R.color.colorAccent)
-        fixToolbar(toolBar)
+
         initExpand()
         initBanner()
         initAdapter()
@@ -124,11 +120,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
             }
         }
 
-        iconSwitch.setOnSwitchClickListener {
-            if(it == IconSwitch.STATE_DEFAULT){
-               viewModel.openDrawer set true
-            }
-        }
+
 
         crl.setOnMenuClickListener {
             when(it){

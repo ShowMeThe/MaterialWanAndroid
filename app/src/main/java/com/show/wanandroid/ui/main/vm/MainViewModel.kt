@@ -5,6 +5,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.show.wanandroid.entity.Article
 import com.show.wanandroid.entity.Banner
+import com.show.wanandroid.entity.TabBean
+import com.show.wanandroid.entity.TabItem
 import com.show.wanandroid.ui.main.MainRepository
 import showmethe.github.core.base.BaseViewModel
 import showmethe.github.core.base.InjectOwner
@@ -15,10 +17,9 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     @InjectOwner
     val repository = MainRepository()
-    val drawerWidth = MutableLiveData<Float>()
-    val openDrawer = MutableLiveData<Boolean>()
     val banner = MutableLiveData<Result<ArrayList<Banner>>>()
     val article = MutableLiveData<Result<Article>>()
+    val tabs = MutableLiveData<Result<ArrayList<TabBean>>>()
 
     override fun onViewModelCreated(owner: LifecycleOwner) {
 
@@ -40,7 +41,13 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     @VMPath(path = "getHomeArticle")
     fun getHomeArticle(pager:Int) = repository.getHomeArticle(pager,article)
 
-
+    /**
+     * Chapters
+     */
+    @VMPath(path = "getChapters")
+    fun getChapters() = repository.getChapters(tabs)
+    @VMPath(path = "getArticle")
+    fun getArticle(id:Int,pager:Int,article:MutableLiveData<Result<Article>>) = repository.getArticle(id,pager,article)
 
 
     /**
