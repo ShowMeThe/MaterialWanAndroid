@@ -75,7 +75,6 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
                             if (pagerNumber valueSameAs 0) {
                                 list.clear()
                             }
-
                             list.addAll(datas)
                             if (list.size != 0) {
                                 smrl.showContent()

@@ -3,13 +3,12 @@ package com.show.wanandroid.ui.main
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.ken.materialwanandroid.entity.Empty
+import com.show.wanandroid.R
 import com.show.wanandroid.api.Main
-import com.show.wanandroid.entity.Article
-import com.show.wanandroid.entity.Banner
-import com.show.wanandroid.entity.TabBean
-import com.show.wanandroid.entity.TabItem
+import com.show.wanandroid.entity.*
 import com.show.wanandroid.toast
 import showmethe.github.core.base.BaseRepository
+import showmethe.github.core.base.ContextProvider
 import showmethe.github.core.http.coroutines.CallResult
 import showmethe.github.core.http.coroutines.Result
 import showmethe.github.core.kinit.inject
@@ -56,12 +55,19 @@ class MainRepository  : BaseRepository() {
             }
         }
     }
-
+    fun getHomeTopArticle (call: MutableLiveData<Result<ArrayList<Article.DatasBean>>>) {
+        CallResult<ArrayList<Article.DatasBean>>(owner) {
+            post(call)
+            hold {
+                api.getHomeTop()
+            }
+        }
+    }
 
     fun homeCollect(id: Int) {
         CallResult<Empty>(owner) {
             success { result, message ->
-                showToast("收藏成功")
+                showToast(context.getString(R.string.success_collect))
             }
             error { result, code, message ->
                 toast(code, message)
@@ -75,7 +81,7 @@ class MainRepository  : BaseRepository() {
     fun homeUnCollect(id: Int) {
         CallResult<Empty>(owner) {
             success { result, message ->
-                showToast("取消收藏")
+                showToast(context.getString(R.string.cancel_collect))
             }.error { result, code, message ->
                 toast(code, message)
             }.hold {
@@ -85,4 +91,22 @@ class MainRepository  : BaseRepository() {
         }
     }
 
+    fun getTree(call: MutableLiveData<Result<ArrayList<Tree>>>) {
+        CallResult<ArrayList<Tree>>(owner) {
+            post(call)
+            hold {
+                api.getTree()
+            }
+        }
+    }
+
+    fun getTreeArticle(pager: Int,id: Int,call: MutableLiveData<Result<Article>>) {
+        CallResult<Article>(owner) {
+            post(call)
+            hold {
+                api.getTreeArticle(pager,id)
+            }
+        }
+
+    }
 }

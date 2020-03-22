@@ -27,6 +27,7 @@ import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
 
 
+    private var topSize = 0
     private val pagerNumber = MutableLiveData<Int>()
     private lateinit var adapter: ArticleListAdapter
     private val list = ObList<Article.DatasBean>()
@@ -66,10 +67,18 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
                     Result.Success ->{
                         response?.apply {
                             if(pagerNumber valueSameAs  1){
-                                list.clear()
+                                if(topSize!=0){
+                                    list.clearAfter(topSize - 1)
+                                }else{
+                                    list.clear()
+                                }
                             }
-                            this.datas?.apply {
-                                list.addAll(this)
+                            this.datas.apply {
+                                if(topSize == 0){
+                                    list.addAll(this)
+                                }else{
+                                    list.addAll(topSize,this)
+                                }
                                 onLoadSize(size)
                             }
                         }
@@ -82,6 +91,21 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
             }
         })
 
+        viewModel.tops.observe(this, Observer {
+            it?.apply {
+                when(status){
+                    Result.Success ->{
+                        response?.apply {
+                            topSize = size
+                            forEach { bean ->
+                                bean.isTop = true
+                                list.add(0,bean)
+                            }
+                        }
+                    }
+                }
+            }
+        })
 
 
 
@@ -95,6 +119,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
         initAdapter()
 
         router.toTarget("getBanner")
+        router.toTarget("getHomeTop")
         pagerNumber post 0
 
     }
@@ -114,9 +139,9 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
 
         adapter.setOnLikeClickListener { item, isCollect ->
             if(isCollect){
-                viewModel.homeCollect(item.id)
+                router.toTarget("homeCollect",item.id)
             }else{
-                viewModel.homeUnCollect(item.id)
+                router.toTarget("homeUnCollect",item.id)
             }
         }
 

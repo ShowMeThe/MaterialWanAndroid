@@ -10,7 +10,7 @@ import showmethe.github.core.util.toast.ToastFactory
 
 
 const val motion_delay = 550
-
+val colors = arrayListOf("#f48fb1","#ce93d8","#b39ddb","#81d4fa","#a5d6a7","#ffab91","#ffe082","#bcaaa4")
 
 fun toast(error: Int, message:String){
     ToastFactory.createToast(message)

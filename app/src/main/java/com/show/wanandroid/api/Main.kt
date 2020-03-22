@@ -46,7 +46,8 @@ interface Main {
     @GET("/article/list/{pager}/json")
     suspend  fun getHomeArticle(@Path("pager") pager :Int ) : Response<JsonResult<Article>>
 
-
+    @GET("/article/top/json")
+    suspend  fun getHomeTop() : Response<JsonResult<ArrayList<Article.DatasBean>>>
     /**
      * 取消收藏
      */
@@ -59,4 +60,12 @@ interface Main {
      */
     @POST("/lg/collect/{id}/json")
     suspend  fun homeCollect(@Path("id") id:Int): Response<JsonResult<Empty>>
+
+    /**
+     * 体系数据
+     */
+    @GET("/tree/json")
+    suspend  fun getTree() : Response<JsonResult<ArrayList<Tree>>>
+    @GET("/article/list/{page}/json?")
+    suspend  fun getTreeArticle(@Path("page") page: Int ,@Query("cid") id: Int) : Response<JsonResult<Article>>
 }

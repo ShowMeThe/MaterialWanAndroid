@@ -23,4 +23,11 @@
         <attr name="iconDefault" format="reference"/>
         <attr name="iconTransition" format="reference"/>
     </declare-styleable>
+
+    <declare-styleable name="WaveView">
+        <attr name="wakeWidth" format="dimension"/>
+        <attr name="wakeHeight" format="dimension"/>
+        <attr name="wakeColor" format="color"/>
+        <attr name="wakeCount" format="integer"/>
+    </declare-styleable>
 </resources>

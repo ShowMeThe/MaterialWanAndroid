@@ -38,6 +38,7 @@ class Article {
          * visible : 1
          * zan : 0
          */
+        var isTop = false
         var apkLink: String = ""
         var author: String = ""
         var chapterId = 0

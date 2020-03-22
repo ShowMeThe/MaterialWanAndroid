@@ -14,10 +14,12 @@ import com.show.wanandroid.R
 import com.show.wanandroid.const.HAS_LOGIN
 import com.show.wanandroid.const.User_Name
 import com.show.wanandroid.databinding.ActivityMainBinding
+import com.show.wanandroid.transform.PageTransformer
 import com.show.wanandroid.ui.article.fragment.AccountFragment
 import com.show.wanandroid.ui.main.adapter.MainAdapter
 import com.show.wanandroid.ui.main.fragment.HomeFragment
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.show.wanandroid.ui.tree.fragment.TreeFragment
 import com.show.wanandroid.widget.IconSwitch
 import kotlinx.android.synthetic.main.activity_main.*
 import showmethe.github.core.base.BaseActivity
@@ -102,7 +104,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
                 }
 
                 R.id.tabNav ->{
-
+                    vp.setCurrentItem(2,true)
                 }
 
                 R.id.tabPro ->{
@@ -118,11 +120,12 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
     private fun initAdapter(){
         fragments.add(HomeFragment())
         fragments.add(AccountFragment())
+        fragments.add(TreeFragment())
         adapter = MainAdapter(fragments,supportFragmentManager, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
         vp.adapter = adapter
         vp.offscreenPageLimit = fragments.size
+        vp.setPageTransformer(false,PageTransformer())
     }
-
 
 
     private fun checkLogin(){

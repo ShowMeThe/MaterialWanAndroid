@@ -12,10 +12,10 @@ class ArticleListAdapter(context: Context, data: ObservableArrayList<Article.Dat
     override fun bindItems(
         binding: ItemHomeArticleBinding?,
         item: Article.DatasBean,
-        position: Int
-    ) {
+        position: Int) {
         binding?.apply {
             bean = item
+            executePendingBindings()
             like.setLike(item.isCollect,false)
             like.setOnClickListener {
                 if(item.isCollect){

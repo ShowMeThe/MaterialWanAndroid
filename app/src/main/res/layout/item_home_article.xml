@@ -6,6 +6,8 @@
         <variable
             name="Bean"
             type="com.show.wanandroid.entity.Article.DatasBean" />
+
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,6 +112,25 @@
             app:layout_constraintTop_toTopOf="@+id/ivTime"
             app:layout_constraintStart_toEndOf="@+id/ivTime"
             tools:text="作者"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTop"
+            android:text="@string/to_top"
+            app:fontFamily="sans-serif-light"
+            android:textColor="@color/color_d50000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/px48dp"
+            android:paddingStart="@dimen/px5dp"
+            android:paddingEnd="@dimen/px5dp"
+            android:paddingTop="@dimen/px2dp"
+            android:paddingBottom="@dimen/px2dp"
+            android:gravity="center"
+            android:visibility="@{Bean.top?View.VISIBLE:View.INVISIBLE}"
+            android:background="@drawable/shape_to_top_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvAuthor"
             />
 
         <showmethe.github.core.widget.common.LikeView

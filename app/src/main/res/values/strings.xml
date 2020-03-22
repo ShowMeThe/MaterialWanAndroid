@@ -10,4 +10,7 @@
     <string name="public_">公众号</string>
     <string name="knowledge">知识体系</string>
     <string name="project">项目</string>
+    <string name="to_top">置顶</string>
+    <string name="cancel_collect">取消收藏</string>
+    <string name="success_collect">收藏成功</string>
 </resources>

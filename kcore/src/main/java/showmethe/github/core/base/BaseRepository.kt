@@ -8,6 +8,7 @@ import showmethe.github.core.base.vmpath.VMRouter
 import showmethe.github.core.util.toast.ToastFactory
 import java.io.IOException
 import java.lang.ref.WeakReference
+import java.security.AccessControlContext
 import java.util.concurrent.TimeUnit
 
 /**
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit
 open class BaseRepository :  DefaultLifecycleObserver {
 
     private  var refresh : WeakReference<SwipeRefreshLayout>? = null
+    val context = ContextProvider.get().context
     lateinit var owner : LifecycleOwner
     private lateinit var router: VMRouter
 

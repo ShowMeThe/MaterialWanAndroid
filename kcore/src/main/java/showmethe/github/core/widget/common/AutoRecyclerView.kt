@@ -61,7 +61,7 @@ class AutoRecyclerView @JvmOverloads constructor(
 
     init {
         initType()
-       itemAnimator = BaseItemAnimator()
+        itemAnimator = BaseItemAnimator()
     }
 
     private fun initType(){
