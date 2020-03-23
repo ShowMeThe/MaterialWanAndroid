@@ -17,6 +17,7 @@ import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import kotlinx.android.synthetic.main.fragment_tree_article.*
 import showmethe.github.core.base.BaseFragment
+import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.http.coroutines.Result
 import showmethe.github.core.util.extras.ObList
@@ -29,7 +30,7 @@ import showmethe.github.core.util.extras.valueSameAs
  *  2020/3/21
  *  13:47
  */
-class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, MainViewModel>() {
+class TreeArticleFragment : LazyFragment<FragmentTreeArticleBinding, MainViewModel>() {
 
     companion object{
         fun get(id:Int,title:String) : Fragment{
@@ -83,7 +84,7 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, MainViewMod
 
     }
 
-    override fun init(savedInstanceState: Bundle?) {
+    override fun init() {
         refresh.isRefreshing = true
         refresh.setColorSchemeResources(R.color.colorAccent)
         tvTitle.text = title

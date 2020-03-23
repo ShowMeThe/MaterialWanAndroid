@@ -1,41 +1,40 @@
-package com.show.wanandroid.ui.article.fragment
+package com.show.wanandroid.ui.project.fragment
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.databinding.ObservableArrayList
+import androidx.lifecycle.GeneratedAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.show.wanandroid.R
 import com.show.wanandroid.const.Id
-import com.show.wanandroid.databinding.FragmentArticleBinding
-import com.show.wanandroid.entity.Article
-import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
+import com.show.wanandroid.databinding.FragmentProjectArticleBinding
+import com.show.wanandroid.entity.CateBean
 import com.show.wanandroid.ui.main.vm.MainViewModel
-import kotlinx.android.synthetic.main.fragment_article.*
-import kotlinx.android.synthetic.main.fragment_article.refresh
-import kotlinx.android.synthetic.main.fragment_article.rv
-import kotlinx.android.synthetic.main.fragment_home.*
-
+import com.show.wanandroid.ui.project.adapter.ProjectAdapter
+import kotlinx.android.synthetic.main.fragment_project_article.*
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.http.coroutines.Result
+import showmethe.github.core.util.extras.ObList
 import showmethe.github.core.util.extras.plus
 import showmethe.github.core.util.extras.set
 import showmethe.github.core.util.extras.valueSameAs
 
-
-class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
+/**
+ *  com.show.wanandroid.ui.project
+ *  2020/3/23
+ *  23:41
+ */
+class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainViewModel>() {
 
     companion object {
 
-        fun get(id: Int): ArticleFragment {
+        fun get(id: Int): ProjectArticleFragment {
             val bundle = Bundle()
             bundle.putInt(Id, id)
-            val fragment = ArticleFragment()
+            val fragment =
+                ProjectArticleFragment()
             fragment.arguments = bundle
             return fragment
         }
@@ -43,56 +42,52 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
     }
 
 
-    private val list = ObservableArrayList<Article.DatasBean>()
-    private lateinit var adapter: ArticleListAdapter
+    private lateinit var adapter: ProjectAdapter
+    private var cid = 0
     private val pagerNumber = MutableLiveData<Int>()
-    private val article = MutableLiveData<Result<Article>>()
-    private var accountId = 0
+    private val list = ObList<CateBean.DatasBean>()
+    private val cate = MutableLiveData<Result<CateBean>>()
 
     override fun initViewModel(): MainViewModel = createViewModel()
-    override fun getViewId(): Int = R.layout.fragment_article
 
+    override fun getViewId(): Int = R.layout.fragment_project_article
 
     override fun onBundle(bundle: Bundle) {
-        accountId = bundle.getInt(Id, 0)
-
+        cid = bundle.getInt(Id, 0)
     }
 
     override fun observerUI() {
 
         pagerNumber.observe(this, Observer {
             it?.apply {
-                router.toTarget("getArticle", accountId, this, article)
+                if (cid != -1) {
+                    router.toTarget("getCate", this, cid, cate)
+                } else {
+                    refresh.isRefreshing = false
+                }
             }
         })
 
-
-        article.observe(this, Observer {
+        cate.observe(this, Observer {
             it?.apply {
                 when (status) {
                     Result.Success -> {
+                        if (pagerNumber valueSameAs 0) {
+                            list.clear()
+                        }
                         response?.apply {
-                            if (pagerNumber valueSameAs 0) {
-                                list.clear()
-                            }
-                            list.addAll(datas)
+                            list.addAll(this.datas)
                             if (list.size != 0) {
                                 smrl.showContent()
                             } else {
                                 smrl.showEmpty()
                             }
-                            onSize(datas.size)
+                            onSize(this.datas.size)
                         }
                     }
-                    Result.OutTime -> {
-                        refresh.isRefreshing = false
-                        pagerNumber set 0
-                    }
                 }
-
             }
         })
-
 
     }
 
@@ -100,19 +95,11 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
         smrl.setDefaultLoadingColorRes(R.color.colorAccent)
         refresh.setColorSchemeResources(R.color.colorAccent)
 
+
         initAdapter()
 
         pagerNumber set 0
     }
-
-
-    private fun initAdapter() {
-        adapter = ArticleListAdapter(context, list)
-        rv.adapter = adapter
-        rv.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        rv.addItemDecoration(RecycleViewDivider(LinearLayoutManager.VERTICAL,dividerColor = ContextCompat.getColor(context,R.color.colorAccent)))
-    }
-
 
     override fun initListener() {
 
@@ -132,15 +119,12 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
         }
 
 
-        adapter.setOnLikeClickListener { item, isCollect ->
-            if (isCollect) {
-                viewModel.homeCollect(item.id)
-            } else {
-                viewModel.homeUnCollect(item.id)
-            }
-        }
+    }
 
-
+    private fun initAdapter() {
+        adapter = ProjectAdapter(context,list)
+        rv.adapter = adapter
+        rv.layoutManager = StaggeredGridLayoutManager(2,RecyclerView.VERTICAL)
     }
 
 
@@ -153,6 +137,5 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
             rv.setEnableLoadMore(true)
         }
     }
-
 
 }

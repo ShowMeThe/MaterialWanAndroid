@@ -9,6 +9,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.Buffer
+import showmethe.github.core.util.system.Network
 
 
 class RequestLogInterceptor : Interceptor {
@@ -28,6 +29,7 @@ class RequestLogInterceptor : Interceptor {
             requestBody.writeTo(buffer)
             requestMessage += "?\n" + buffer.readString(UTF8)
         }
+        Network.get().addTime()
         Log.e("RequestLogInterceptor", requestMessage)
         Log.e("RequestLogInterceptor", request.method + ' '.toString() + request.url + ' '.toString() + responseBodyString)
         return response.newBuilder().body(responseBodyString.toByteArray().toResponseBody(responseBody.contentType())).build()

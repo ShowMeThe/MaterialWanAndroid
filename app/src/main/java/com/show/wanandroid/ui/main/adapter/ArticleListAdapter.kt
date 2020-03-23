@@ -21,7 +21,7 @@ class ArticleListAdapter(context: Context, data: ObservableArrayList<Article.Dat
                 if(item.isCollect){
                     like.setLike(boolean = false, state = false)
                 }else{
-                    like.setLike(boolean = true, state = false)
+                    like.setLike(boolean = true, state = true)
                 }
                 item.isCollect = !item.isCollect
                 onLikeClick?.invoke(item,item.isCollect)

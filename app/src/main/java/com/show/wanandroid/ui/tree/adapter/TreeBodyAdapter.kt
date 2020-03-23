@@ -42,32 +42,11 @@ class TreeBodyAdapter(context: Context, data: ObservableArrayList<Tree>) :
                  item.chipChildren.forEach {
                      group.addView(it)
                  }
-            }else{
-                item.children.forEach {
-                    addInGroup(it,item,group){ id,title ->
-                        onChipClick?.invoke(id,title)
-                    }
-                }
             }
         }
     }
 
-    private fun addInGroup(tree: Tree.ChildrenBean,parent : Tree,group: ChipGroup,click:(id:Int,title:String)->Unit){
-        val chip = LayoutInflater.from(context).inflate(R.layout.chip_tree_layout,group,false) as Chip
-        chip.text =  tree.name
-        chip.setTextColor(Color.WHITE)
-        chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(colors[ThreadLocalRandom.current().nextInt(0, colors.size)]))
-        group.addView(chip)
-        chip.setOnClickListener {
-            click.invoke(tree.id,tree.name)
-        }
-        parent.chipChildren.add(chip)
-    }
 
-    private var onChipClick : ((id:Int,title:String)->Unit)? = null
-    fun setOnChipClickListener( onChipClick : ((id:Int,title:String)->Unit)){
-        this.onChipClick = onChipClick
-    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

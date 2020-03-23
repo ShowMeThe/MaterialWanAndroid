@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.content.ContextCompat
@@ -37,7 +38,7 @@ class LikeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private var maxDotsRadius: Float = 0.toFloat()
     private var  dotsAnimator : ObjectAnimator? = null
     private var  scaleAnimator : ObjectAnimator? = null
-    private val rect=  Rect()
+    private val rect=  RectF()
     private lateinit var like : Bitmap
     private lateinit var unlike : Bitmap
     private var mHeight = 0
@@ -78,8 +79,6 @@ class LikeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        mHeight = MeasureSpec.getSize(heightMeasureSpec)
-        mWidth = MeasureSpec.getSize(widthMeasureSpec)
         setLike(isLike,false)
     }
 
@@ -92,9 +91,8 @@ class LikeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         //最大半径
         maxDotsRadius = w / 2 - maxDotSize * 4
 
-        widthDis = mWidth/2
-        heightDis = mHeight/2
-
+        widthDis = measuredWidth/2
+        heightDis = measuredHeight/2
 
     }
 
@@ -102,12 +100,13 @@ class LikeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         drawOuterDotsFrame(canvas)
 
 
-        val left = min(like.width/2f,widthDis/2f)
-        val bottom = min(like.height/2f,widthDis/2f)
+        val left = widthDis/2f
+        val bottom = heightDis/2f
 
-        rect.set((widthDis - left).toInt(), (heightDis - bottom).toInt(), (widthDis + left).toInt(),
-            (heightDis + bottom).toInt()
-        )
+
+        rect.set(left, (heightDis - bottom), (widthDis + left),
+            (heightDis + bottom))
+
         if(isLike){
             canvas.drawBitmap(like,null,rect,bitmapPaint)
         }else{

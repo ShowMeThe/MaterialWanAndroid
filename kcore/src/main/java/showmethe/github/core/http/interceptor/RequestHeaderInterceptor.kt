@@ -28,7 +28,6 @@ class RequestHeaderInterceptor : Interceptor, SessionObserver {
         val url = htbuilder.build()
         val builder = request.newBuilder().url(url)
 
-        Network.get().addTime()
         if(this.sessionId.isEmpty()){
             this.sessionId =  RDEN.get("sessionId","")
         }

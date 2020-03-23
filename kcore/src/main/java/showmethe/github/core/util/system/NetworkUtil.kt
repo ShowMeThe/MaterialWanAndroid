@@ -63,7 +63,7 @@ class Network{
     var networkState = true
     private var requestTime = 1
     companion object{
-        private val instant : Network by lazy { Network() }
+        private val instant : Network by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { Network() }
         fun get() = instant
     }
 
@@ -75,6 +75,7 @@ class Network{
     private fun startCheck(){
        if(requestTime%30 == 0){
            GlobalScope.launch(Dispatchers.IO){
+               requestTime = 0
                pingIP(this.coroutineContext,RetroHttp.baseUrl
                    .substringAfter("http://")
                    .substringAfter("https://")

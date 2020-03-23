@@ -1,4 +1,4 @@
-package com.show.wanandroid.ui.main
+package com.show.wanandroid.ui.main.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -105,6 +105,25 @@ class MainRepository  : BaseRepository() {
             post(call)
             hold {
                 api.getTreeArticle(pager,id)
+            }
+        }
+    }
+
+    fun getCateTab(call: MutableLiveData<Result<ArrayList<CateTab>>>) {
+        CallResult<ArrayList<CateTab>>(owner){
+            post(call)
+            hold {
+                api.getCateTab()
+            }
+        }
+    }
+
+
+    fun getCate(pager: Int, id: Int, call: MutableLiveData<Result<CateBean>>) {
+        CallResult<CateBean>(owner){
+            post(call)
+            hold {
+                api.getCate(pager, id)
             }
         }
 

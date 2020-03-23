@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import com.google.android.material.transition.MaterialFade
@@ -99,8 +100,8 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, MainViewModel>() {
 
     private fun createTransition(): MaterialSharedAxis? {
         val transition = MaterialSharedAxis.create(context, MaterialSharedAxis.Y, true)
-        transition.interpolator = AnticipateOvershootInterpolator()
-        transition.duration = 400
+        transition.interpolator = FastOutLinearInInterpolator()
+        transition.duration = 450
         transition.addTarget(R.id.treeBody)
         transition.addTarget(R.id.treeArticle)
         return transition

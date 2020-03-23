@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.show.wanandroid.entity.*
-import com.show.wanandroid.ui.main.MainRepository
+import com.show.wanandroid.ui.main.repository.MainRepository
 import showmethe.github.core.base.BaseViewModel
 import showmethe.github.core.base.InjectOwner
 import showmethe.github.core.base.vmpath.VMPath
@@ -23,6 +23,8 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     val treeNavigator = MutableLiveData<Pair<Int,String>>()
     val treeNavBack  = MutableLiveData<Boolean>()
+
+    val cateTab = MutableLiveData<Result<ArrayList<CateTab>>>()
 
     override fun onViewModelCreated(owner: LifecycleOwner) {
 
@@ -70,4 +72,15 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     fun homeCollect(id:Int) = repository.homeCollect(id)
     @VMPath("homeUnCollect")
     fun homeUnCollect(id:Int) = repository.homeUnCollect(id)
+
+
+    /**
+     * CateTab
+     */
+    @VMPath(path = "getCateTab")
+    fun getCateTab() = repository.getCateTab(cateTab)
+
+    @VMPath(path = "getCate")
+    fun getCate(pager:Int,id:Int, cate : MutableLiveData<Result<CateBean>>) = repository.getCate(pager,id,cate)
+
 }

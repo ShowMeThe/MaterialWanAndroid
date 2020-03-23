@@ -68,4 +68,17 @@ interface Main {
     suspend  fun getTree() : Response<JsonResult<ArrayList<Tree>>>
     @GET("/article/list/{page}/json?")
     suspend  fun getTreeArticle(@Path("page") page: Int ,@Query("cid") id: Int) : Response<JsonResult<Article>>
+
+
+    /**
+     *  项目分类
+     */
+    @GET("/project/tree/json")
+    suspend  fun getCateTab() : Response<JsonResult<ArrayList<CateTab>>>
+    /**
+     *  项目列表数据
+     */
+    @GET("/project/list/{pager}/json")
+    suspend  fun getCate(@Path("pager") pager:Int,@Query("cid") id:Int) : Response<JsonResult<CateBean>>
+
 }
