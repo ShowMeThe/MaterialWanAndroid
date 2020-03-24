@@ -39,7 +39,7 @@ abstract class LazyFragment <V : ViewDataBinding,VM : BaseViewModel> : Fragment(
             onBundle(requireArguments())
         }
         viewModel = initViewModel()
-        router = VMRouter(viewModel,this)
+        router = VMRouter(viewModel,activity)
         viewModel.initOwner(router)
         lifecycle.addObserver(viewModel)
     }

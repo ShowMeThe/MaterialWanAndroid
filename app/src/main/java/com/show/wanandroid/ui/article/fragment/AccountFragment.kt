@@ -4,6 +4,7 @@ package com.show.wanandroid.ui.article.fragment
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
@@ -67,6 +68,7 @@ class AccountFragment : LazyFragment<FragmentAccuntBinding, MainViewModel>() {
 
 
     override fun init() {
+
 
         router.toTarget("getChapters")
 

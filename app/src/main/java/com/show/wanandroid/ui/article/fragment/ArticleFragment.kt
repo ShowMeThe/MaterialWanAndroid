@@ -101,7 +101,6 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
         refresh.setColorSchemeResources(R.color.colorAccent)
 
         initAdapter()
-
         pagerNumber set 0
     }
 
