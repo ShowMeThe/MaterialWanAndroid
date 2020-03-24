@@ -73,7 +73,7 @@ class Network{
     }
 
     private fun startCheck(){
-       if(requestTime%30 == 0){
+       if(requestTime%50 == 0){
            GlobalScope.launch(Dispatchers.IO){
                requestTime = 0
                pingIP(this.coroutineContext,RetroHttp.baseUrl
