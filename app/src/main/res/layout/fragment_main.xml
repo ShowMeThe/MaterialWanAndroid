@@ -70,7 +70,7 @@
                     android:layout_marginEnd="@dimen/px48dp"
                     android:src="@drawable/ic_search"
                     android:tint="@color/white"
-                    android:onClick="@{Main::search}"
+                    android:onClick="@{()->Main.search()}"
                     />
 
             </RelativeLayout>

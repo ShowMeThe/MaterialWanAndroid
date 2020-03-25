@@ -15,6 +15,8 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     @InjectOwner
     val repository = MainRepository()
 
+    val replace = MutableLiveData<String>()
+
     val banner = MutableLiveData<Result<ArrayList<Banner>>>()
     val tops = MutableLiveData<Result<ArrayList<Article.DatasBean>>>()
     val article = MutableLiveData<Result<Article>>()

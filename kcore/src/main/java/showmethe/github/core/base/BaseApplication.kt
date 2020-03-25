@@ -15,6 +15,7 @@ import showmethe.github.core.glide.TGlide
 import showmethe.github.core.http.RetroHttp
 import showmethe.github.core.util.extras.SimpleLifecycleCallbacks
 import showmethe.github.core.util.rden.RDEN
+import showmethe.github.core.util.system.Network
 import showmethe.github.core.util.system.crash.CrashHandler
 import showmethe.github.core.util.system.startLocalForIp
 import java.lang.ref.WeakReference
@@ -31,7 +32,7 @@ open class BaseApplication : MultiDexApplication() {
         super.onCreate()
         RDEN.build(this@BaseApplication)
         GlobalScope.launch(Dispatchers.IO) {
-            startLocalForIp(this@BaseApplication)
+            startLocalForIp()
             RetroHttp.get()
             CrashHandler.get(this@BaseApplication)
         }

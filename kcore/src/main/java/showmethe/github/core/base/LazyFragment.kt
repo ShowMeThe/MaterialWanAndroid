@@ -2,6 +2,7 @@ package showmethe.github.core.base
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,8 +48,9 @@ abstract class LazyFragment <V : ViewDataBinding,VM : BaseViewModel> : Fragment(
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = setContentView(inflater,getViewId())
         view?.apply {
-            binding = DataBindingUtil.bind(view.rootView)
+            binding = DataBindingUtil.bind(rootView)
         }
+
         binding?.lifecycleOwner = this
         return view
     }
@@ -169,14 +171,16 @@ abstract class LazyFragment <V : ViewDataBinding,VM : BaseViewModel> : Fragment(
     }
 
 
-    fun setContentView(inflater: LayoutInflater, resId: Int): View? {
+    private fun setContentView(inflater: LayoutInflater, resId: Int): View? {
         if (rootView == null) {
             rootView = inflater.inflate(resId, null)
         }
         rootView?.apply {
             rootView.parent?.apply {
-                val parent = rootView.parent as ViewGroup
-                parent.removeView(rootView)
+                if(rootView.parent is ViewGroup){
+                    val parent = rootView.parent as ViewGroup
+                    parent.removeView(rootView)
+                }
             }
         }
         return rootView

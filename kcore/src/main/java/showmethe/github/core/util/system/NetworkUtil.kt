@@ -35,45 +35,28 @@ fun checkConnection(context: Context): Boolean {
    }
 }
 
-fun startLocalForIp(context: Context){
-    val constraints = Constraints.Builder()
-        .setRequiresBatteryNotLow(true) // 非电池低电量
-        .setRequiredNetworkType(NetworkType.CONNECTED) // 网络连接的情况
-        .build()
-    val workBuilder = PeriodicWorkRequest.Builder(NetworkWork::class.java,15L,TimeUnit.MINUTES,5,TimeUnit.SECONDS)
-        .setConstraints(constraints)
-        .build()
-    WorkManager.getInstance(context).enqueue(workBuilder)
+fun startLocalForIp(){
+    Network.get()
 }
 
-class  NetworkWork(context: Context, workerParams: WorkerParameters) :
-    Worker(context, workerParams) {
-    override fun doWork(): Result {
-        GlobalScope.launch(Dispatchers.IO){
-            pingIP(this.coroutineContext,RetroHttp.baseUrl
-                .substringAfter("http://")
-                .substringAfter("https://")
-                .substringBefore("/"))
-        }
-        return Result.success()
-    }
-}
 
 class Network{
     var networkState = true
+    @Volatile
     private var requestTime = 1
     companion object{
         private val instant : Network by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { Network() }
         fun get() = instant
     }
 
+    @Synchronized
     fun addTime(){
         startCheck()
         requestTime ++
     }
 
     private fun startCheck(){
-       if(requestTime%50 == 0){
+       if(requestTime%150 == 0){
            GlobalScope.launch(Dispatchers.IO){
                requestTime = 0
                pingIP(this.coroutineContext,RetroHttp.baseUrl
@@ -90,7 +73,7 @@ class Network{
          try {
              val process = Runtime.getRuntime().exec("/system/bin/ping -c 1 -w 1 $address")
              val status = process.waitFor()
-             Log.e(NetworkWork::class.java.name,"ping for network for status =  ${status == 0}")
+             Log.e("NetworkWork","ping for network for status =  ${status == 0}")
              Network.get().networkState = status == 0
              status == 0
          }catch (e : Exception){

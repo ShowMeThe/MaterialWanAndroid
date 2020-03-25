@@ -173,14 +173,16 @@ abstract class BaseFragment<V : ViewDataBinding,VM : BaseViewModel> : Fragment()
 
 
 
-    fun setContentView(inflater: LayoutInflater, resId: Int): View? {
+    private fun setContentView(inflater: LayoutInflater, resId: Int): View? {
         if (rootView == null) {
             rootView = inflater.inflate(resId, null)
         }
         rootView?.apply {
             rootView.parent?.apply {
-                val parent = rootView.parent as ViewGroup
-                parent.removeView(rootView)
+                if(rootView.parent is ViewGroup){
+                    val parent = rootView.parent as ViewGroup
+                    parent.removeView(rootView)
+                }
             }
         }
         return rootView

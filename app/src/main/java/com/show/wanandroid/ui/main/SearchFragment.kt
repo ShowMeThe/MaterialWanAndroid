@@ -1,7 +1,6 @@
 package com.show.wanandroid.ui.main
 
 import android.os.Bundle
-import android.transition.TransitionInflater
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.FragmentSearchBinding
 import com.show.wanandroid.ui.main.vm.MainViewModel
@@ -27,11 +26,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, MainViewModel>() {
         super.onCreate(savedInstanceState)
 
 
-
     }
     override fun init(savedInstanceState: Bundle?) {
-
         fixToolbar(toolBar)
+        binding?.main = this
 
 
     }
@@ -42,5 +40,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, MainViewModel>() {
 
     }
 
+
+    fun popBackToFront(){
+        requireActivity().supportFragmentManager
+            .popBackStack()
+    }
 
 }

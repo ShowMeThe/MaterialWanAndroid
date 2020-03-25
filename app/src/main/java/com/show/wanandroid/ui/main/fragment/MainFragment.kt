@@ -2,6 +2,7 @@ package com.show.wanandroid.ui.main.fragment
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Pair
 import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
@@ -17,7 +18,6 @@ import com.show.wanandroid.databinding.ActivityMainBinding
 import com.show.wanandroid.databinding.FragmentMainBinding
 import com.show.wanandroid.transform.PageTransformer
 import com.show.wanandroid.ui.article.fragment.AccountFragment
-import com.show.wanandroid.ui.main.SearchFragment
 import com.show.wanandroid.ui.main.adapter.MainAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.ui.project.fragment.ProjectFragment
@@ -135,15 +135,11 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
     }
 
 
-    fun search(view:View){
-       requireActivity().supportFragmentManager
-            .beginTransaction()
-            .addSharedElement(view, ViewCompat.getTransitionName(view)!!)
-            .addToBackStack(null)
-            .add(R.id.frameLayout, SearchFragment())
-            .commit()
-    }
 
+
+    fun search(){
+        viewModel.replace set "Search"
+    }
 
 
     private fun checkLogin(){

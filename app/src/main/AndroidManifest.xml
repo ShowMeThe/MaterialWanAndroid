@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
+
         <activity android:name="com.show.wanandroid.ui.login.LoginActivity">
 
         </activity>
