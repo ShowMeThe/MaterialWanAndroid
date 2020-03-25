@@ -72,6 +72,7 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, MainViewModel>() {
             try {
                 tempFragment = replaceFragment
                 tempFragment.enterTransition = createTransition()
+                tempFragment.exitTransition = createTransition()
                 transaction
                     .addToBackStack(null)
                     .add(id, tempFragment, tag)

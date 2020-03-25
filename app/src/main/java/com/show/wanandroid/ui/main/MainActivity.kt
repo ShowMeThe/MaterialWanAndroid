@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
@@ -13,6 +14,8 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialFade
 import com.google.android.material.transition.MaterialSharedAxis
 
@@ -42,9 +45,12 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
     override fun getViewId(): Int = R.layout.activity_main
     override fun initViewModel(): MainViewModel = createViewModel()
     override fun onBundle(bundle: Bundle) {
+
     }
 
     override fun observerUI() {
+
+
 
     }
 
@@ -60,51 +66,14 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
 
 
 
-
     }
+
 
 
     private fun replaceFragment(replaceFragment : Fragment, id: Int = R.id.frameLayout) {
-        val tag = replaceFragment::class.java.name
-        var tempFragment = supportFragmentManager.findFragmentByTag(tag)
-        val transaction = supportFragmentManager.beginTransaction()
-        if (tempFragment == null) {
-            try {
-                tempFragment = replaceFragment
-                tempFragment.enterTransition = createTransition()
-                transaction
-                    .addToBackStack(null)
-                    .add(id, tempFragment, tag)
-                    .setMaxLifecycle(tempFragment, Lifecycle.State.RESUMED)
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        val fragments = supportFragmentManager.fragments
-        for (i in fragments.indices) {
-            val fragment = fragments[i]
-            if (fragment.tag == tag) {
-                transaction
-                    .addToBackStack(null)
-                    .show(fragment)
-            } else {
-                transaction
-                    .addToBackStack(null)
-                    .hide(fragment)
-            }
-        }
-        transaction.commitAllowingStateLoss()
-    }
-
-
-    private fun createTransition(): MaterialSharedAxis? {
-        val transition = MaterialSharedAxis.create(context, MaterialSharedAxis.Z, true)
-        transition.interpolator = FastOutLinearInInterpolator()
-        transition.duration = 450
-        transition.addTarget(R.id.treeBody)
-        transition.addTarget(R.id.treeArticle)
-        return transition
+        supportFragmentManager.beginTransaction()
+            .add(id, replaceFragment, replaceFragment::class.java.name)
+            .commit()
     }
 
 

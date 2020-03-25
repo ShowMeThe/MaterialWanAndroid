@@ -7,6 +7,14 @@ android {
     compileSdkVersion Versions.compileSdkVersion
     buildToolsVersion Versions.buildToolsVersion
 
+    signingConfigs {
+        debug {
+            storeFile file('release\\key.jks')
+            storePassword '123456'
+            keyAlias = 'key0'
+            keyPassword '123456'
+        }
+    }
     dataBinding {
         enabled = true
     }
@@ -15,17 +23,30 @@ android {
         applicationId "com.ken.wanandroid"
         minSdkVersion Versions.minSdkVersion
         targetSdkVersion Versions.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-
+        versionCode Versions.versionCode
+        versionName Versions.versionName
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            zipAlignEnabled true
+            buildConfigField "boolean", "LOG_ENABLE", "false"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            zipAlignEnabled false
+            buildConfigField "boolean", "LOG_ENABLE", "true"
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 
     kotlinOptions {
@@ -43,10 +64,8 @@ repositories {
     }
 }
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(":kcore")
-    implementation(name: 'banner', ext: 'aar')
-    implementation(name: 'speeddiallib', ext: 'aar')
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }

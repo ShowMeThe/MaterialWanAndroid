@@ -4,16 +4,20 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.transition.MaterialContainerTransform
 import com.show.wanandroid.R
 import com.show.wanandroid.const.HAS_LOGIN
 import com.show.wanandroid.const.User_Name
 import com.show.wanandroid.databinding.ActivityMainBinding
+import com.show.wanandroid.databinding.FragmentMainBinding
 import com.show.wanandroid.transform.PageTransformer
 import com.show.wanandroid.ui.article.fragment.AccountFragment
+import com.show.wanandroid.ui.main.SearchFragment
 import com.show.wanandroid.ui.main.adapter.MainAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.ui.project.fragment.ProjectFragment
@@ -21,6 +25,7 @@ import com.show.wanandroid.ui.tree.fragment.TreeFragment
 import com.show.wanandroid.widget.IconSwitch
 import kotlinx.android.synthetic.main.fragment_main.*
 import showmethe.github.core.base.BaseFragment
+import showmethe.github.core.util.extras.set
 import showmethe.github.core.util.rden.RDEN
 import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 
@@ -30,7 +35,7 @@ import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
  *  2020/3/23
  *  23:21
  */
-class MainFragment : BaseFragment<ActivityMainBinding, MainViewModel>() {
+class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
 
     private lateinit var titles : Array<String>
@@ -51,6 +56,7 @@ class MainFragment : BaseFragment<ActivityMainBinding, MainViewModel>() {
 
     override fun init(savedInstanceState: Bundle?) {
         fixToolbar(toolBar)
+        binding?.main = this
         titles = arrayOf(getString(R.string.home),getString(R.string.public_),getString(R.string.knowledge),getString(R.string.project))
         drawer.setScrimColor(Color.TRANSPARENT)
 
@@ -126,6 +132,16 @@ class MainFragment : BaseFragment<ActivityMainBinding, MainViewModel>() {
         vp.adapter = adapter
         vp.offscreenPageLimit = fragments.size
         vp.setPageTransformer(false, PageTransformer())
+    }
+
+
+    fun search(view:View){
+       requireActivity().supportFragmentManager
+            .beginTransaction()
+            .addSharedElement(view, ViewCompat.getTransitionName(view)!!)
+            .addToBackStack(null)
+            .add(R.id.frameLayout, SearchFragment())
+            .commit()
     }
 
 
