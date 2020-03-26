@@ -126,6 +126,15 @@ class MainRepository  : BaseRepository() {
                 api.getCate(pager, id)
             }
         }
-
     }
+
+    fun getHotKey(call: MutableLiveData<Result<ArrayList<KeyWord>>>) {
+        CallResult<ArrayList<KeyWord>>(owner){
+            post(call)
+            hold {
+                api.getHotKey()
+            }
+        }
+    }
+
 }

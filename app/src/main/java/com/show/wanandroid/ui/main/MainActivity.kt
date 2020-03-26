@@ -2,18 +2,16 @@ package com.show.wanandroid.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.transition.Explode
 import android.transition.Fade
-import android.transition.Slide
 import android.transition.Transition
 import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ActivityMainBinding
 import com.show.wanandroid.ui.main.fragment.MainFragment
+import com.show.wanandroid.ui.main.fragment.SearchFragment
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import showmethe.github.core.base.BaseActivity
 import showmethe.github.core.util.widget.StatusBarUtil.setFullScreen
@@ -29,14 +27,16 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
     }
 
     override fun observerUI() {
+
         viewModel.replace.observe(this, Observer {
             it?.apply {
                 when(this){
-                    "Search" -> replaceFragment(SearchFragment())
+                    getString(R.string.transition_name_search) -> replaceFragment(SearchFragment())
 
                 }
             }
         })
+
 
 
 

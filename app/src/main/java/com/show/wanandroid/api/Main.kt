@@ -81,4 +81,11 @@ interface Main {
     @GET("/project/list/{pager}/json")
     suspend  fun getCate(@Path("pager") pager:Int,@Query("cid") id:Int) : Response<JsonResult<CateBean>>
 
+
+    /**
+     * 搜索热词
+     */
+    @GET("/hotkey/json")
+    suspend fun getHotKey() : Response<JsonResult<ArrayList<KeyWord>>>
+
 }

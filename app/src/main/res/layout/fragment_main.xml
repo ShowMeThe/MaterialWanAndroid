@@ -62,7 +62,7 @@
 
                 <ImageView
                     android:id="@+id/ivSearch"
-                    android:transitionName="search"
+                    android:transitionName="@string/transition_name_search"
                     android:layout_width="@dimen/px90dp"
                     android:layout_height="@dimen/px90dp"
                     android:layout_alignParentEnd="true"

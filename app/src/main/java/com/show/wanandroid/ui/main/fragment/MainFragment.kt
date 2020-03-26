@@ -2,19 +2,16 @@ package com.show.wanandroid.ui.main.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Pair
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.transition.MaterialContainerTransform
 import com.show.wanandroid.R
 import com.show.wanandroid.const.HAS_LOGIN
 import com.show.wanandroid.const.User_Name
-import com.show.wanandroid.databinding.ActivityMainBinding
 import com.show.wanandroid.databinding.FragmentMainBinding
 import com.show.wanandroid.transform.PageTransformer
 import com.show.wanandroid.ui.article.fragment.AccountFragment
@@ -37,7 +34,7 @@ import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
  */
 class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
-
+    private val interpolator = LinearInterpolator()
     private lateinit var titles : Array<String>
     private lateinit var adapter: MainAdapter
     private val fragments = ArrayList<Fragment>()
@@ -136,10 +133,10 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
 
 
-
     fun search(){
-        viewModel.replace set "Search"
+        viewModel.replace set getString(R.string.transition_name_search)
     }
+
 
 
     private fun checkLogin(){

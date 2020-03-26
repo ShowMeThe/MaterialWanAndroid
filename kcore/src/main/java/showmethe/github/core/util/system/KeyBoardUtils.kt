@@ -31,7 +31,8 @@ fun Context.hideSoftKeyboard() {
     }
 }
 
-fun Context.openKeyboard( editText: EditText) {
+fun Context.openKeyboard(editText: EditText) {
+    editText.requestFocus()
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.showSoftInput(editText, InputMethodManager.RESULT_SHOWN)
     imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)

@@ -48,7 +48,7 @@ abstract class LazyFragment <V : ViewDataBinding,VM : BaseViewModel> : Fragment(
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = setContentView(inflater,container,getViewId())
         view?.apply {
-            binding = DataBindingUtil.bind(rootView)
+            binding = DataBindingUtil.bind(view.rootView)
         }
 
         binding?.lifecycleOwner = this
@@ -174,14 +174,7 @@ abstract class LazyFragment <V : ViewDataBinding,VM : BaseViewModel> : Fragment(
     private fun setContentView(inflater: LayoutInflater,container: ViewGroup? ,resId: Int): View? {
         if (rootView == null) {
             rootView = inflater.inflate(resId, container,false)
-        }
-        rootView?.apply {
-           /* rootView.parent?.apply {
-                if(rootView.parent is ViewGroup){
-                    val parent = rootView.parent as ViewGroup
-                    parent.removeView(rootView)
-                }
-            }*/
+        }else{
             container?.removeView(rootView)
         }
         return rootView

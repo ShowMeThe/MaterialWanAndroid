@@ -14,4 +14,7 @@
     <string name="cancel_collect">取消收藏</string>
     <string name="success_collect">收藏成功</string>
     <string name="cancel">取消</string>
+    <string name="transition_name_search">search</string>
+    <string name="to_search">搜索</string>
+    <string name="search_hot_key">搜索热词</string>
 </resources>

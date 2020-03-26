@@ -17,6 +17,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     val replace = MutableLiveData<String>()
 
+    val hotKey = MutableLiveData<Result<ArrayList<KeyWord>>>()
     val banner = MutableLiveData<Result<ArrayList<Banner>>>()
     val tops = MutableLiveData<Result<ArrayList<Article.DatasBean>>>()
     val article = MutableLiveData<Result<Article>>()
@@ -84,5 +85,11 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     @VMPath(path = "getCate")
     fun getCate(pager:Int,id:Int, cate : MutableLiveData<Result<CateBean>>) = repository.getCate(pager,id,cate)
+
+    /**
+     * search
+     */
+    @VMPath(path = "getHotKey")
+    fun getHotKey() = repository.getHotKey(hotKey)
 
 }
