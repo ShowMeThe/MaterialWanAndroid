@@ -51,7 +51,7 @@ abstract class BaseFragment<V : ViewDataBinding,VM : BaseViewModel> : Fragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = setContentView(inflater,getViewId())
+        val view = setContentView(inflater,container,getViewId())
         view?.apply {
             binding = DataBindingUtil.bind(view.rootView)
         }
@@ -173,17 +173,19 @@ abstract class BaseFragment<V : ViewDataBinding,VM : BaseViewModel> : Fragment()
 
 
 
-    private fun setContentView(inflater: LayoutInflater, resId: Int): View? {
+
+    private fun setContentView(inflater: LayoutInflater,container: ViewGroup? ,resId: Int): View? {
         if (rootView == null) {
-            rootView = inflater.inflate(resId, null)
+            rootView = inflater.inflate(resId, container,false)
         }
         rootView?.apply {
-            rootView.parent?.apply {
-                if(rootView.parent is ViewGroup){
-                    val parent = rootView.parent as ViewGroup
-                    parent.removeView(rootView)
-                }
-            }
+            /* rootView.parent?.apply {
+                 if(rootView.parent is ViewGroup){
+                     val parent = rootView.parent as ViewGroup
+                     parent.removeView(rootView)
+                 }
+             }*/
+            container?.removeView(rootView)
         }
         return rootView
     }
