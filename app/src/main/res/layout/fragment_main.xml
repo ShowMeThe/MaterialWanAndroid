@@ -119,6 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px500dp"
                 app:layout_constraintTop_toTopOf="parent"
+                skin="@{`background`}"
                 >
 
 

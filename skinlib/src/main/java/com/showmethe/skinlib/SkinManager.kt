@@ -16,6 +16,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.adapters.CardViewBindingAdapter
+import java.lang.ref.WeakReference
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Author: showMeThe
@@ -84,7 +87,7 @@ class SkinManager private constructor(var context: Context){
 
     var enableSkin = false
 
-    private val bindings = ArrayList<ViewDataBinding?>()
+    private val bindings = ArrayList<WeakReference<ViewDataBinding?>>()
     private val styles = ArrayList<Pair<String,Int>>()
     private val themes = ArrayMap<String,ArrayMap<String,Int>>()
     private var currentStyle = ""
@@ -109,13 +112,13 @@ class SkinManager private constructor(var context: Context){
     }
 
     fun bindings(binding: ViewDataBinding?){
-        bindings.add(binding)
+        bindings.add(WeakReference(binding))
     }
 
 
     fun invalidateAll(){
         bindings.forEach {
-            it?.apply {
+            it.get()?.apply {
                 invalidateAll()
             }
         }
@@ -153,12 +156,12 @@ class SkinManager private constructor(var context: Context){
             ViewType.CardView, ViewType.MaterialCardView->{
                 attrs.forEach {
                     when{
-                        it.trim() == "divideColor" && view.viewType() == ViewType.MaterialCardView ->{
+                        it.trimLower() == "divideColor" && view.viewType() == ViewType.MaterialCardView ->{
                             theme["theme_card_strokeColor"]?.apply {
                                 view::class.java.methods.filter { method -> method.name == "setStrokeColor" }[1].invoke(view,getColorStateList())
                             }
                         }
-                        it.trim() == "backgroundColor" ->{
+                        it.trimLower() == "backgroundColor" ->{
                             theme["theme_card_backgroundColor"]?.apply {
                                 view::class.java.methods.filter { method -> method.name == "setCardBackgroundColor"  }[1].invoke(view,getColorStateList())
                             }
@@ -169,10 +172,10 @@ class SkinManager private constructor(var context: Context){
             else ->{
                 attrs.forEach {
                     when{
-                        it.trim() == "background" ->{
-                            theme["theme_viewGroup_background"]?.apply { view.background == getDrawable() }
+                        it.trimLower().toLowerCase(Locale.ENGLISH) == "background" ->{
+                            theme["theme_viewGroup_background"]?.apply { view.background = getDrawable() }
                         }
-                        it.trim() == "backgroundColor" ->{
+                        it.trimLower() == "backgroundColor" ->{
                             theme["theme_viewGroup_backgroundColor"]?.apply { view.setBackgroundColor(getColor()) }
                         }
                     }
@@ -192,16 +195,16 @@ class SkinManager private constructor(var context: Context){
                  theme?.apply {
                     attrs.forEach {
                         when {
-                            it.trim() == "textColor" -> {
+                            it.trimLower() == "textColor" -> {
                                 this["theme_text_color"]?.apply { tv.setTextColor(getColorStateList()) }
                             }
-                            it.trim()== "background" -> {
+                            it.trimLower()== "background" -> {
                                 this["theme_text_background"]?.apply { tv.background = getDrawable() }
                             }
-                            it.trim() == "backgroundColor" -> {
+                            it.trimLower() == "backgroundColor" -> {
                                 this["theme_text_backgroundColor"]?.apply {   tv.setBackgroundColor(getColor()) }
                             }
-                            it.trim() == "drawableTint" -> {
+                            it.trimLower() == "drawableTint" -> {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                     this["theme_text_drawableTint"]?.apply {   tv.compoundDrawableTintList = getColorStateList() }
 
@@ -223,17 +226,17 @@ class SkinManager private constructor(var context: Context){
                 theme?.apply {
                     attrs.forEach {
                         when {
-                            it.trim() == "textColor" -> {
+                            it.trimLower() == "textColor" -> {
                                 this["theme_button_textColor"]?.apply { button.setTextColor(getColorStateList()) }
                             }
-                            it.trim()== "background" -> {
+                            it.trimLower()== "background" -> {
                                 if(view.viewType() == ViewType.MaterialButton){
                                     this["theme_button_background"]?.apply {   button.backgroundTintList = getColorStateList() }
                                 }else{
                                     this["theme_button_background"]?.apply { button.background = getDrawable() }
                                 }
                             }
-                            it.trim() == "backgroundColor" -> {
+                            it.trimLower() == "backgroundColor" -> {
                                 if(view.viewType() == ViewType.MaterialButton){
                                     this["theme_button_backgroundColor"]?.apply {  button.backgroundTintList = getColorStateList() }
                                 }else{
@@ -241,7 +244,7 @@ class SkinManager private constructor(var context: Context){
 
                                 }
                             }
-                            it.trim() == "drawableTint" -> {
+                            it.trimLower() == "drawableTint" -> {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                     this["theme_button_drawableTint"]?.apply { button.compoundDrawableTintList = getColorStateList() }
 
@@ -254,7 +257,7 @@ class SkinManager private constructor(var context: Context){
                                     }
                                 }
                             }
-                            it.trim() == "iconTint" ->{
+                            it.trimLower() == "iconTint" ->{
                                 this["theme_button_iconTint"]?.apply {
                                     view::class.java.methods.filter { method -> method.name == "setIconTint" }[0].invoke(button,getColorStateList()) }
                             }
@@ -268,16 +271,16 @@ class SkinManager private constructor(var context: Context){
                 theme?.apply {
                     attrs.forEach {
                         when {
-                            it.trim() == "textColor" -> {
+                            it.trimLower() == "textColor" -> {
                                 this["theme_radio_textColor"]?.apply { button.setTextColor(getColorStateList()) }
                             }
-                            it.trim()== "background" -> {
+                            it.trimLower()== "background" -> {
                                 this["theme_radio_background"]?.apply { button.background = getDrawable() }
                             }
-                            it.trim() == "backgroundColor" -> {
+                            it.trimLower() == "backgroundColor" -> {
                                 this["theme_radio_backgroundColor"]?.apply {  button.setBackgroundColor(getColor()) }
                             }
-                            it.trim() == "drawableTint" -> {
+                            it.trimLower() == "drawableTint" -> {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                     this["theme_radio_drawableTint"]?.apply { button.compoundDrawableTintList =  getColorStateList()}
                                 }else{
@@ -288,7 +291,7 @@ class SkinManager private constructor(var context: Context){
                                     }
                                 }
                             }
-                            it.trim() == "buttonTint" ->{
+                            it.trimLower() == "buttonTint" ->{
                                 this["theme_radio_buttonTint"]?.apply { button.buttonTintList = getColorStateList() }
                             }
                         }
@@ -324,6 +327,7 @@ class SkinManager private constructor(var context: Context){
         }
     }
 
+    private fun String.trimLower() = trim().toLowerCase(Locale.ENGLISH)
 
 
 }
