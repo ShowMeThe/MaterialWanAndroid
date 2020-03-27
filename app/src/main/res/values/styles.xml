@@ -37,4 +37,20 @@
         <item name="colorSurface">@color/white</item>
     </style>
 
+
+
+     <style name="MaterialTheme.Blue">
+        <item name="theme_viewGroup_backgroundColor">@color/colorAccent</item>
+
+
+    </style>
+
+
+    <style name="MaterialTheme.Red">
+        <item name="theme_viewGroup_backgroundColor">@color/color_304ffe</item>
+
+
+    </style>
+
+
 </resources>

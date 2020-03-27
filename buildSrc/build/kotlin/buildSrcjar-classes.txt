@@ -1,1 +1,1 @@
-D:\lib\MaterialWanAndroid\buildSrc\build\classes\kotlin\main\LibV.class;D:\lib\MaterialWanAndroid\buildSrc\build\classes\kotlin\main\Versions.class
+D:\MaterialWanAndroid\buildSrc\build\classes\kotlin\main\LibV.class;D:\MaterialWanAndroid\buildSrc\build\classes\kotlin\main\Versions.class

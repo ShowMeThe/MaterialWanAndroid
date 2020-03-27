@@ -13,6 +13,8 @@ import com.show.wanandroid.R
 import com.show.wanandroid.const.HAS_LOGIN
 import com.show.wanandroid.const.User_Name
 import com.show.wanandroid.databinding.FragmentMainBinding
+import com.show.wanandroid.dialog.ThemeDialog
+import com.show.wanandroid.themes_name
 import com.show.wanandroid.transform.PageTransformer
 import com.show.wanandroid.ui.article.fragment.AccountFragment
 import com.show.wanandroid.ui.main.adapter.MainAdapter
@@ -20,6 +22,7 @@ import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.ui.project.fragment.ProjectFragment
 import com.show.wanandroid.ui.tree.fragment.TreeFragment
 import com.show.wanandroid.widget.IconSwitch
+import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_main.*
 import showmethe.github.core.base.BaseFragment
 import showmethe.github.core.util.extras.set
@@ -34,6 +37,7 @@ import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
  */
 class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
+    private val dialog = ThemeDialog()
     private val interpolator = LinearInterpolator()
     private lateinit var titles : Array<String>
     private lateinit var adapter: MainAdapter
@@ -56,6 +60,10 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
         binding?.main = this
         titles = arrayOf(getString(R.string.home),getString(R.string.public_),getString(R.string.knowledge),getString(R.string.project))
         drawer.setScrimColor(Color.TRANSPARENT)
+
+        SkinManager.getInstant().bindings(binding)
+
+        dialog.setThemes()
 
         initAdapter()
 
@@ -117,6 +125,13 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
             tvTitle.text = titles[vp.currentItem]
             false
         }
+
+
+        dialog.setOnThemeClickListener {
+            SkinManager.getInstant().switchThemeByName(themes_name[it])
+        }
+
+
     }
 
 
@@ -137,6 +152,10 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
         viewModel.replace set getString(R.string.transition_name_search)
     }
 
+
+    fun onTheme(){
+        dialog.show(childFragmentManager,"theme")
+    }
 
 
     private fun checkLogin(){

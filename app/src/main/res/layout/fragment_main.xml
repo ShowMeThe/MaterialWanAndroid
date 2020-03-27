@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
                 app:layout_constraintTop_toTopOf="parent"
+                skin="@{`backgroundColor`}"
                 />
 
 
@@ -35,6 +36,7 @@
                 android:layout_height="@dimen/px125dp"
                 android:background="@color/colorAccent"
                 app:layout_constraintTop_toBottomOf="@+id/toolBar"
+                skin="@{`backgroundColor`}"
                 >
 
                 <com.show.wanandroid.widget.IconSwitch
@@ -105,12 +107,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/drawLayout"
-            android:elevation="@dimen/px15dp"
+            android:elevation="@dimen/px5dp"
             android:layout_gravity="start"
+            android:background="@color/white"
             android:layout_width="@dimen/px500dp"
             android:layout_height="match_parent">
 
             <RelativeLayout
+                android:id="@+id/head"
                 android:background="@drawable/shape_drawer_head_bg"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px500dp"
@@ -154,9 +158,22 @@
                     android:layout_height="wrap_content"
                     app:fontFamily="sans-serif"
                     />
-
-
             </RelativeLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTheme"
+                android:text="@string/switch_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_theme"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/px43dp"
+                android:gravity="center|start"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:layout_constraintTop_toBottomOf="@+id/head"
+                android:onClick="@{()->Main.onTheme()}"
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
