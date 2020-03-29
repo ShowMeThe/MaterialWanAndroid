@@ -49,6 +49,6 @@
     <!--EditText-->
     <attr name="them_edit_textColor" format="reference|color"/>
     <attr name="them_edit_hintColor" format="reference|color"/>
-    <attr name="them_edit_cursorColor" format="reference"/>
+    <attr name="them_edit_cursorDrawable" format="reference"/>
 
 </resources>

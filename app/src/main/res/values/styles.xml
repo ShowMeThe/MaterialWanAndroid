@@ -50,7 +50,7 @@
          <item name="theme_imageView_tint">@color/colorAccent</item>
          <item name="theme_card_strokeColor">@color/colorAccent</item>
          <item name="theme_floating_backgroundColor">@color/colorAccent</item>
-         <item name="them_edit_cursorColor">@drawable/shape_blue_cursor</item>
+         <item name="them_edit_cursorDrawable">@drawable/shape_blue_cursor</item>
     </style>
 
 
@@ -65,7 +65,7 @@
         <item name="theme_imageView_tint">@color/color_ff4081</item>
         <item name="theme_card_strokeColor">@color/color_ff4081</item>
         <item name="theme_floating_backgroundColor">@color/color_ff4081</item>
-        <item name="them_edit_cursorColor">@drawable/shape_red_cursor</item>
+        <item name="them_edit_cursorDrawable">@drawable/shape_red_cursor</item>
     </style>
 
 

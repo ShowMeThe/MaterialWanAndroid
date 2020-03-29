@@ -73,7 +73,7 @@ class SkinManager private constructor(var context: Context) {
 
             R.attr.theme_floating_tint, R.attr.theme_floating_backgroundColor,
 
-            R.attr.them_edit_textColor, R.attr.them_edit_hintColor, R.attr.them_edit_cursorColor
+            R.attr.them_edit_textColor, R.attr.them_edit_hintColor, R.attr.them_edit_cursorDrawable
         )
 
 
@@ -97,7 +97,7 @@ class SkinManager private constructor(var context: Context) {
 
             "theme_floating_tint", "theme_floating_backgroundColor",
 
-            "them_edit_textColor", "them_edit_hintColor","them_edit_cursorColor"
+            "them_edit_textColor", "them_edit_hintColor","them_edit_cursorDrawable"
         )
 
 
@@ -306,9 +306,11 @@ class SkinManager private constructor(var context: Context) {
                                     ed.setHintTextColor(getColorStateList())
                                 }
                             }
-                            it.trim() == "cursorColor" ->{
-                                this["them_edit_cursorColor"]?.apply {
-                                    ed.setEditTextCursor(getDrawable())
+                            it.trim() == "cursor" ->{
+                                this["them_edit_cursorDrawable"]?.apply {
+                                    android.widget.TextView::class.java.methods
+                                        .filter { method -> method.name == "setTextCursorDrawable" }[1]
+                                        .invoke(ed,getDrawable())
                                 }
                             }
                         }
