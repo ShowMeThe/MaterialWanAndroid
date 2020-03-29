@@ -11,8 +11,6 @@ import android.net.Uri
  **/
 class AppProvider : ContentProvider() {
 
-
-
     override fun insert(uri: Uri, values: ContentValues?): Uri?  = null
 
     override fun query(
@@ -35,7 +33,7 @@ class AppProvider : ContentProvider() {
     override fun getType(uri: Uri): String?  = null
 
     override fun onCreate(): Boolean {
-        ContextProvider.get().attach(context)
+        ContextProvider.get().attach(context!!)
         return false
     }
 }

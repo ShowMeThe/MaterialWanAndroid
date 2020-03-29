@@ -4,7 +4,9 @@
     <showmethe.github.core.widget.common.SmartRelativeLayout
         android:id="@+id/treeBody"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        plugin="@{`SmartIPlugin`}"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"

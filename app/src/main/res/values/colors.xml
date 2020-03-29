@@ -7,6 +7,7 @@
 
     <color name="color_03a9f4">#03a9f4</color>
     <color name="color_4fc3f7">#4fc3f7</color>
+    <color name="color_5f4fc3f7">#5f4fc3f7</color>
 
 
     <color name="color_fce4ec">#fce4ec</color>
@@ -14,6 +15,7 @@
     <color name="color_304ffe">#f50057</color>
     <color name="color_f8bbd0">#f8bbd0</color>
     <color name="color_ff4081">#ff4081</color>
+    <color name="color_5fff4081">#5fff4081</color>
 
 
     <color name="color_b388ff">#b388ff</color>

@@ -48,7 +48,9 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:scrollType="INFINITE" />
+                            app:scrollType="INFINITE"
+                            plugin="@{`BannerPlugin`}"
+                            />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -64,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-12dp"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                plugin="@{`RefreshPlugin`}"
                 >
 
                 <showmethe.github.core.widget.common.AutoRecyclerView
@@ -85,15 +88,15 @@
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="@dimen/px40dp"
                 android:layout_marginBottom="@dimen/px30dp"
-                android:tint="@color/white"
-                android:tintMode="src_in"
                 app:backgroundTint="@color/colorAccent"
                 app:backgroundTintMode="src_in"
                 app:fabSize="auto"
                 app:layout_behavior="showmethe.github.core.util.widget.ScrollAwareFABBehavior"
                 app:rippleColor="@color/colorAccent"
                 app:srcCompat="@drawable/ic_home"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                skin="@{`backgroundColor`}"
+                />
 
 
             <com.showmethe.speeddiallib.expand.ExpandMenuChildLayout
@@ -102,7 +105,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_anchor="@id/fab"
-                app:layout_behavior="com.showmethe.speeddiallib.expand.ExpandBottomBehavior" />
+                app:layout_behavior="com.showmethe.speeddiallib.expand.ExpandBottomBehavior"
+                plugin="@{`ExpandIPlugin`}"
+                />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

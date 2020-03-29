@@ -1,19 +1,23 @@
 package com.show.wanandroid.ui.main.adapter
 
 import android.content.Context
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ItemHomeArticleBinding
 import com.show.wanandroid.entity.Article
+import com.showmethe.skinlib.SkinManager
+import showmethe.github.core.adapter.BaseRecyclerViewAdapter
 import showmethe.github.core.adapter.DataBindBaseAdapter
+import showmethe.github.core.adapter.DataBindingViewHolder
 
 class ArticleListAdapter(context: Context, data: ObservableArrayList<Article.DatasBean>) :
-    DataBindBaseAdapter<Article.DatasBean, ItemHomeArticleBinding>(context, data) {
-    override fun bindItems(
-        binding: ItemHomeArticleBinding?,
-        item: Article.DatasBean,
-        position: Int) {
-        binding?.apply {
+    BaseRecyclerViewAdapter<Article.DatasBean, ArticleListAdapter.ViewHolder>(context, data) {
+
+
+    override fun bindDataToItemView(holder: ViewHolder, item: Article.DatasBean, position: Int) {
+        holder.binding.apply {
             bean = item
             executePendingBindings()
             like.setLike(item.isCollect,false)
@@ -29,10 +33,20 @@ class ArticleListAdapter(context: Context, data: ObservableArrayList<Article.Dat
         }
     }
 
-    override fun getItemLayout(): Int = R.layout.item_home_article
-
     private var onLikeClick :((item: Article.DatasBean,isCollect:Boolean)->Unit)? = null
     fun setOnLikeClickListener(onLikeClick :((item: Article.DatasBean,isCollect:Boolean)->Unit)){
         this.onLikeClick = onLikeClick
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = DataBindingUtil.bind<ItemHomeArticleBinding>(inflateItemView(parent,
+            R.layout.item_home_article))!!
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
+        return ViewHolder(binding)
+    }
+
+    inner class ViewHolder(binding: ItemHomeArticleBinding) :
+        DataBindingViewHolder<ItemHomeArticleBinding>(binding){
+    }
+
 }

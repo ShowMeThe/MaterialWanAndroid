@@ -21,6 +21,7 @@
         app:strokeWidth="@dimen/px2dp"
         app:cardCornerRadius="@dimen/px10dp"
         android:layout_margin="@dimen/px24dp"
+        skin="@{`divideColor`}"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +50,9 @@
                 android:tint="@color/colorAccent"
                 android:src="@drawable/ic_author"
                 android:layout_width="@dimen/px35dp"
-                android:layout_height="@dimen/px35dp"/>
+                android:layout_height="@dimen/px35dp"
+                skin="@{`tint`}"
+                />
 
             <TextView
                 android:id="@+id/tvAuthor"
@@ -75,7 +78,9 @@
                 android:tint="@color/colorAccent"
                 android:src="@drawable/ic_level"
                 android:layout_width="@dimen/px35dp"
-                android:layout_height="@dimen/px35dp"/>
+                android:layout_height="@dimen/px35dp"
+                skin="@{`tint`}"
+                />
 
             <TextView
                 android:id="@+id/tvLevel"
@@ -122,7 +127,9 @@
                 android:tint="@color/colorAccent"
                 android:src="@drawable/ic_time"
                 android:layout_width="@dimen/px35dp"
-                android:layout_height="@dimen/px35dp"/>
+                android:layout_height="@dimen/px35dp"
+                skin="@{`tint`}"
+                />
 
             <TextView
                 android:id="@+id/tvTime"

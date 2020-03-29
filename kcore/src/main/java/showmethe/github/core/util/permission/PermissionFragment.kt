@@ -37,7 +37,7 @@ class PermissionFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         arguments?.apply {
-            permissions.addAll(getStringArrayList("permissions"))
+            permissions.addAll(getStringArrayList("permissions")!!)
         }
         if(permissions.isNotEmpty()){
             requestPermissions(permissions.toTypedArray(),PERMISSION_REQUEST_CODE)
@@ -62,7 +62,7 @@ class PermissionFragment : Fragment() {
         var allow = true
          if (requestCode == PERMISSION_REQUEST_CODE) {
           for (permission in permissions) {
-              if (!activity!!.shouldShowRequestPermissionRationale(permission)) {
+              if (!requireActivity().shouldShowRequestPermissionRationale(permission)) {
                   for (i in grantResults.indices) {
                       allow = grantResults[i] == 0
                   }

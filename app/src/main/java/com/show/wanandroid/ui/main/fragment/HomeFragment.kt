@@ -1,5 +1,7 @@
 package com.show.wanandroid.ui.main.fragment
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.core.content.ContextCompat
@@ -16,12 +18,14 @@ import com.google.android.material.appbar.AppBarLayout
 import com.show.wanandroid.entity.Article
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.widget.IconSwitch
+import com.showmethe.skinlib.SkinManager
 import com.showmethe.speeddiallib.expand.ExpandIcon
 import com.showmethe.speeddiallib.expand.ExpandManager
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.glide.TGlide
 import showmethe.github.core.util.extras.*
+import showmethe.github.core.util.rden.RDEN
 import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 
 class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
@@ -50,6 +54,15 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
                             bannerList.add(it.imagePath)
                         }
                         banner.addList(bannerList)
+                        /**
+                         * Banner需要获得数据长度才会新建dot的
+                         */
+                        val unSelector = when(RDEN.get("theme","")){
+                            "BlueTheme" -> ContextCompat.getColor(context, R.color.color_5f4fc3f7)
+                            "RedTheme" -> ContextCompat.getColor(context, R.color.color_5fff4081)
+                            else -> Color.WHITE
+                        }
+                        banner.setUnSelectorColor(unSelector)
                     }
                 }
             }
@@ -113,15 +126,16 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
 
     override fun init() {
         refresh.setColorSchemeResources(R.color.colorAccent)
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
         initExpand()
+
         initBanner()
         initAdapter()
 
         router.toTarget("getBanner")
         router.toTarget("getHomeTop")
         pagerNumber post 0
-
     }
 
 

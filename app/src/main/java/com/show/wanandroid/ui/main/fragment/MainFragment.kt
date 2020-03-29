@@ -61,7 +61,8 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
         titles = arrayOf(getString(R.string.home),getString(R.string.public_),getString(R.string.knowledge),getString(R.string.project))
         drawer.setScrimColor(Color.TRANSPARENT)
 
-        SkinManager.getInstant().bindings(binding)
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
+
 
         dialog.setThemes()
 

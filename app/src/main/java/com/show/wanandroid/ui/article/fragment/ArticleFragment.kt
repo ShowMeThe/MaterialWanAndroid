@@ -15,6 +15,7 @@ import com.show.wanandroid.databinding.FragmentArticleBinding
 import com.show.wanandroid.entity.Article
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.fragment_article.refresh
 import kotlinx.android.synthetic.main.fragment_article.rv
@@ -99,6 +100,8 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
     override fun init() {
         smrl.setDefaultLoadingColorRes(R.color.colorAccent)
         refresh.setColorSchemeResources(R.color.colorAccent)
+
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
         initAdapter()
         pagerNumber set 0

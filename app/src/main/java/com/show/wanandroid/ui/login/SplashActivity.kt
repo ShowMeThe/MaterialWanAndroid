@@ -5,6 +5,7 @@ import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ActivitySplashBinding
 import com.show.wanandroid.ui.login.vm.LoginViewModel
 import com.show.wanandroid.ui.main.MainActivity
+import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -31,6 +32,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding,LoginViewModel>() {
     }
 
     override fun init(savedInstanceState: Bundle?) {
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
         motion.transitionToEnd()
         GlobalScope.launch(Dispatchers.Main) {

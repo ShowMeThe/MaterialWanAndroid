@@ -10,6 +10,7 @@ import com.show.wanandroid.databinding.FragmentProjectBinding
 import com.show.wanandroid.entity.TabItem
 import com.show.wanandroid.ui.article.adapter.TabArticleAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_project.*
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.http.coroutines.Result
@@ -55,6 +56,7 @@ class ProjectFragment : LazyFragment<FragmentProjectBinding, MainViewModel>() {
 
     override fun init() {
 
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
         router.toTarget("getCateTab")
 

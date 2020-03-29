@@ -40,16 +40,32 @@
 
 
      <style name="MaterialTheme.Blue">
+         <item name="theme_text_color">@color/colorAccent</item>
          <item name="theme_viewGroup_backgroundColor">@color/colorAccent</item>
          <item name="theme_viewGroup_background">@drawable/shape_drawer_head_bg</item>
-
+         <item name="theme_button_iconTint">@color/colorAccent</item>
+         <item name="theme_button_textColor">@color/colorAccent</item>
+         <item name="theme_bottom_navigation_iconTint">@color/colorAccent</item>
+         <item name="theme_bottom_navigation_textColor">@color/colorAccent</item>
+         <item name="theme_imageView_tint">@color/colorAccent</item>
+         <item name="theme_card_strokeColor">@color/colorAccent</item>
+         <item name="theme_floating_backgroundColor">@color/colorAccent</item>
+         <item name="them_edit_cursorColor">@drawable/shape_blue_cursor</item>
     </style>
 
 
     <style name="MaterialTheme.Red">
+        <item name="theme_text_color">@color/color_304ffe</item>
         <item name="theme_viewGroup_backgroundColor">@color/color_304ffe</item>
         <item name="theme_viewGroup_background">@drawable/shape_drawer_head_bg_red</item>
-
+        <item name="theme_button_iconTint">@color/color_ff4081</item>
+        <item name="theme_button_textColor">@color/color_ff4081</item>
+        <item name="theme_bottom_navigation_iconTint">@color/color_ff4081</item>
+        <item name="theme_bottom_navigation_textColor">@color/color_ff4081</item>
+        <item name="theme_imageView_tint">@color/color_ff4081</item>
+        <item name="theme_card_strokeColor">@color/color_ff4081</item>
+        <item name="theme_floating_backgroundColor">@color/color_ff4081</item>
+        <item name="them_edit_cursorColor">@drawable/shape_red_cursor</item>
     </style>
 
 

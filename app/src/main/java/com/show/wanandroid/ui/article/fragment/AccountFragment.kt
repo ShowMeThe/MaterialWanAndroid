@@ -15,6 +15,7 @@ import com.show.wanandroid.databinding.FragmentAccuntBinding
 import com.show.wanandroid.entity.TabItem
 import com.show.wanandroid.ui.article.adapter.TabArticleAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.showmethe.skinlib.SkinManager
 
 import kotlinx.android.synthetic.main.fragment_accunt.*
 import showmethe.github.core.base.LazyFragment
@@ -68,7 +69,7 @@ class AccountFragment : LazyFragment<FragmentAccuntBinding, MainViewModel>() {
 
 
     override fun init() {
-
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
         router.toTarget("getChapters")
 

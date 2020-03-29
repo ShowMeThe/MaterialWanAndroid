@@ -2,37 +2,53 @@
 <resources>
 
     <!--TextView & MaterialTextView-->
-    <attr name="theme_text_color" format="color"/>
-    <attr name="theme_text_background" format="reference"/>
-    <attr name="theme_text_backgroundColor" format="color"/>
-    <attr name="theme_text_drawableTint" format="color"/>
+    <attr name="theme_text_color" format="reference|color"/>
+    <attr name="theme_text_background" format="reference|color"/>
+    <attr name="theme_text_backgroundColor" format="reference|color"/>
+    <attr name="theme_text_drawableTint" format="reference|color"/>
 
     <!--Button & MaterialButton-->
-    <attr name="theme_button_textColor" format="color"/>
-    <attr name="theme_button_background" format="reference"/>
-    <attr name="theme_button_backgroundColor" format="color"/>
-    <attr name="theme_button_drawableTint" format="color"/>
-    <attr name="theme_button_iconTint" format="color"/>
+    <attr name="theme_button_textColor" format="reference|color"/>
+    <attr name="theme_button_background" format="reference|color"/>
+    <attr name="theme_button_backgroundColor" format="reference|color"/>
+    <attr name="theme_button_drawableTint" format="reference|color"/>
+    <attr name="theme_button_iconTint" format="reference|color"/>
     <!--仅限MaterialCardView-->
-    <attr name="theme_button_divideColor" format="color"/>
+    <attr name="theme_button_divideColor" format="reference|color"/>
 
 
     <!--RadioButton & MaterialRadioButton-->
-    <attr name="theme_radio_textColor" format="color"/>
-    <attr name="theme_radio_background" format="reference"/>
-    <attr name="theme_radio_backgroundColor" format="color"/>
-    <attr name="theme_radio_drawableTint" format="color"/>
-    <attr name="theme_radio_buttonTint" format="color"/>
+    <attr name="theme_radio_textColor" format="reference|color"/>
+    <attr name="theme_radio_background" format="reference|color"/>
+    <attr name="theme_radio_backgroundColor" format="reference|color"/>
+    <attr name="theme_radio_drawableTint" format="reference|color"/>
+    <attr name="theme_radio_buttonTint" format="reference|color"/>
 
 
     <!--ViewGroup-->
-    <attr name="theme_viewGroup_background" format="reference"/>
-    <attr name="theme_viewGroup_backgroundColor" format="color"/>
+    <attr name="theme_viewGroup_background" format="reference|color"/>
+    <attr name="theme_viewGroup_backgroundColor" format="reference|color"/>
 
     <!--CardView & MaterialCardView-->
-    <attr name="theme_card_backgroundColor" format="color"/>
+    <attr name="theme_card_backgroundColor" format="reference|color"/>
     <!--仅限MaterialCardView-->
-    <attr name="theme_card_strokeColor" format="reference"/>
+    <attr name="theme_card_strokeColor" format="reference|color"/>
 
+    <!-- BottomNavigationView-->
+    <attr name="theme_bottom_navigation_iconTint" format="reference|color"/>
+    <attr name="theme_bottom_navigation_textColor" format="reference|color"/>
+
+    <!--ImageView-->
+    <attr name="theme_imageView_tint" format="reference|color"/>
+
+
+    <!--FloatingActionButton-->
+    <attr name="theme_floating_tint" format="reference|color"/>
+    <attr name="theme_floating_backgroundColor" format="reference|color"/>
+
+    <!--EditText-->
+    <attr name="them_edit_textColor" format="reference|color"/>
+    <attr name="them_edit_hintColor" format="reference|color"/>
+    <attr name="them_edit_cursorColor" format="reference"/>
 
 </resources>

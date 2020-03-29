@@ -1,11 +1,16 @@
 package com.show.wanandroid.ui.project.adapter
 
 import android.content.Context
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ItemProjectBinding
 import com.show.wanandroid.entity.CateBean
+import com.showmethe.skinlib.SkinManager
+import showmethe.github.core.adapter.BaseRecyclerViewAdapter
 import showmethe.github.core.adapter.DataBindBaseAdapter
+import showmethe.github.core.adapter.DataBindingViewHolder
 import showmethe.github.core.glide.TGlide
 import showmethe.github.core.glide.loadReveal
 import showmethe.github.core.glide.loadScaleNoCrop
@@ -16,9 +21,10 @@ import showmethe.github.core.glide.loadScaleNoCrop
  *  23:56
  */
 class ProjectAdapter(context: Context, data: ObservableArrayList<CateBean.DatasBean>) :
-    DataBindBaseAdapter<CateBean.DatasBean, ItemProjectBinding>(context, data) {
-    override fun bindItems(binding: ItemProjectBinding?, item: CateBean.DatasBean, position: Int) {
-        binding?.apply {
+    BaseRecyclerViewAdapter<CateBean.DatasBean, ProjectAdapter.ViewHolder>(context, data) {
+
+    override fun bindDataToItemView(holder: ViewHolder, item: CateBean.DatasBean, position: Int) {
+        holder.binding.apply {
             bean = item
             executePendingBindings()
 
@@ -37,10 +43,19 @@ class ProjectAdapter(context: Context, data: ObservableArrayList<CateBean.DatasB
         }
     }
 
-    override fun getItemLayout(): Int = R.layout.item_project
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = DataBindingUtil.bind<ItemProjectBinding>(inflateItemView(parent,R.layout.item_project))
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
+        return ViewHolder(binding!!)
+    }
+
+    inner class ViewHolder(binding: ItemProjectBinding) :
+        DataBindingViewHolder<ItemProjectBinding>(binding)
 
     private var onLikeClick :((item: CateBean.DatasBean,isCollect:Boolean)->Unit)? = null
     fun setOnLikeClickListener(onLikeClick :((item: CateBean.DatasBean,isCollect:Boolean)->Unit)){
         this.onLikeClick = onLikeClick
     }
+
+
 }

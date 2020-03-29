@@ -6,6 +6,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.FragmentSearchBinding
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_search.*
 import showmethe.github.core.base.BaseFragment
 import showmethe.github.core.util.system.openKeyboard
@@ -33,7 +34,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, MainViewModel>() {
     override fun init(savedInstanceState: Bundle?) {
         fixToolbar(toolBar)
         binding?.main = this
-        context.openKeyboard(edSearch)
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
 
         val fragment = SearchBodyFragment()

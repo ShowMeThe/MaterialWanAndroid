@@ -12,6 +12,7 @@ import com.show.wanandroid.R
 import com.show.wanandroid.databinding.FragmentSearchBodyBinding
 import com.show.wanandroid.entity.KeyWord
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_search_body.*
 import kotlinx.android.synthetic.main.fragment_search_body.group
 import kotlinx.android.synthetic.main.item_tree_body.*
@@ -37,6 +38,7 @@ class SearchBodyFragment : BaseFragment<FragmentSearchBodyBinding, MainViewModel
             it?.apply {
                 response?.apply {
                     addGroup(this)
+                    SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
                 }
             }
         })
@@ -44,7 +46,6 @@ class SearchBodyFragment : BaseFragment<FragmentSearchBodyBinding, MainViewModel
     }
 
     override fun init(savedInstanceState: Bundle?) {
-
         if(viewModel.hotKey.value == null){
             router.toTarget("getHotKey")
         }

@@ -24,6 +24,7 @@ import com.show.wanandroid.databinding.FramentTreeBodyBinding
 import com.show.wanandroid.entity.Tree
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.ui.tree.adapter.TreeBodyAdapter
+import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.frament_tree_body.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -78,6 +79,7 @@ class TreeBodyFragment : LazyFragment<FramentTreeBodyBinding, MainViewModel>() {
 
     override fun init() {
         treeBody.setDefaultLoadingColor(ContextCompat.getColor(context,R.color.colorAccent))
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
         initAdapter()
 

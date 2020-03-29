@@ -1,4 +1,4 @@
-package com.example.ken.kmvvm.skin
+package com.showmethe.skinlib
 
 import android.util.Log
 import android.view.View
@@ -13,7 +13,7 @@ import com.showmethe.skinlib.SkinManager
  * Package Name:com.example.ken.kmvvm.skin
  */
 
-val TAG = "SkinManager"
+const val TAG = "SkinManager"
 
 @BindingAdapter("skin")
 fun View.skin(url:String){
@@ -25,4 +25,10 @@ fun View.skin(url:String){
 fun ViewGroup.skin(url:String){
     Log.d(TAG,this::class.java.name)
     SkinManager.patchView(this,url)
+}
+
+
+@BindingAdapter("plugin")
+fun View.plugin(url:String){
+    SkinManager.patchPlugin(this,url)
 }

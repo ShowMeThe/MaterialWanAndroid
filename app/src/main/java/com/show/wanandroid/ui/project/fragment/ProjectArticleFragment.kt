@@ -12,6 +12,7 @@ import com.show.wanandroid.databinding.FragmentProjectArticleBinding
 import com.show.wanandroid.entity.CateBean
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.ui.project.adapter.ProjectAdapter
+import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_project_article.*
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
@@ -94,6 +95,7 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
     override fun init() {
         smrl.setDefaultLoadingColorRes(R.color.colorAccent)
         refresh.setColorSchemeResources(R.color.colorAccent)
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
 
         initAdapter()
