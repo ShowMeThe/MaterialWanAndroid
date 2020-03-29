@@ -86,7 +86,6 @@ class TreeArticleFragment : LazyFragment<FragmentTreeArticleBinding, MainViewMod
 
     override fun init() {
         refresh.isRefreshing = true
-        refresh.setColorSchemeResources(R.color.colorAccent)
         tvTitle.text = title
         ivBack.startAnimator()
         wave.startAnimator()

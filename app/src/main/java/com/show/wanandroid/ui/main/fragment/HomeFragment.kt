@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
+import com.show.wanandroid.app.AppApplication.Companion.bannerPlugin
 import com.show.wanandroid.entity.Article
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.widget.IconSwitch
@@ -57,12 +58,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
                         /**
                          * Banner需要获得数据长度才会新建dot的
                          */
-                        val unSelector = when(RDEN.get("theme","")){
-                            "BlueTheme" -> ContextCompat.getColor(context, R.color.color_5f4fc3f7)
-                            "RedTheme" -> ContextCompat.getColor(context, R.color.color_5fff4081)
-                            else -> Color.WHITE
-                        }
-                        banner.setUnSelectorColor(unSelector)
+                        bannerPlugin.individuate(banner,RDEN.get("theme",""))
                     }
                 }
             }

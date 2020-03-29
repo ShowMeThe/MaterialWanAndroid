@@ -7,6 +7,8 @@ import com.showmethe.banner.Banner
 import com.showmethe.skinlib.plugin.IPlugin
 
 class BannerPlugin  : IPlugin<Banner> {
+
+
     override fun individuate(view: Banner, attrName: String) {
         val selector = when(attrName){
             "BlueTheme" -> ContextCompat.getColor(view.context, R.color.colorAccent)

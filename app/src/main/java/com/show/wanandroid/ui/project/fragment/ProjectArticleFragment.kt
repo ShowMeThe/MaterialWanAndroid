@@ -93,8 +93,6 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
     }
 
     override fun init() {
-        smrl.setDefaultLoadingColorRes(R.color.colorAccent)
-        refresh.setColorSchemeResources(R.color.colorAccent)
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
 

@@ -13,6 +13,9 @@ import showmethe.github.core.util.rden.RDEN
 
 class AppApplication : BaseApplication() {
 
+    companion object{
+        val bannerPlugin = BannerPlugin()
+    }
     override fun onCreate() {
         super.onCreate()
         startInit {
@@ -25,7 +28,7 @@ class AppApplication : BaseApplication() {
             "BlueTheme" to R.style.MaterialTheme_Blue,
             "RedTheme" to R.style.MaterialTheme_Red)
             .addPlugin(RefreshPlugin(),SmartIPlugin(),
-                ExpandIPlugin(), SearchChipGroup(),BannerPlugin())
+                ExpandIPlugin(), SearchChipGroup(),bannerPlugin)
             .build()
         SkinManager.getInstant().setOnStyleChangeListener {
             RDEN.put("theme",it)
