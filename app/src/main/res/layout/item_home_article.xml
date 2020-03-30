@@ -153,6 +153,14 @@
             app:colors="@color/colorAccent"
             />
 
+        <View
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            skin="@{`backgroundColor`}"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

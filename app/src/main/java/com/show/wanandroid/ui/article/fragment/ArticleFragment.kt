@@ -109,7 +109,7 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
         adapter = ArticleListAdapter(context, list)
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        rv.addItemDecoration(RecycleViewDivider(LinearLayoutManager.VERTICAL,dividerColor = ContextCompat.getColor(context,R.color.colorAccent)))
+      //  rv.addItemDecoration(RecycleViewDivider(LinearLayoutManager.VERTICAL,dividerColor = ContextCompat.getColor(context,R.color.colorAccent)))
     }
 
 

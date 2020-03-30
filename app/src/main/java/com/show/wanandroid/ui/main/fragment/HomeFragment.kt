@@ -191,7 +191,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
         rv.adapter = adapter
 
         rv.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL,false)
-        rv.addItemDecoration(RecycleViewDivider(LinearLayoutManager.VERTICAL,dividerColor = ContextCompat.getColor(context,R.color.colorAccent)))
+        //rv.addItemDecoration(RecycleViewDivider(LinearLayoutManager.VERTICAL,dividerColor = ContextCompat.getColor(context,R.color.colorAccent)))
     }
 
 

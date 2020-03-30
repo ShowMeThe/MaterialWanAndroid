@@ -466,7 +466,6 @@ class SkinManager private constructor(var context: Context) {
             }
             ViewType.RadioButton, ViewType.MaterialRadioButton -> {
                 val button = view as RadioButton
-
                 theme?.apply {
                     attrs.forEach {
                         when {
@@ -516,7 +515,24 @@ class SkinManager private constructor(var context: Context) {
                 }
             }
             else -> {
-
+                theme?.apply {
+                    attrs.forEach {
+                        when {
+                            it.trim() == "background" -> {
+                                theme["theme_viewGroup_background"]?.apply {
+                                    view.background = getDrawable()
+                                }
+                            }
+                            it.trim() == "backgroundColor" -> {
+                                theme["theme_viewGroup_backgroundColor"]?.apply {
+                                    view.setBackgroundColor(
+                                        getColor()
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
