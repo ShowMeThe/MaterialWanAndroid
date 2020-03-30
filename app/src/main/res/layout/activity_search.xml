@@ -3,7 +3,7 @@
     <data>
         <variable
             name="Main"
-            type="com.show.wanandroid.ui.main.fragment.SearchFragment" />
+            type="com.show.wanandroid.ui.main.SearchActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

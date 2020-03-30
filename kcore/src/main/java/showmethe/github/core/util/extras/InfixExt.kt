@@ -54,11 +54,11 @@ infix fun MutableLiveData<Int>.sub(x:Int) : MutableLiveData<Int>{
 /**
  * 简化MutableLiveData<T> postValue
  */
-infix fun <T:Any> MutableLiveData<T>?.post(newValue:T){
+infix fun <T:Any> MutableLiveData<T>?.post(newValue:T?){
     this?.postValue(newValue)
 }
 
-infix fun <T:Any> MutableLiveData<T>?.set(newValue:T){
+infix fun <T:Any> MutableLiveData<T>?.set(newValue:T?){
     this?.value = newValue
 }
 

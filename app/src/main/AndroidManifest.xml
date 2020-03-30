@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
 
+        <activity android:name="com.show.wanandroid.ui.main.SearchActivity">
+
+        </activity>
         <activity android:name="com.show.wanandroid.ui.login.LoginActivity">
 
         </activity>

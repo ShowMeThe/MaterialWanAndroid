@@ -12,6 +12,7 @@ import com.show.wanandroid.databinding.FragmentSearchArticleBinding
 import com.show.wanandroid.entity.Article
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.show.wanandroid.ui.main.vm.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search_article.*
 import showmethe.github.core.base.BaseFragment
 import showmethe.github.core.divider.RecycleViewDivider
@@ -21,13 +22,13 @@ import showmethe.github.core.util.extras.plus
 import showmethe.github.core.util.extras.set
 import showmethe.github.core.util.extras.valueSameAs
 
-class SearchArticleFragment : BaseFragment<FragmentSearchArticleBinding, MainViewModel>() {
+class SearchArticleFragment : BaseFragment<FragmentSearchArticleBinding, SearchViewModel>() {
 
     private var search = ""
     private lateinit var adapter :ArticleListAdapter
     private val list = ObList<Article.DatasBean>()
     private val pager = MutableLiveData<Int>()
-    override fun initViewModel(): MainViewModel = createViewModel()
+    override fun initViewModel(): SearchViewModel = createViewModel()
     override fun getViewId(): Int = R.layout.fragment_search_article
 
     override fun onBundle(bundle: Bundle) {
@@ -71,7 +72,6 @@ class SearchArticleFragment : BaseFragment<FragmentSearchArticleBinding, MainVie
 
     override fun init(savedInstanceState: Bundle?) {
         binding?.main = this
-        ivBack.startAnimator()
 
         initAdapter()
 
@@ -86,6 +86,8 @@ class SearchArticleFragment : BaseFragment<FragmentSearchArticleBinding, MainVie
         rv.setOnLoadMoreListener {
             pager.plus(1)
         }
+
+
     }
 
 
@@ -97,14 +99,7 @@ class SearchArticleFragment : BaseFragment<FragmentSearchArticleBinding, MainVie
     }
 
 
-
-    fun onBackPress(){
-        childFragmentManager.popBackStack()
-    }
-
     private fun onLoadSize(size: Int) {
-        rv.finishLoading()
-        refresh.isRefreshing = false
         if(size == 0){
             rv.setEnableLoadMore(false)
         }else{

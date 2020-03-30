@@ -15,6 +15,7 @@ import com.show.wanandroid.databinding.FragmentSearchBodyBinding
 import com.show.wanandroid.entity.KeyWord
 import com.show.wanandroid.themes_name
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.show.wanandroid.ui.main.vm.SearchViewModel
 import com.show.wanandroid.util.Util.clearRecently
 import com.show.wanandroid.util.Util.getSaveRecently
 import com.show.wanandroid.util.Util.saveRecently
@@ -30,16 +31,15 @@ import showmethe.github.core.util.extras.set
  *  2020/3/26
  *  23:57
  */
-class SearchBodyFragment : BaseFragment<FragmentSearchBodyBinding, MainViewModel>() {
+class SearchBodyFragment : BaseFragment<FragmentSearchBodyBinding, SearchViewModel>() {
 
 
     private var needRefresh = true
-    override fun initViewModel(): MainViewModel = createViewModel()
+    override fun initViewModel(): SearchViewModel = createViewModel()
     override fun getViewId(): Int = R.layout.fragment_search_body
     override fun onBundle(bundle: Bundle) {
 
     }
-
 
     override fun observerUI() {
 
@@ -87,6 +87,7 @@ class SearchBodyFragment : BaseFragment<FragmentSearchBodyBinding, MainViewModel
     }
 
     private fun addGroup(array:ArrayList<KeyWord>){
+        group.removeAllViews()
         array.forEach { text ->
             val chip = View.inflate(context,R.layout.chip_tree_layout,null) as Chip
             chip.text =  text.name
