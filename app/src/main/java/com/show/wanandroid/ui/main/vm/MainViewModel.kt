@@ -18,6 +18,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     val replace = MutableLiveData<String>()
 
     val searchWord = MutableLiveData<String>()
+    val search = MutableLiveData<Result<Article>>()
 
     val hotKey = MutableLiveData<Result<ArrayList<KeyWord>>>()
     val banner = MutableLiveData<Result<ArrayList<Banner>>>()
@@ -93,5 +94,6 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
      */
     @VMPath(path = "getHotKey")
     fun getHotKey() = repository.getHotKey(hotKey)
-
+    @VMPath(path = "search")
+    fun search(pager: Int,k:String) = repository.search(pager,k,search)
 }

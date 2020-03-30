@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="Main"
+            type="com.show.wanandroid.ui.main.fragment.SearchArticleFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px115dp"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <com.show.wanandroid.widget.ShakingImageView
+                android:id="@+id/ivBack"
+                android:tint="@color/colorAccent"
+                app:shake_orientation="HORIZONTAL"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/px48dp"
+                android:src="@drawable/ic_arrow_back_24px"
+                android:layout_width="@dimen/px68dp"
+                android:layout_height="@dimen/px68dp"
+                plugin="@{`ShakingImageViewIPlugin`}"
+                android:onClick="@{()->Main.onBackPress()}"
+                />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:text="@string/search_result"
+                android:fontFamily="sans-serif-light"
+                android:textSize="@dimen/px43dp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:textColor="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                skin="@{`textColor`}"
+                />
+        </RelativeLayout>
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            plugin="@{`RefreshPlugin`}"
+            >
+
+
+            <showmethe.github.core.widget.common.AutoRecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

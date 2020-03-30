@@ -137,4 +137,12 @@ class MainRepository  : BaseRepository() {
         }
     }
 
+    fun search(pager: Int,k:String,call: MutableLiveData<Result<Article>>) {
+        CallResult<Article>(owner){
+            post(call)
+            hold {
+                api.search(pager,k)
+            }
+        }
+    }
 }

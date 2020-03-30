@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_search_body.*
 import kotlinx.android.synthetic.main.fragment_search_body.group
 import kotlinx.android.synthetic.main.item_tree_body.*
 import showmethe.github.core.base.BaseFragment
+import showmethe.github.core.util.extras.set
 
 /**
  *  com.show.wanandroid.ui.main.fragment
@@ -41,6 +42,7 @@ class SearchBodyFragment : BaseFragment<FragmentSearchBodyBinding, MainViewModel
 
 
     override fun observerUI() {
+
         viewModel.hotKey.observe(this, Observer {
             it?.apply {
                 response?.apply {
@@ -85,12 +87,15 @@ class SearchBodyFragment : BaseFragment<FragmentSearchBodyBinding, MainViewModel
     }
 
     private fun addGroup(array:ArrayList<KeyWord>){
-        array.forEach {
+        array.forEach { text ->
             val chip = View.inflate(context,R.layout.chip_tree_layout,null) as Chip
-            chip.text =  it.name
+            chip.text =  text.name
             chip.setTextColor(Color.WHITE)
             chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#5f4fc3f7"))
             group.addView(chip)
+            chip.setOnClickListener {
+                viewModel.searchWord set text.name
+            }
         }
     }
 
@@ -100,15 +105,18 @@ class SearchBodyFragment : BaseFragment<FragmentSearchBodyBinding, MainViewModel
         if(!needRefresh) return
         val array = getSaveRecently()
         reGroup.removeAllViews()
-        array.forEach {
+        array.forEach { text ->
             val chip = View.inflate(context,R.layout.chip_tree_layout,null) as Chip
-            chip.text =  it
+            chip.text =  text
             chip.setTextColor(Color.WHITE)
             chip.chipBackgroundColor = when(SkinManager.currentStyle){
                 themes_name[0] -> ColorStateList.valueOf(Color.parseColor("#5f4fc3f7"))
                 themes_name[1] -> ColorStateList.valueOf(Color.parseColor("#5fff4081"))
                 themes_name[2] -> ColorStateList.valueOf(Color.parseColor("#5f7c4dff"))
                 else -> ColorStateList.valueOf(Color.parseColor("#5f4fc3f7"))
+            }
+            chip.setOnClickListener {
+                viewModel.searchWord set text
             }
             reGroup.addView(chip)
         }

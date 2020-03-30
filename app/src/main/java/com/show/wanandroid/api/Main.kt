@@ -88,4 +88,10 @@ interface Main {
     @GET("/hotkey/json")
     suspend fun getHotKey() : Response<JsonResult<ArrayList<KeyWord>>>
 
+    /**
+     *  搜索
+     */
+    @FormUrlEncoded
+    @POST("/article/query/{pager}/json")
+    suspend  fun search(@Path("pager") pager:Int,@Field("k") keyWord:String) : Response<JsonResult<Article>>
 }

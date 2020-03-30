@@ -44,7 +44,6 @@ object Util {
 
     fun getSaveRecently() : ArrayList<String>{
         val lastSearch = RDEN.get(SEARCH_KEY,"")
-        Log.e("222222222","$lastSearch")
         return if(lastSearch.isEmpty()){
             ArrayList<String>(0)
         }else{

@@ -1,12 +1,14 @@
 package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.animation.AccelerateInterpolator
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
+import androidx.lifecycle.Observer
 import com.google.android.material.transition.MaterialSharedAxis
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.FragmentSearchBinding
@@ -30,13 +32,23 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, MainViewModel>() {
 
     override fun observerUI() {
 
+        viewModel.searchWord.observe(this, Observer {
+            it?.apply {
+                if(it.isNotEmpty()){
+                    edSearch.setText(it)
+                    replaceToArticle()
+                }
+            }
+        })
+
 
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.e("2222222222","1231231")
     }
+
     override fun init(savedInstanceState: Bundle?) {
         fixToolbar(toolBar)
         binding?.main = this
@@ -44,7 +56,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, MainViewModel>() {
 
 
         val fragment = SearchBodyFragment()
-        fragment.enterTransition = createTransition()
         childFragmentManager.beginTransaction()
             .replace(R.id.frame,fragment)
             .commitAllowingStateLoss()
@@ -56,14 +67,24 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, MainViewModel>() {
 
         edSearch.setOnEditorActionListener { v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE){
-                viewModel.searchWord set edSearch.text.toString().trim()
+                val search = edSearch.text.toString().trim()
+                if(search.isNotEmpty()){
+                    viewModel.searchWord set search
+                    replaceToArticle()
+                }
+
             }
             true
         }
+    }
 
-
-
-
+    private fun replaceToArticle(){
+        val fragment = SearchArticleFragment()
+        fragment.enterTransition = createTransition()
+        childFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.frame,fragment)
+            .commitAllowingStateLoss()
     }
 
 
