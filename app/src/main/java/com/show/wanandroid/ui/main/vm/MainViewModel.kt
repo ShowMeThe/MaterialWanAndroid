@@ -17,6 +17,8 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     val replace = MutableLiveData<String>()
 
+    val searchWord = MutableLiveData<String>()
+
     val hotKey = MutableLiveData<Result<ArrayList<KeyWord>>>()
     val banner = MutableLiveData<Result<ArrayList<Banner>>>()
     val tops = MutableLiveData<Result<ArrayList<Article.DatasBean>>>()

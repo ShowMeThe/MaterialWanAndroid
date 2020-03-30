@@ -87,6 +87,11 @@ class WaveView @JvmOverloads constructor(
         }
     }
 
+    fun setWaveColor(color:Int){
+        paint.color = color
+        invalidate()
+    }
+
     fun startAnimator(){
         post {
             animator = ValueAnimator.ofFloat(0f,width.toFloat())

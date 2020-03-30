@@ -19,4 +19,6 @@
     <string name="search_hot_key">搜索热词</string>
     <string name="switch_theme">切换主题(alpha)</string>
     <string name="confirm">确定</string>
+    <string name="search_recently">最近搜索</string>
+    <string name="clear_all">清空</string>
 </resources>

@@ -68,5 +68,19 @@
         <item name="them_edit_cursorDrawable">@drawable/shape_red_cursor</item>
     </style>
 
+    <style name="MaterialTheme.Purple">
+        <item name="theme_text_color">@color/color_6200ea</item>
+        <item name="theme_viewGroup_backgroundColor">@color/color_6200ea</item>
+        <item name="theme_viewGroup_background">@drawable/shape_drawer_head_bg_purple</item>
+        <item name="theme_button_iconTint">@color/color_7c4dff</item>
+        <item name="theme_button_textColor">@color/color_7c4dff</item>
+        <item name="theme_bottom_navigation_iconTint">@color/color_7c4dff</item>
+        <item name="theme_bottom_navigation_textColor">@color/color_7c4dff</item>
+        <item name="theme_imageView_tint">@color/color_7c4dff</item>
+        <item name="theme_card_strokeColor">@color/color_7c4dff</item>
+        <item name="theme_floating_backgroundColor">@color/color_7c4dff</item>
+        <item name="them_edit_cursorDrawable">@drawable/shape_purple_cursor</item>
+    </style>
+
 
 </resources>

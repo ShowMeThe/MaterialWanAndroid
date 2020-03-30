@@ -1,6 +1,11 @@
 package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.animation.AccelerateInterpolator
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import com.google.android.material.transition.MaterialSharedAxis
 import com.show.wanandroid.R
@@ -9,6 +14,7 @@ import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_search.*
 import showmethe.github.core.base.BaseFragment
+import showmethe.github.core.util.extras.set
 import showmethe.github.core.util.system.openKeyboard
 import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 
@@ -34,7 +40,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, MainViewModel>() {
     override fun init(savedInstanceState: Bundle?) {
         fixToolbar(toolBar)
         binding?.main = this
-        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
+
 
 
         val fragment = SearchBodyFragment()
@@ -48,6 +54,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, MainViewModel>() {
 
     override fun initListener() {
 
+        edSearch.setOnEditorActionListener { v, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE){
+                viewModel.searchWord set edSearch.text.toString().trim()
+            }
+            true
+        }
+
 
 
 
@@ -56,8 +69,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, MainViewModel>() {
 
     private fun createTransition(): MaterialSharedAxis? {
         val transition = MaterialSharedAxis.create(context, MaterialSharedAxis.Z, true)
-        transition.interpolator = FastOutLinearInInterpolator()
-        transition.duration = 450
+        transition.interpolator = AccelerateInterpolator()
+        transition.duration = 350
         transition.addTarget(R.id.searchBody)
         return transition
     }

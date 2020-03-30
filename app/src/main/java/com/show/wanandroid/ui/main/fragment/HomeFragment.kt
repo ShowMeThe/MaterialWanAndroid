@@ -122,9 +122,9 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
 
     override fun init() {
         refresh.setColorSchemeResources(R.color.colorAccent)
+        initExpand()
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
-        initExpand()
 
         initBanner()
         initAdapter()

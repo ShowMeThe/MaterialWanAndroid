@@ -93,7 +93,7 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
     }
 
     override fun init() {
-        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
+
 
 
         initAdapter()
