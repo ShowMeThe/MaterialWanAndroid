@@ -24,6 +24,7 @@ class AuthRepository : BaseRepository() {
                 dismissLoading()
             }
             error { result, code, message ->
+                dismissLoading()
                 toast(code,message)
             }
             hold {
@@ -35,6 +36,7 @@ class AuthRepository : BaseRepository() {
     fun register(username:String,password:String,call:MutableLiveData<Result<Auth>>){
         CallResult<Empty>(owner){
             error { result, code, message ->
+                dismissLoading()
                 toast(code,message)
             }
             success { result, message ->

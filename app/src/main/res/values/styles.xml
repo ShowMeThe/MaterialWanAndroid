@@ -46,6 +46,7 @@
          <item name="theme_button_rippleColor">@color/color_5f4fc3f7</item>
          <item name="theme_button_iconTint">@color/colorAccent</item>
          <item name="theme_button_textColor">@color/colorAccent</item>
+         <item name="theme_button_strokeColor">@color/colorAccent</item>
          <item name="theme_bottom_navigation_iconTint">@color/colorAccent</item>
          <item name="theme_bottom_navigation_textColor">@color/colorAccent</item>
          <item name="theme_imageView_tint">@color/colorAccent</item>
@@ -62,6 +63,7 @@
         <item name="theme_button_rippleColor">@color/color_5fff4081</item>
         <item name="theme_button_iconTint">@color/color_ff4081</item>
         <item name="theme_button_textColor">@color/color_ff4081</item>
+        <item name="theme_button_strokeColor">@color/color_ff4081</item>
         <item name="theme_bottom_navigation_iconTint">@color/color_ff4081</item>
         <item name="theme_bottom_navigation_textColor">@color/color_ff4081</item>
         <item name="theme_imageView_tint">@color/color_ff4081</item>
@@ -77,6 +79,7 @@
         <item name="theme_button_rippleColor">@color/color_5f7c4dff</item>
         <item name="theme_button_iconTint">@color/color_7c4dff</item>
         <item name="theme_button_textColor">@color/color_7c4dff</item>
+        <item name="theme_button_strokeColor">@color/color_7c4dff</item>
         <item name="theme_bottom_navigation_iconTint">@color/color_7c4dff</item>
         <item name="theme_bottom_navigation_textColor">@color/color_7c4dff</item>
         <item name="theme_imageView_tint">@color/color_7c4dff</item>

@@ -19,7 +19,7 @@ class CollectAdapter(mContext: Context, mData: ObservableArrayList<Collect.Datas
 
     override fun bindItems(holder: SlideViewHolder, item: Collect.DatasBean, position: Int) {
         holder.itemView.apply {
-            val binding = DataBindingUtil.bind<ItemCollectBinding>(this)
+            val binding = DataBindingUtil.bind<ItemCollectBinding>(contentView!!)
             binding?.apply {
                 bean = item
                 executePendingBindings()

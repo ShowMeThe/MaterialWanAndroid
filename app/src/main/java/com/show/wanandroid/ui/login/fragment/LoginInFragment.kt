@@ -35,6 +35,9 @@ class LoginInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
         viewModel.auth.observe(this, Observer {
             it?.apply {
                 when(status){
+                    Result.Failure ->{
+
+                    }
                     Result.Success ->{
                         response?.apply {
                             RDEN.put(User_Name,username)

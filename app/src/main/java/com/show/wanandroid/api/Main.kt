@@ -101,4 +101,7 @@ interface Main {
      */
     @GET("/lg/collect/list/{pager}/json")
     suspend  fun getCollect(@Path("pager") pager:Int) : Response<JsonResult<Collect>>
+    @FormUrlEncoded
+    @POST("/lg/uncollect/{id}/json")
+    suspend fun unCollect(@Path("id") id:Int,@Field("originId") originId:Int): Response<JsonResult<Empty>>
 }

@@ -32,15 +32,11 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
      * 登录
      */
     @VMPath("login")
-    fun login(){
-        repository.login(loginBean.account, loginBean.password, auth)
-    }
+    fun login() =  repository.login(loginBean.account, loginBean.password, auth)
 
     /**
      * 注册
      */
     @VMPath("register")
-    fun register(){
-        repository.register(registerBean.account, registerBean.password, auth)
-    }
+    fun register()=  repository.register(registerBean.account, registerBean.password, auth)
 }

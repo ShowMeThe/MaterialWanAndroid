@@ -13,6 +13,7 @@ import com.show.wanandroid.databinding.ActivityLoginBinding
 import com.show.wanandroid.ui.login.fragment.LoginContainerFragment
 import com.show.wanandroid.ui.login.fragment.LoginInFragment
 import com.show.wanandroid.ui.login.vm.LoginViewModel
+import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.activity_login.*
 
 import showmethe.github.core.base.BaseActivity
@@ -63,6 +64,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding,LoginViewModel>() {
     override fun init(savedInstanceState: Bundle?) {
         fixToolbarScreen(toolBar)
         registerActivity(true)
+        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
         replaceFragment(LoginContainerFragment::class.java.name)
 

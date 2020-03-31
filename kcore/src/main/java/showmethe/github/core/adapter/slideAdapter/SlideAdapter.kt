@@ -26,7 +26,7 @@ abstract class SlideAdapter<D>(var mContext: Context,
                                                             var mData: ObservableArrayList<D>) : RecyclerView.Adapter<SlideViewHolder>() {
     private var mSlideItems: SlideItem? = null
     private var mRecycleView: RecyclerView? = null
-    private var contentView: View? = null
+    var contentView: View? = null
     private var rightMenu: List<View>? = null
 
     //侧滑相关

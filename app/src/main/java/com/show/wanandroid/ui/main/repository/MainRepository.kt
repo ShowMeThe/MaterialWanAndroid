@@ -154,6 +154,18 @@ class MainRepository : BaseRepository() {
                 api.getCollect(pager)
             }
         }
+    }
+
+    fun unCollect(id: Int, originId: Int) {
+        CallResult<Empty>(owner){
+            success { result, message ->
+                showToast(context.getString(R.string.cancel_collect))
+            }.error { result, code, message ->
+                toast(code, message)
+            }.hold {
+                api.unCollect(id, originId)
+            }
+        }
 
     }
 

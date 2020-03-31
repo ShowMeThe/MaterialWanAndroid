@@ -89,5 +89,6 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
      */
     @VMPath(path = "getCollect")
     fun getCollect(pager:Int) = repository.getCollect(pager,collect)
-
+    @VMPath(path = "unCollect")
+    fun unCollect(id:Int,originId:Int) = repository.unCollect(id,originId)
 }

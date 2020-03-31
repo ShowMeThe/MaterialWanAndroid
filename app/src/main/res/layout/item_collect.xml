@@ -15,12 +15,10 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/px500dp"
+        app:cardCornerRadius="0dp"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="@dimen/px3dp"
         app:strokeColor="@color/colorAccent"
-        app:strokeWidth="@dimen/px2dp"
-        app:cardCornerRadius="@dimen/px10dp"
-        android:layout_margin="@dimen/px2dp"
+        app:strokeWidth="@dimen/px1dp"
         skin="@{`divideColor`}"
         >
 
@@ -119,8 +117,6 @@
                 app:layout_constraintStart_toEndOf="@+id/ivTime"
                 tools:text="作者"
                 />
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

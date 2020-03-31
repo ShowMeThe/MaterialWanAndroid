@@ -15,12 +15,14 @@ import com.show.wanandroid.ui.main.adapter.CollectAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_collect.*
+import showmethe.github.core.adapter.slideAdapter.SlideAdapter
 import showmethe.github.core.adapter.slideAdapter.SlideCreator
 import showmethe.github.core.base.BaseFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.util.extras.ObList
 import showmethe.github.core.util.extras.plus
 import showmethe.github.core.util.extras.set
+import showmethe.github.core.util.extras.valueSameAs
 import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 
 class CollectFragment : BaseFragment<FragmentCollectBinding, MainViewModel>() {
@@ -41,6 +43,18 @@ class CollectFragment : BaseFragment<FragmentCollectBinding, MainViewModel>() {
         pager.observe(this, Observer {
             it?.apply {
                 router.toTarget("getCollect", this)
+            }
+        })
+
+        viewModel.collect.observe(this, Observer {
+            it?.apply {
+                if(pager valueSameAs  0){
+                    list.clear()
+                }
+                response?.apply {
+                    list.addAll(datas)
+                    onLoadSize(datas.size)
+                }
             }
         })
 
@@ -66,6 +80,19 @@ class CollectFragment : BaseFragment<FragmentCollectBinding, MainViewModel>() {
             pager set 0
         }
 
+        adapter.setOnSlideClickListener(object : SlideAdapter.OnSlideClickListener{
+            override fun onMenuItemClick(contentPos: Int, menuPosition: Int) {
+                val item = list[contentPos]
+                router.toTarget("unCollect",item.id,item.originId)
+                list.removeAt(contentPos)
+            }
+
+            override fun onContentItemClick(position: Int) {
+
+            }
+
+        })
+
     }
 
     private fun initAdapter() {
@@ -86,5 +113,15 @@ class CollectFragment : BaseFragment<FragmentCollectBinding, MainViewModel>() {
     fun backPress() {
         requireActivity()
             .supportFragmentManager.popBackStack()
+    }
+
+    private fun onLoadSize(size: Int) {
+        rv.finishLoading()
+        refresh.isRefreshing = false
+        if(size == 0){
+            rv.setEnableLoadMore(false)
+        }else{
+            rv.setEnableLoadMore(true)
+        }
     }
 }

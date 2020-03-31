@@ -60,6 +60,7 @@ class SkinManager private constructor(var context: Context) {
             R.attr.theme_button_backgroundColor,
             R.attr.theme_button_drawableTint,
             R.attr.theme_button_iconTint,
+            R.attr.theme_button_strokeColor,
 
             R.attr.theme_radio_textColor,
             R.attr.theme_radio_background,
@@ -87,7 +88,7 @@ class SkinManager private constructor(var context: Context) {
 
             "theme_button_textColor", "theme_button_rippleColor",
             "theme_button_background", "theme_button_backgroundColor",
-            "theme_button_drawableTint", "theme_button_iconTint",
+            "theme_button_drawableTint", "theme_button_iconTint","theme_button_strokeColor",
 
             "theme_radio_textColor", "theme_radio_background",
             "theme_radio_backgroundColor", "theme_radio_drawableTint", "theme_radio_buttonTint",
@@ -466,6 +467,16 @@ class SkinManager private constructor(var context: Context) {
                                         button,
                                         getColorStateList()
                                     )
+                                }
+                            }
+                            it.trim() == "strokeColor"->{
+                                if (view.viewType() == ViewType.MaterialButton){
+                                    this["theme_button_strokeColor"]?.apply {
+                                        view::class.java.methods.filter { method -> method.name == "setStrokeColor" }[0].invoke(
+                                            button,
+                                            getColorStateList()
+                                        )
+                                    }
                                 }
                             }
                         }

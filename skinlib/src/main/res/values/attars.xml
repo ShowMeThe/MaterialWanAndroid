@@ -14,8 +14,8 @@
     <attr name="theme_button_backgroundColor" format="reference|color"/>
     <attr name="theme_button_drawableTint" format="reference|color"/>
     <attr name="theme_button_iconTint" format="reference|color"/>
-    <!--仅限MaterialCardView-->
-    <attr name="theme_button_divideColor" format="reference|color"/>
+    <!--仅限MaterialButton-->
+    <attr name="theme_button_strokeColor" format="reference|color"/>
 
 
     <!--RadioButton & MaterialRadioButton-->

@@ -52,6 +52,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                skin="@{`textColor`}"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -71,7 +72,9 @@
                     android:id="@+id/edName"
                     android:text="@={Login.account}"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    skin="@{`cursor`}"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,8 +95,11 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edPswd"
                     android:text="@={Login.password}"
+                    android:inputType="textPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    skin="@{`cursor`}"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,6 +130,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tiPswd"
                 android:onClick="@{()->Main.onLogin()}"
+                skin="@{`textColor|strokeColor|iconTint|rippleColor`}"
                 />
 
             <com.google.android.material.button.MaterialButton
@@ -149,6 +156,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnLogin"
                 android:onClick="@{()->Main.onRegisterShow()}"
+                skin="@{`textColor|strokeColor|iconTint|rippleColor`}"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -174,6 +182,7 @@
                 app:shake_auto="true"
                 app:shake_orientation="VERTICAL"
                 android:onClick="@{()->Main.onRegisterShow()}"
+                plugin="@{`ShakingImageViewIPlugin`}"
                 />
 
             <ImageView
@@ -203,6 +212,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                skin="@{`textColor`}"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -222,7 +232,9 @@
                     android:id="@+id/edRegName"
                     android:text="@={Register.account}"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    skin="@{`cursor`}"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -244,7 +256,10 @@
                     android:id="@+id/edRegPswd"
                     android:text="@={Register.password}"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    skin="@{`cursor`}"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -273,6 +288,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tiRegPswd"
                 android:onClick="@{()->Main.onRegister()}"
+                skin="@{`textColor|strokeColor|iconTint|rippleColor`}"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

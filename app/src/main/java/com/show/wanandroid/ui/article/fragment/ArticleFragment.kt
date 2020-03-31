@@ -132,10 +132,10 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
 
 
         adapter.setOnLikeClickListener { item, isCollect ->
-            if (isCollect) {
-                viewModel.homeCollect(item.id)
-            } else {
-                viewModel.homeUnCollect(item.id)
+            if(isCollect){
+                router.toTarget("homeCollect",item.id)
+            }else{
+                router.toTarget("homeUnCollect",item.id)
             }
         }
 
