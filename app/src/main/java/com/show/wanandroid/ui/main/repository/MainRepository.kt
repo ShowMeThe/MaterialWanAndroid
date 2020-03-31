@@ -13,7 +13,7 @@ import showmethe.github.core.http.coroutines.CallResult
 import showmethe.github.core.http.coroutines.Result
 import showmethe.github.core.kinit.inject
 
-class MainRepository  : BaseRepository() {
+class MainRepository : BaseRepository() {
 
     private val api: Main by inject()
 
@@ -29,7 +29,7 @@ class MainRepository  : BaseRepository() {
 
 
     fun getChapters(call: MutableLiveData<Result<ArrayList<TabBean>>>) {
-        CallResult<ArrayList<TabBean>>(owner){
+        CallResult<ArrayList<TabBean>>(owner) {
             post(call)
             hold {
                 api.getChapters()
@@ -55,7 +55,8 @@ class MainRepository  : BaseRepository() {
             }
         }
     }
-    fun getHomeTopArticle (call: MutableLiveData<Result<ArrayList<Article.DatasBean>>>) {
+
+    fun getHomeTopArticle(call: MutableLiveData<Result<ArrayList<Article.DatasBean>>>) {
         CallResult<ArrayList<Article.DatasBean>>(owner) {
             post(call)
             hold {
@@ -100,17 +101,17 @@ class MainRepository  : BaseRepository() {
         }
     }
 
-    fun getTreeArticle(pager: Int,id: Int,call: MutableLiveData<Result<Article>>) {
+    fun getTreeArticle(pager: Int, id: Int, call: MutableLiveData<Result<Article>>) {
         CallResult<Article>(owner) {
             post(call)
             hold {
-                api.getTreeArticle(pager,id)
+                api.getTreeArticle(pager, id)
             }
         }
     }
 
     fun getCateTab(call: MutableLiveData<Result<ArrayList<CateTab>>>) {
-        CallResult<ArrayList<CateTab>>(owner){
+        CallResult<ArrayList<CateTab>>(owner) {
             post(call)
             hold {
                 api.getCateTab()
@@ -120,7 +121,7 @@ class MainRepository  : BaseRepository() {
 
 
     fun getCate(pager: Int, id: Int, call: MutableLiveData<Result<CateBean>>) {
-        CallResult<CateBean>(owner){
+        CallResult<CateBean>(owner) {
             post(call)
             hold {
                 api.getCate(pager, id)
@@ -129,7 +130,7 @@ class MainRepository  : BaseRepository() {
     }
 
     fun getHotKey(call: MutableLiveData<Result<ArrayList<KeyWord>>>) {
-        CallResult<ArrayList<KeyWord>>(owner){
+        CallResult<ArrayList<KeyWord>>(owner) {
             post(call)
             hold {
                 api.getHotKey()
@@ -137,12 +138,23 @@ class MainRepository  : BaseRepository() {
         }
     }
 
-    fun search(pager: Int,k:String,call: MutableLiveData<Result<Article>>) {
-        CallResult<Article>(owner){
+    fun search(pager: Int, k: String, call: MutableLiveData<Result<Article>>) {
+        CallResult<Article>(owner) {
             post(call)
             hold {
-                api.search(pager,k)
+                api.search(pager, k)
             }
         }
     }
+
+    fun getCollect(pager: Int, call: MutableLiveData<Result<Collect>>) {
+        CallResult<Collect>(owner) {
+            post(call)
+            hold {
+                api.getCollect(pager)
+            }
+        }
+
+    }
+
 }

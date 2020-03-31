@@ -83,7 +83,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding,LoginViewModel>() {
             try {
                 tempFragment = Class.forName(tag).newInstance() as Fragment
                 tempFragment.enterTransition = createTransition()
-                //tempFragment.exitTransition = createAlphaTransition()
                 transaction
                     .addToBackStack(null)
                     .add(id, tempFragment, tag)

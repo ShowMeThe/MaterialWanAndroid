@@ -9,6 +9,7 @@
 
     <!--Button & MaterialButton-->
     <attr name="theme_button_textColor" format="reference|color"/>
+    <attr name="theme_button_rippleColor" format="reference|color"/>
     <attr name="theme_button_background" format="reference|color"/>
     <attr name="theme_button_backgroundColor" format="reference|color"/>
     <attr name="theme_button_drawableTint" format="reference|color"/>

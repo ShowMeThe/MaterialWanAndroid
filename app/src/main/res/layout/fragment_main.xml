@@ -159,6 +159,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:fontFamily="sans-serif"
+                    android:onClick="@{()->Main.onLogin()}"
                     />
             </RelativeLayout>
 
@@ -175,9 +176,24 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 app:layout_constraintTop_toBottomOf="@+id/head"
                 android:onClick="@{()->Main.onTheme()}"
-                skin="@{`iconTint|textColor`}"
+                skin="@{`iconTint|textColor|rippleColor`}"
                 />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCollect"
+                android:text="@string/collect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_collected"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/px43dp"
+                android:gravity="center|start"
+                android:layout_marginTop="@dimen/px15dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:layout_constraintTop_toBottomOf="@+id/btnTheme"
+                android:onClick="@{()->Main.onCollect()}"
+                skin="@{`iconTint|textColor|rippleColor`}"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

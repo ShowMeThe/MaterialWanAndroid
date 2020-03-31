@@ -94,4 +94,11 @@ interface Main {
     @FormUrlEncoded
     @POST("/article/query/{pager}/json")
     suspend  fun search(@Path("pager") pager:Int,@Field("k") keyWord:String) : Response<JsonResult<Article>>
+
+
+    /**
+     *  收藏文章列表
+     */
+    @GET("/lg/collect/list/{pager}/json")
+    suspend  fun getCollect(@Path("pager") pager:Int) : Response<JsonResult<Collect>>
 }

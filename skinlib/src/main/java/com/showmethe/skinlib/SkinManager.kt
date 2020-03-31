@@ -55,6 +55,7 @@ class SkinManager private constructor(var context: Context) {
             R.attr.theme_text_drawableTint,
 
             R.attr.theme_button_textColor,
+            R.attr.theme_button_rippleColor,
             R.attr.theme_button_background,
             R.attr.theme_button_backgroundColor,
             R.attr.theme_button_drawableTint,
@@ -84,7 +85,7 @@ class SkinManager private constructor(var context: Context) {
             "theme_text_color", "theme_text_background",
             "theme_text_backgroundColor", "theme_text_drawableTint",
 
-            "theme_button_textColor",
+            "theme_button_textColor", "theme_button_rippleColor",
             "theme_button_background", "theme_button_backgroundColor",
             "theme_button_drawableTint", "theme_button_iconTint",
 
@@ -406,6 +407,13 @@ class SkinManager private constructor(var context: Context) {
                                     button.setTextColor(
                                         getColorStateList()
                                     )
+                                }
+                            }
+                            it.trim() == "rippleColor" ->{
+                                if (view.viewType() == ViewType.MaterialButton){
+                                    this["theme_button_rippleColor"]?.apply {
+                                        view::class.java.methods.filter { method -> method.name == "setRippleColor"  }[0].invoke(view,getColorStateList())
+                                    }
                                 }
                             }
                             it.trim() == "background" -> {

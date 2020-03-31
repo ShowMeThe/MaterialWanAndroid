@@ -38,8 +38,9 @@ class LoginInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                     Result.Success ->{
                         response?.apply {
                             RDEN.put(User_Name,username)
+                            RDEN.put(User_Name,username)
                             RDEN.put(HAS_LOGIN,true)
-                            startActivity<MainActivity>()
+                            requireActivity().finishAfterTransition()
                         }
                     }
                 }

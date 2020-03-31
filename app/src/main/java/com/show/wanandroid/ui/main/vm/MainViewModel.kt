@@ -17,16 +17,14 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     val replace = MutableLiveData<String>()
 
-
+    val collect = MutableLiveData<Result<Collect>>()
     val banner = MutableLiveData<Result<ArrayList<Banner>>>()
     val tops = MutableLiveData<Result<ArrayList<Article.DatasBean>>>()
     val article = MutableLiveData<Result<Article>>()
     val tabs = MutableLiveData<Result<ArrayList<TabBean>>>()
     val tree = MutableLiveData<Result<ArrayList<Tree>>>()
-
     val treeNavigator = MutableLiveData<Pair<Int,String>>()
     val treeNavBack  = MutableLiveData<Boolean>()
-
     val cateTab = MutableLiveData<Result<ArrayList<CateTab>>>()
 
     override fun onViewModelCreated(owner: LifecycleOwner) {
@@ -85,5 +83,11 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     @VMPath(path = "getCate")
     fun getCate(pager:Int,id:Int, cate : MutableLiveData<Result<CateBean>>) = repository.getCate(pager,id,cate)
+
+    /**
+     * collect
+     */
+    @VMPath(path = "getCollect")
+    fun getCollect(pager:Int) = repository.getCollect(pager,collect)
 
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ActivityMainBinding
+import com.show.wanandroid.ui.main.fragment.CollectFragment
 import com.show.wanandroid.ui.main.fragment.MainFragment
 
 import com.show.wanandroid.ui.main.vm.MainViewModel
@@ -33,7 +34,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
             it?.apply {
                 when(this){
                     getString(R.string.transition_name_search) -> startActivity<SearchActivity>()
-
+                    getString(R.string.transition_name_collect) -> replaceFragment(CollectFragment())
                 }
             }
         })
@@ -94,10 +95,14 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
     }
 
     override fun onBackPressed() {
-        val intent = Intent(Intent.ACTION_MAIN)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.addCategory(Intent.CATEGORY_HOME)
-        startActivity(intent)
+        if(supportFragmentManager.fragments.size > 1){
+            supportFragmentManager.popBackStack()
+        }else{
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            startActivity(intent)
+        }
     }
 
 }
