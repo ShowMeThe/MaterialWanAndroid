@@ -48,8 +48,14 @@
     <attr name="theme_floating_backgroundColor" format="reference|color"/>
 
     <!--EditText-->
-    <attr name="them_edit_textColor" format="reference|color"/>
-    <attr name="them_edit_hintColor" format="reference|color"/>
-    <attr name="them_edit_cursorDrawable" format="reference"/>
+    <attr name="theme_edit_textColor" format="reference|color"/>
+    <attr name="theme_edit_hintColor" format="reference|color"/>
+    <attr name="theme_edit_cursorDrawable" format="reference"/>
+    <!--当EditText和TextInputLayout配合使用时候highlightColor要配合TextInputLayout的boxColor才起效-->
+    <attr name="theme_edit_highlightColor" format="reference|color"/>
+
+    <!--TextInputLayout-->
+    <attr name="theme_inputLayout_boxColor" format="reference|color"/>
+    <attr name="theme_inputLayout_hintColor" format="reference|color"/>
 
 </resources>

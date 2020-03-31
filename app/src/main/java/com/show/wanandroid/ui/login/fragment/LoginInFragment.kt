@@ -68,7 +68,6 @@ class LoginInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
             }
         }
 
-
     }
 
     override fun initListener() {
@@ -81,6 +80,8 @@ class LoginInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
      * 登录 , 暂时登录到主页
      */
     fun onLogin(){
+        if(viewModel.loginBean.account.isEmpty()
+            || viewModel.loginBean.password.isEmpty()) return
         router.toTarget("login")
     }
 
@@ -88,6 +89,8 @@ class LoginInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
      * 注册
      */
     fun onRegister(){
+        if(viewModel.registerBean.account.isEmpty()
+            || viewModel.registerBean.password.isEmpty()) return
         router.toTarget("register")
     }
 

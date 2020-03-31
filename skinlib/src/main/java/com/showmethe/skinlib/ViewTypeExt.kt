@@ -30,6 +30,9 @@ private const val ImageView = "androidx.appcompat.widget.AppCompatImageView"
 private const val FloatingActionButton = "com.google.android.material.floatingactionbutton.FloatingActionButton"
 
 private const val EditText = "androidx.appcompat.widget.AppCompatEditText"
+private const val TextInputEditText = "com.google.android.material.textfield.TextInputEditText"
+
+private const val TextInputLayout = "com.google.android.material.textfield.TextInputLayout"
 
 
 enum class ViewType{
@@ -37,7 +40,7 @@ enum class ViewType{
     Button,MaterialButton,RadioButton,
     MaterialRadioButton,CardView,MaterialCardView,
     BottomNavigationView,ImageView,FloatingActionButton,
-    EditText
+    EditText,TextInputLayout
 }
 
 fun View.viewType (): ViewType {
@@ -66,7 +69,7 @@ fun View.viewType (): ViewType {
         FloatingActionButton->{
             ViewType.FloatingActionButton
         }
-        EditText ->{
+        EditText,TextInputEditText ->{
             ViewType.EditText
         }
         else -> ViewType.View
@@ -83,6 +86,9 @@ fun ViewGroup.viewType (): ViewType {
         }
         BottomNavigationView ->{
             ViewType.BottomNavigationView
+        }
+        TextInputLayout ->{
+            ViewType.TextInputLayout
         }
         else -> ViewType.ViewGroup
     }

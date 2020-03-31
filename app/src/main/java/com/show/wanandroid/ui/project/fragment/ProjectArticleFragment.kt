@@ -118,7 +118,13 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
             pagerNumber plus 1
         }
 
-
+        adapter.setOnLikeClickListener { item, isCollect ->
+            if(isCollect){
+                router.toTarget("homeCollect",item.id)
+            }else{
+                router.toTarget("homeUnCollect",item.id)
+            }
+        }
     }
 
     private fun initAdapter() {

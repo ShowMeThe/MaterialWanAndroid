@@ -19,7 +19,7 @@
         app:cardBackgroundColor="@color/white"
         app:strokeColor="@color/colorAccent"
         app:strokeWidth="@dimen/px1dp"
-        skin="@{`divideColor`}"
+        skin="@{`strokeColor`}"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout

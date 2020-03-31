@@ -73,9 +73,16 @@ class SkinManager private constructor(var context: Context) {
 
             R.attr.theme_imageView_tint,
 
-            R.attr.theme_floating_tint, R.attr.theme_floating_backgroundColor,
+            R.attr.theme_floating_tint,
+            R.attr.theme_floating_backgroundColor,
 
-            R.attr.them_edit_textColor, R.attr.them_edit_hintColor, R.attr.them_edit_cursorDrawable
+            R.attr.theme_edit_textColor,
+            R.attr.theme_edit_hintColor,
+            R.attr.theme_edit_cursorDrawable,
+            R.attr.theme_edit_highlightColor,
+
+            R.attr.theme_inputLayout_boxColor,
+            R.attr.theme_inputLayout_hintColor
         )
 
 
@@ -88,7 +95,7 @@ class SkinManager private constructor(var context: Context) {
 
             "theme_button_textColor", "theme_button_rippleColor",
             "theme_button_background", "theme_button_backgroundColor",
-            "theme_button_drawableTint", "theme_button_iconTint","theme_button_strokeColor",
+            "theme_button_drawableTint", "theme_button_iconTint", "theme_button_strokeColor",
 
             "theme_radio_textColor", "theme_radio_background",
             "theme_radio_backgroundColor", "theme_radio_drawableTint", "theme_radio_buttonTint",
@@ -99,7 +106,10 @@ class SkinManager private constructor(var context: Context) {
 
             "theme_floating_tint", "theme_floating_backgroundColor",
 
-            "them_edit_textColor", "them_edit_hintColor","them_edit_cursorDrawable"
+            "theme_edit_textColor", "theme_edit_hintColor",
+            "theme_edit_cursorDrawable","theme_edit_highlightColor",
+
+            "theme_inputLayout_boxColor", "theme_inputLayout_hintColor"
         )
 
 
@@ -222,10 +232,32 @@ class SkinManager private constructor(var context: Context) {
         val attrs = attr.split("|")
         if (attr.isEmpty()) return
         when (view.viewType()) {
+            ViewType.TextInputLayout -> {
+                attrs.forEach {
+                    when {
+                        it.trim() == "boxColor" -> {
+                            theme["theme_inputLayout_boxColor"]?.apply {
+                                view::class.java.methods.filter { method -> method.name == "setBoxStrokeColor" }[0].invoke(
+                                    view,
+                                    getColor()
+                                )
+                            }
+                        }
+                        it.trim() == "hintColor" -> {
+                            theme["theme_inputLayout_hintColor"]?.apply {
+                                view::class.java.methods.filter { method -> method.name == "setHintTextColor" }[0].invoke(
+                                    view,
+                                    getColorStateList()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
             ViewType.CardView, ViewType.MaterialCardView -> {
                 attrs.forEach {
                     when {
-                        it.trim() == "divideColor" && view.viewType() == ViewType.MaterialCardView -> {
+                        it.trim() == "strokeColor" && view.viewType() == ViewType.MaterialCardView -> {
                             theme["theme_card_strokeColor"]?.apply {
                                 view::class.java.methods.filter { method -> method.name == "setStrokeColor" }[1].invoke(
                                     view,
@@ -298,21 +330,28 @@ class SkinManager private constructor(var context: Context) {
                     val ed = view as EditText
                     attrs.forEach {
                         when {
+                            it.trim() == "highlightColor" ->{
+                                this["theme_edit_highlightColor"]?.apply {
+                                    android.widget.TextView::class.java.methods
+                                        .filter { method -> method.name == "setHighlightColor" }[0]
+                                        .invoke(ed, getColor())
+                                }
+                            }
                             it.trim() == "textColor" -> {
-                                this["them_edit_textColor"]?.apply {
+                                this["theme_edit_textColor"]?.apply {
                                     ed.setTextColor(getColorStateList())
                                 }
                             }
                             it.trim() == "hintColor" -> {
-                                this["them_edit_hintColor"]?.apply {
+                                this["theme_edit_hintColor"]?.apply {
                                     ed.setHintTextColor(getColorStateList())
                                 }
                             }
-                            it.trim() == "cursor" ->{
-                                this["them_edit_cursorDrawable"]?.apply {
+                            it.trim() == "cursor" -> {
+                                this["theme_edit_cursorDrawable"]?.apply {
                                     android.widget.TextView::class.java.methods
                                         .filter { method -> method.name == "setTextCursorDrawable" }[1]
-                                        .invoke(ed,getDrawable())
+                                        .invoke(ed, getDrawable())
                                 }
                             }
                         }
@@ -335,7 +374,8 @@ class SkinManager private constructor(var context: Context) {
                                 this["theme_floating_tint"]?.apply {
                                     view::class.java.methods.filter { method -> method.name == "setImageTintList" }[0].invoke(
                                         view,
-                                        getColorStateList())
+                                        getColorStateList()
+                                    )
                                 }
                             }
                         }
@@ -410,10 +450,13 @@ class SkinManager private constructor(var context: Context) {
                                     )
                                 }
                             }
-                            it.trim() == "rippleColor" ->{
-                                if (view.viewType() == ViewType.MaterialButton){
+                            it.trim() == "rippleColor" -> {
+                                if (view.viewType() == ViewType.MaterialButton) {
                                     this["theme_button_rippleColor"]?.apply {
-                                        view::class.java.methods.filter { method -> method.name == "setRippleColor"  }[0].invoke(view,getColorStateList())
+                                        view::class.java.methods.filter { method -> method.name == "setRippleColor" }[0].invoke(
+                                            view,
+                                            getColorStateList()
+                                        )
                                     }
                                 }
                             }
@@ -469,8 +512,8 @@ class SkinManager private constructor(var context: Context) {
                                     )
                                 }
                             }
-                            it.trim() == "strokeColor"->{
-                                if (view.viewType() == ViewType.MaterialButton){
+                            it.trim() == "strokeColor" -> {
+                                if (view.viewType() == ViewType.MaterialButton) {
                                     this["theme_button_strokeColor"]?.apply {
                                         view::class.java.methods.filter { method -> method.name == "setStrokeColor" }[0].invoke(
                                             button,

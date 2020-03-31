@@ -52,7 +52,10 @@
          <item name="theme_imageView_tint">@color/colorAccent</item>
          <item name="theme_card_strokeColor">@color/colorAccent</item>
          <item name="theme_floating_backgroundColor">@color/colorAccent</item>
-         <item name="them_edit_cursorDrawable">@drawable/shape_blue_cursor</item>
+         <item name="theme_edit_cursorDrawable">@drawable/shape_blue_cursor</item>
+         <item name="theme_inputLayout_boxColor">@color/colorAccent</item>
+         <item name="theme_inputLayout_hintColor">@color/colorAccent</item>
+         <item name="theme_edit_highlightColor">@color/colorAccent</item>
     </style>
 
 
@@ -69,7 +72,10 @@
         <item name="theme_imageView_tint">@color/color_ff4081</item>
         <item name="theme_card_strokeColor">@color/color_ff4081</item>
         <item name="theme_floating_backgroundColor">@color/color_ff4081</item>
-        <item name="them_edit_cursorDrawable">@drawable/shape_red_cursor</item>
+        <item name="theme_edit_cursorDrawable">@drawable/shape_red_cursor</item>
+        <item name="theme_inputLayout_boxColor">@color/color_ff4081</item>
+        <item name="theme_inputLayout_hintColor">@color/color_ff4081</item>
+        <item name="theme_edit_highlightColor">@color/color_ff4081</item>
     </style>
 
     <style name="MaterialTheme.Purple">
@@ -85,7 +91,10 @@
         <item name="theme_imageView_tint">@color/color_7c4dff</item>
         <item name="theme_card_strokeColor">@color/color_7c4dff</item>
         <item name="theme_floating_backgroundColor">@color/color_7c4dff</item>
-        <item name="them_edit_cursorDrawable">@drawable/shape_purple_cursor</item>
+        <item name="theme_edit_cursorDrawable">@drawable/shape_purple_cursor</item>
+        <item name="theme_inputLayout_boxColor">@color/color_7c4dff</item>
+        <item name="theme_inputLayout_hintColor">@color/color_7c4dff</item>
+        <item name="theme_edit_highlightColor">@color/color_7c4dff</item>
     </style>
 
 

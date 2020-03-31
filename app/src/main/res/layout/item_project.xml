@@ -21,7 +21,7 @@
         app:strokeWidth="@dimen/px2dp"
         app:cardCornerRadius="@dimen/px10dp"
         android:layout_margin="@dimen/px24dp"
-        skin="@{`divideColor`}"
+        skin="@{`strokeColor`}"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
