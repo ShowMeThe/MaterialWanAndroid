@@ -82,7 +82,7 @@ post的方法可以把MutableLiveData<Result<*>> 更新数据，所以使用时�
 private val api: Main by inject()
 ```
 ### 优化ViewModel的初始化
-在BaseFragment和LazFragment中的createViewModel采用如下方式：当bindActivity默认为true,即viewModel和 Acitvity如果是同一个VM类即共享对象。
+在BaseFragment和LazFragment中的createViewModel采用如下方式：当bindActivity默认为true,即viewModel和 Acitvity如果是同一个VM类即共享对象。相关原理参考官方源码，十分容易理解，只需慢慢阅读
 ```
    inline fun <reified VM :ViewModel>createViewModel(bindActivity: Boolean = true) : VM{
         return if(bindActivity){
