@@ -17,6 +17,8 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     val replace = MutableLiveData<String>()
 
+    val userInfo = MutableLiveData<Result<UserInfo>>()
+
     val collect = MutableLiveData<Result<Collect>>()
     val banner = MutableLiveData<Result<ArrayList<Banner>>>()
     val tops = MutableLiveData<Result<ArrayList<Article.DatasBean>>>()
@@ -91,4 +93,10 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     fun getCollect(pager:Int) = repository.getCollect(pager,collect)
     @VMPath(path = "unCollect")
     fun unCollect(id:Int,originId:Int) = repository.unCollect(id,originId)
+
+    /**
+     * UserInfo
+     */
+    @VMPath(path = "getUserInfo")
+    fun getUserInfo() = repository.getUserInfo(userInfo)
 }

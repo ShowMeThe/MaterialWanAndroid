@@ -104,4 +104,12 @@ interface Main {
     @FormUrlEncoded
     @POST("/lg/uncollect/{id}/json")
     suspend fun unCollect(@Path("id") id:Int,@Field("originId") originId:Int): Response<JsonResult<Empty>>
+
+    /**
+     * 个人积分
+     */
+    @GET("/lg/coin/userinfo/json")
+    suspend  fun getUserInfo() : Response<JsonResult<UserInfo>>
+
+
 }

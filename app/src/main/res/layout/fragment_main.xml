@@ -5,6 +5,8 @@
         <variable
             name="Main"
             type="com.show.wanandroid.ui.main.fragment.MainFragment" />
+
+
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -160,6 +162,18 @@
                     android:layout_height="wrap_content"
                     app:fontFamily="sans-serif"
                     android:onClick="@{()->Main.onLogin()}"
+                    />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvPoint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvUserName"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/px37dp"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginTop="@dimen/px22dp"
+                    android:layout_centerHorizontal="true"
                     />
             </RelativeLayout>
 

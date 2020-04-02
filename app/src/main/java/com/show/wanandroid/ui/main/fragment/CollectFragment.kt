@@ -19,6 +19,7 @@ import showmethe.github.core.adapter.slideAdapter.SlideAdapter
 import showmethe.github.core.adapter.slideAdapter.SlideCreator
 import showmethe.github.core.base.BaseFragment
 import showmethe.github.core.divider.RecycleViewDivider
+import showmethe.github.core.http.coroutines.Result
 import showmethe.github.core.util.extras.ObList
 import showmethe.github.core.util.extras.plus
 import showmethe.github.core.util.extras.set
@@ -48,6 +49,11 @@ class CollectFragment : BaseFragment<FragmentCollectBinding, MainViewModel>() {
 
         viewModel.collect.observe(this, Observer {
             it?.apply {
+                when(status){
+                    Result.Failure,Result.OutTime ->{
+                        refresh.isRefreshing = false
+                    }
+                }
                 if(pager valueSameAs  0){
                     list.clear()
                 }

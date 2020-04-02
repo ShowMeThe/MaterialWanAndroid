@@ -150,6 +150,9 @@ class MainRepository : BaseRepository() {
     fun getCollect(pager: Int, call: MutableLiveData<Result<Collect>>) {
         CallResult<Collect>(owner) {
             post(call)
+            error { result, code, message ->
+                toast(code, message)
+            }
             hold {
                 api.getCollect(pager)
             }
@@ -166,7 +169,19 @@ class MainRepository : BaseRepository() {
                 api.unCollect(id, originId)
             }
         }
-
     }
+
+    fun getUserInfo(call: MutableLiveData<Result<UserInfo>>) {
+        CallResult<UserInfo>(owner) {
+            post(call)
+            error { result, code, message ->
+                toast(code, message)
+            }
+            hold {
+                api.getUserInfo()
+            }
+        }
+    }
+
 
 }

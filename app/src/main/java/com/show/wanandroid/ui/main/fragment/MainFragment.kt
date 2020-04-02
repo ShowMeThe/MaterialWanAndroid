@@ -1,5 +1,6 @@
 package com.show.wanandroid.ui.main.fragment
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.show.wanandroid.R
 import com.show.wanandroid.const.HAS_LOGIN
@@ -27,6 +29,7 @@ import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_main.*
 import showmethe.github.core.base.BaseFragment
 import showmethe.github.core.util.extras.set
+import showmethe.github.core.util.match.isNotNull
 import showmethe.github.core.util.rden.RDEN
 import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 
@@ -36,6 +39,7 @@ import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
  *  2020/3/23
  *  23:21
  */
+@SuppressLint("SetTextI18n")
 class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
     private val dialog = ThemeDialog()
@@ -51,7 +55,16 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
     }
 
+
     override fun observerUI() {
+
+        viewModel.userInfo.observe(this, Observer {
+            it?.apply {
+                  response?.apply {
+                      tvPoint.text = getString(R.string.personal_point) + "$coinCount"
+                  }
+            }
+        })
 
 
     }
@@ -64,6 +77,7 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
         drawer.setScrimColor(Color.TRANSPARENT)
 
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
+
 
 
         dialog.setThemes()
@@ -175,10 +189,15 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
             tvUserName.visibility = View.VISIBLE
             tvUserName.text = RDEN.get(User_Name,"")
             tvLogin.visibility  = View.GONE
+            tvPoint.visibility = View.VISIBLE
+            if(viewModel.userInfo.value == null ){
+                router.toTarget("getUserInfo")
+            }
         }else{
             ivHead.visibility = View.GONE
             tvUserName.visibility = View.GONE
             tvLogin.visibility  = View.VISIBLE
+            tvPoint.visibility = View.GONE
         }
     }
 

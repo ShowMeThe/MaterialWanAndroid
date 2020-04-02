@@ -18,10 +18,9 @@ val colors = arrayListOf("#f48fb1","#ce93d8","#b39ddb","#81d4fa","#a5d6a7","#ffa
 fun toast(error: Int, message:String){
     ToastFactory.createToast(message)
     if(error == -1001){
-
+        RDEN.put("sessionId","")
+        RDEN.put(HAS_LOGIN,false)
+        RetroHttp.get().headerInterceptor.update("")
     }
-    RDEN.put("sessionId","")
-    RDEN.put(HAS_LOGIN,false)
-    RetroHttp.get().headerInterceptor.update("")
 }
 
