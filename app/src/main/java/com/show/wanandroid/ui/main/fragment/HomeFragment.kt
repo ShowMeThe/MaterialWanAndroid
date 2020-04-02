@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.show.wanandroid.R
@@ -22,6 +23,7 @@ import com.show.wanandroid.widget.IconSwitch
 import com.showmethe.skinlib.SkinManager
 import com.showmethe.speeddiallib.expand.ExpandIcon
 import com.showmethe.speeddiallib.expand.ExpandManager
+import showmethe.github.core.adapter.BaseRecyclerViewAdapter
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.glide.TGlide
@@ -155,6 +157,13 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
             }
         }
 
+        adapter.setOnItemClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener{
+            override fun onItemClick(view: View, position: Int) {
+                val item = list[position]
+                viewModel.openWeb set (item.title to item.link)
+                viewModel.replace set getString(R.string.transition_name_web)
+            }
+        })
 
 
         crl.setOnMenuClickListener {

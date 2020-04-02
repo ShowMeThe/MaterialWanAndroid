@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.fragment_article.refresh
 import kotlinx.android.synthetic.main.fragment_article.rv
 import kotlinx.android.synthetic.main.fragment_home.*
+import showmethe.github.core.adapter.BaseRecyclerViewAdapter
 
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
@@ -139,6 +140,13 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
             }
         }
 
+        adapter.setOnItemClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener{
+            override fun onItemClick(view: View, position: Int) {
+                val item = list[position]
+                viewModel.openWeb set (item.title to item.link)
+                viewModel.replace set getString(R.string.transition_name_web)
+            }
+        })
 
     }
 

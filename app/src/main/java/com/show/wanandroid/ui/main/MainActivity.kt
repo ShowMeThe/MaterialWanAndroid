@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ActivityMainBinding
+import com.show.wanandroid.ui.main.fragment.ArticleDetailFragment
 import com.show.wanandroid.ui.main.fragment.CollectFragment
 import com.show.wanandroid.ui.main.fragment.MainFragment
 
@@ -35,9 +36,12 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
                 when(this){
                     getString(R.string.transition_name_search) -> startActivity<SearchActivity>()
                     getString(R.string.transition_name_collect) -> replaceFragment(CollectFragment())
+                    getString(R.string.transition_name_web) -> replaceFragment(ArticleDetailFragment())
                 }
             }
         })
+
+
 
     }
 
@@ -63,7 +67,6 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
             try {
                 tempFragment = replaceFragment
                 tempFragment.enterTransition = createTransition()
-                tempFragment.exitTransition = createTransition()
                 transaction.addToBackStack(null)
                     .add(id, tempFragment, tag)
                     .setMaxLifecycle(tempFragment, Lifecycle.State.RESUMED)

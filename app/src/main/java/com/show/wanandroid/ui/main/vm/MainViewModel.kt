@@ -16,6 +16,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     val repository = MainRepository()
 
     val replace = MutableLiveData<String>()
+    val openWeb = MutableLiveData<Pair<String,String>>()
 
     val userInfo = MutableLiveData<Result<UserInfo>>()
 

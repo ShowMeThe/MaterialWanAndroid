@@ -1,6 +1,7 @@
 package com.show.wanandroid.ui.project.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.GeneratedAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.ui.project.adapter.ProjectAdapter
 import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_project_article.*
+import showmethe.github.core.adapter.BaseRecyclerViewAdapter
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.http.coroutines.Result
@@ -125,6 +127,15 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
                 router.toTarget("homeUnCollect",item.id)
             }
         }
+
+        adapter.setOnItemClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener{
+            override fun onItemClick(view: View, position: Int) {
+                val item = list[position]
+                viewModel.openWeb set (item.title to item.link)
+                viewModel.replace set getString(R.string.transition_name_web)
+            }
+        })
+
     }
 
     private fun initAdapter() {

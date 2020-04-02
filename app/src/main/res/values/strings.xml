@@ -16,6 +16,7 @@
     <string name="cancel">取消</string>
     <string name="transition_name_search">search</string>
     <string name="transition_name_collect">collect</string>
+    <string name="transition_name_web">web</string>
     <string name="to_search">搜索</string>
     <string name="search_hot_key">搜索热词</string>
     <string name="switch_theme">切换主题(alpha)</string>
