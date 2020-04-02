@@ -102,7 +102,7 @@ abstract class BaseFragment<V : ViewDataBinding,VM : BaseViewModel> : Fragment()
 
 
     inline fun <reified VM :ViewModel>createViewModel() : VM{
-        return activityViewModels<VM>{ViewModelProvider.AndroidViewModelFactory(activity!!.application)}.value
+        return activityViewModels<VM>{ViewModelProvider.AndroidViewModelFactory(requireActivity().application)}.value
     }
 
 
