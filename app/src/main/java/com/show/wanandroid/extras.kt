@@ -1,6 +1,8 @@
 package com.show.wanandroid
 
+import android.content.Intent
 import com.show.wanandroid.const.HAS_LOGIN
+import com.show.wanandroid.ui.login.LoginActivity
 import showmethe.github.core.base.AppManager
 import showmethe.github.core.base.BaseActivity
 import showmethe.github.core.base.ContextProvider
@@ -21,6 +23,9 @@ fun toast(error: Int, message:String){
         RDEN.put("sessionId","")
         RDEN.put(HAS_LOGIN,false)
         RetroHttp.get().headerInterceptor.update("")
+        val current = ContextProvider.get().getActivity()
+        val intent = Intent(current,LoginActivity::class.java)
+        current?.startActivity(intent)
     }
 }
 

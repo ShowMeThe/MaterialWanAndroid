@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import com.jeremyliao.liveeventbus.LiveEventBus
 import io.reactivex.ObservableTransformer
@@ -101,8 +102,12 @@ abstract class BaseFragment<V : ViewDataBinding,VM : BaseViewModel> : Fragment()
     }
 
 
-    inline fun <reified VM :ViewModel>createViewModel() : VM{
-        return activityViewModels<VM>{ViewModelProvider.AndroidViewModelFactory(requireActivity().application)}.value
+    inline fun <reified VM :ViewModel>createViewModel(bindActivity: Boolean = true) : VM{
+        return if(bindActivity){
+            activityViewModels<VM>{ViewModelProvider.AndroidViewModelFactory(requireActivity().application)}.value
+        }else{
+            return viewModels<VM> { ViewModelProvider.NewInstanceFactory()}.value
+        }
     }
 
 

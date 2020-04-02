@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.jeremyliao.liveeventbus.core.LiveEventBusCore
 import com.show.wanandroid.ui.main.MainActivity
 import com.show.wanandroid.R
 import com.show.wanandroid.const.HAS_LOGIN
+import com.show.wanandroid.const.RefreshData
 
 import com.show.wanandroid.const.User_Name
 import com.show.wanandroid.databinding.FragmentLoginBinding
@@ -14,6 +16,7 @@ import com.show.wanandroid.ui.login.vm.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import showmethe.github.core.base.BaseFragment
 import showmethe.github.core.http.coroutines.Result
+import showmethe.github.core.livebus.LiveBusHelper
 import showmethe.github.core.util.extras.onGlobalLayout
 import showmethe.github.core.util.extras.set
 import showmethe.github.core.util.extras.valueSameAs
@@ -44,6 +47,7 @@ class LoginInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                             RDEN.put(User_Name,username)
                             RDEN.put(HAS_LOGIN,true)
                             requireActivity().finishAfterTransition()
+                            sendEvent(LiveBusHelper(RefreshData))
                         }
                     }
                 }

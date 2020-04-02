@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.show.wanandroid.R
+import com.show.wanandroid.const.RefreshData
 import com.show.wanandroid.databinding.FragmentCollectBinding
 import com.show.wanandroid.entity.Collect
 import com.show.wanandroid.themes_name
@@ -20,6 +21,7 @@ import showmethe.github.core.adapter.slideAdapter.SlideCreator
 import showmethe.github.core.base.BaseFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.http.coroutines.Result
+import showmethe.github.core.livebus.LiveBusHelper
 import showmethe.github.core.util.extras.ObList
 import showmethe.github.core.util.extras.plus
 import showmethe.github.core.util.extras.set
@@ -119,6 +121,16 @@ class CollectFragment : BaseFragment<FragmentCollectBinding, MainViewModel>() {
     fun backPress() {
         requireActivity()
             .supportFragmentManager.popBackStack()
+    }
+
+    override fun isLiveEventBusHere(): Boolean = true
+    override fun onEventComing(helper: LiveBusHelper) {
+        when(helper.code){
+            RefreshData ->{
+                refresh.isRefreshing = true
+                pager set 0
+            }
+        }
     }
 
     private fun onLoadSize(size: Int) {
