@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.adapters.CardViewBindingAdapter
 import com.showmethe.skinlib.plugin.IPlugin
+import java.lang.Exception
 import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.collections.ArrayList
@@ -349,9 +350,17 @@ class SkinManager private constructor(var context: Context) {
                             }
                             it.trim() == "cursor" -> {
                                 this["theme_edit_cursorDrawable"]?.apply {
-                                    android.widget.TextView::class.java.methods
-                                        .filter { method -> method.name == "setTextCursorDrawable" }[1]
-                                        .invoke(ed, getDrawable())
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                        ed.textCursorDrawable = getDrawable()
+                                    } else {
+                                         try {
+                                             val field = android.widget.TextView::class.java.getDeclaredField("mCursorDrawableRes")
+                                             field.isAccessible = true
+                                             field.set(ed,this)
+                                         }catch (e:Exception){
+                                             e.printStackTrace()
+                                         }
+                                    }
                                 }
                             }
                         }
