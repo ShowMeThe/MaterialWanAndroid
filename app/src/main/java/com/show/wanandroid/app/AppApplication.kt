@@ -37,6 +37,9 @@ class AppApplication : BaseApplication() {
                 bannerPlugin, ShakingImageViewIPlugin(),
                 WaveIPlugin())
             .build()
+        if(RDEN.get("theme","").isEmpty()){
+            RDEN.put("theme","BlueTheme")
+        }
         SkinManager.getInstant().setOnStyleChangeListener {
             RDEN.put("theme",it)
         }
