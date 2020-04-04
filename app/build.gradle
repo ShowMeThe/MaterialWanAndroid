@@ -33,14 +33,13 @@ android {
         release {
             minifyEnabled true
             zipAlignEnabled true
-            buildConfigField "boolean", "LOG_ENABLE", "false"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
-            zipAlignEnabled false
-            buildConfigField "boolean", "LOG_ENABLE", "true"
+            minifyEnabled true
+            zipAlignEnabled true
             signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -69,4 +68,5 @@ dependencies {
     implementation project(":kcore")
     implementation project(":skinlib")
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
 }

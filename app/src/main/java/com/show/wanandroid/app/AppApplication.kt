@@ -1,5 +1,6 @@
 package com.show.wanandroid.app
 
+import androidx.annotation.Keep
 import com.show.wanandroid.R
 import com.show.wanandroid.api.Main
 import com.show.wanandroid.entity.Auth
@@ -12,6 +13,7 @@ import showmethe.github.core.kinit.Module
 import showmethe.github.core.kinit.startInit
 import showmethe.github.core.util.rden.RDEN
 
+@Keep
 class AppApplication : BaseApplication() {
 
     companion object{

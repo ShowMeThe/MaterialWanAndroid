@@ -16,6 +16,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import showmethe.github.core.BuildConfig
 import showmethe.github.core.base.BaseApplication
 import showmethe.github.core.base.ContextProvider
 import showmethe.github.core.http.interceptor.ReadCookieInterceptor
@@ -81,11 +82,11 @@ class RetroHttp  private constructor() : SessionObservable{
 
 
     companion object {
-       var baseUrl = "https://www.wanandroid.com/"
+       var baseUrl = BuildConfig.BaseUrl
 
-        private val CONNECT_TIMEOUT = 30
-        private val READ_TIMEOUT = 30
-        private val WRITE_TIMEOUT = 30
+        private const val CONNECT_TIMEOUT = 30
+        private const val READ_TIMEOUT = 30
+        private const val WRITE_TIMEOUT = 30
 
         private val INSTANT : RetroHttp by lazy (mode = LazyThreadSafetyMode.SYNCHRONIZED){ RetroHttp() }
 

@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def baseUrl = "\"https://www.wanandroid.com/\""
 
 android {
     compileSdkVersion Versions.compileSdkVersion
@@ -27,7 +28,13 @@ android {
     }
 
     buildTypes {
+        debug{
+            buildConfigField ("String" ,"BaseUrl", "${baseUrl}")
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
+            buildConfigField ("String" ,"BaseUrl", "${baseUrl}")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
