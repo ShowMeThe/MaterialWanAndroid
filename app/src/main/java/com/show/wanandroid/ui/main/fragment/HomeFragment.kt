@@ -29,6 +29,7 @@ import showmethe.github.core.adapter.BaseRecyclerViewAdapter
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.glide.TGlide
+
 import showmethe.github.core.util.extras.*
 import showmethe.github.core.util.rden.RDEN
 import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
@@ -81,9 +82,9 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
 
         viewModel.article.observe(this, Observer {
             it?.apply {
-                when(status){
-                    Result.Success ->{
-                        response?.apply {
+                whenStatus {
+                    whenSuccess {
+                        this?.apply {
                             if(pagerNumber valueSameAs  1){
                                 if(topSize!=0){
                                     list.clearAfter(topSize - 1)
@@ -101,7 +102,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
                             }
                         }
                     }
-                    Result.OutTime -> {  //增加一处超时
+                    whenOutTime {
                         rv.finishLoading()
                         refresh.isRefreshing = false
                     }
