@@ -3,6 +3,41 @@
 <img src="https://github.com/ShowMeThe/WanAndroid/blob/master/theme.gif" width ="200" alt="GZA9mT.gif" border="0" /></br>
 这个版本大部分内容都是建立在Databinding下，但是改善了过分使用的情况。逻辑也从Databinding中抽出来，例如利用LiveData和Extra方法去更新UI的操作，</br>
 虽然这个特性是Databinding的特色，但是还是被我移出来了。</br>
+### 更新日志：
+#### 2020/4/5：皮肤切换添加支持json输入</br>
+规则大致如下
+```
+{
+  "theme_viewGroup_background": "ff3d00",
+  "theme_viewGroup_backgroundColor": "ff3d00",
+  "theme_card_strokeColor": "ff3d00",
+  "theme_text_color": "ff3d00",
+  "theme_button_textColor": "ff3d00",
+  "theme_button_rippleColor": "2cf4511e",
+  "theme_button_iconTint": "ff3d00",
+  "theme_button_strokeColor": "ff3d00",
+  "theme_bottom_navigation_iconTint": "ff3d00",
+  "theme_bottom_navigation_textColor": "ff3d00",
+  "theme_imageView_tint": "ff3d00",
+  "theme_floating_backgroundColor": "ff3d00",
+  "theme_edit_cursorDrawable": "ff3d00",
+  "theme_edit_highlightColor": "ff3d00",
+  "theme_inputLayout_boxColor": "ff3d00",
+  "theme_inputLayout_hintColor": "ff3d00",
+  "colorObjects": [
+    "ff3d00",
+    "2cf4511e"
+  ]
+}
+```
+示例代码：
+```
+        val json = AssetFile.getJson(this,"orange.json")
+        val colorEntity = json.fromJson<ColorEntity>()!!
+        val json2 = AssetFile.getJson(this,"yellow.json")
+        val colorEntity2 = json2.fromJson<ColorEntity>()!!
+        SkinManager.init(this).addJson(themes_name[3] to colorEntity, themes_name[4] to colorEntity2)
+```
 ### 无缝切换皮肤方案
 这个无缝切换皮肤不是利用修改attr那些方法，而是利用Databinding的拓展方法进行的，所以这个方法不打算另外开出来细讲，因为就是利用拓展函数的便利，</br>
 进行对应的控件属性的设置方法统一管理，所以只覆盖了该项目用到的控件，因为Android的属性很多，所以未能完全覆盖。你们可以自行看看代码，研究看看。</br>
