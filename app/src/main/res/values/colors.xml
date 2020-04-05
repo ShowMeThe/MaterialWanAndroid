@@ -28,5 +28,7 @@
     <color name="color_ff3d00">#ff3d00</color>
     <color name="color_d50000">#d50000</color>
 
+    <color name="color_FBC02D">#FBC02D</color>
+
     <color name="theme_fake_status">#858e8e8e</color>
 </resources>

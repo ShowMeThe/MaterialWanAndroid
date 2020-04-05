@@ -5,4 +5,5 @@ import android.view.View
 interface IPlugin<T : View> {
 
     fun individuate(view:T,attrName : String)
+    fun individuate(view:T,attrName : String,colors:ArrayList<String>?)
 }

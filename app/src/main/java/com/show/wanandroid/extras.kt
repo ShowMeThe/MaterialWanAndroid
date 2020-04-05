@@ -11,8 +11,9 @@ import showmethe.github.core.util.rden.RDEN
 import showmethe.github.core.util.toast.ToastFactory
 
 
-val themes_res = arrayListOf(R.color.colorAccent,R.color.color_304ffe,R.color.color_6200ea)
-val themes_name = arrayListOf("BlueTheme","RedTheme","PurpleTheme")
+val themes_res = arrayListOf(R.color.colorAccent,R.color.color_304ffe,
+    R.color.color_6200ea, R.color.color_f4511e,R.color.color_FBC02D)
+val themes_name = arrayListOf("BlueTheme","RedTheme","PurpleTheme","OrangeTheme","YellowTheme")
 
 const val motion_delay = 550L
 val colors = arrayListOf("#f48fb1","#ce93d8","#b39ddb","#81d4fa","#a5d6a7","#ffab91","#ffe082","#bcaaa4")

@@ -1,5 +1,7 @@
 package com.show.wanandroid.plugin
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -12,8 +14,22 @@ class RefreshPlugin : IPlugin<SwipeRefreshLayout> {
     override fun individuate(view: SwipeRefreshLayout, attrName: String) {
         when (attrName) {
             themes_name[0] -> view.setColorSchemeResources(R.color.colorAccent)
-            themes_name[1]-> view.setColorSchemeResources(R.color.color_304ffe)
-            themes_name[2]-> view.setColorSchemeResources(R.color.color_6200ea)
+            themes_name[1] -> view.setColorSchemeResources(R.color.color_304ffe)
+            themes_name[2] -> view.setColorSchemeResources(R.color.color_6200ea)
+        }
+    }
+
+    override fun individuate(
+        view: SwipeRefreshLayout,
+        attrName: String,
+        colors: ArrayList<String>?
+    ) {
+        colors?.apply {
+            if (colors.size > 0) {
+                when(attrName){
+                    themes_name[3],themes_name[4] ->view.setColorSchemeColors(Color.parseColor("#${colors[0]}"))
+                }
+            }
         }
     }
 }

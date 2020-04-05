@@ -21,6 +21,8 @@ import com.show.wanandroid.entity.Article
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.widget.IconSwitch
 import com.showmethe.skinlib.SkinManager
+import com.showmethe.skinlib.getColorExtras
+import com.showmethe.skinlib.isStyleFromJson
 import com.showmethe.speeddiallib.expand.ExpandIcon
 import com.showmethe.speeddiallib.expand.ExpandManager
 import showmethe.github.core.adapter.BaseRecyclerViewAdapter
@@ -60,7 +62,12 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
                         /**
                          * Banner需要获得数据长度才会新建dot的
                          */
-                        bannerPlugin.individuate(banner,RDEN.get("theme",""))
+                        val styleName = RDEN.get("theme","")
+                        if(styleName.isStyleFromJson()){
+                            bannerPlugin.individuate(banner,styleName,styleName.getColorExtras())
+                        }else{
+                            bannerPlugin.individuate(banner,styleName)
+                        }
                     }
                 }
             }
@@ -198,9 +205,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
     private fun initAdapter(){
         adapter = ArticleListAdapter(context,list)
         rv.adapter = adapter
-
         rv.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL,false)
-        //rv.addItemDecoration(RecycleViewDivider(LinearLayoutManager.VERTICAL,dividerColor = ContextCompat.getColor(context,R.color.colorAccent)))
     }
 
 

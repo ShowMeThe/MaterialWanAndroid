@@ -26,4 +26,18 @@ class BannerPlugin  : IPlugin<Banner> {
         view.setSelectorColor(selector)
         view.setUnSelectorColor(unSelector)
     }
+
+    override fun individuate(view: Banner, attrName: String, colors: ArrayList<String>?) {
+        colors?.apply {
+            when(attrName){
+                themes_name[3],themes_name[4] ->{
+                    if(colors.size>1){
+                        view.setSelectorColor(Color.parseColor("#${colors[0]}"))
+                        view.setUnSelectorColor(Color.parseColor("#${colors[1]}"))
+                    }
+                }
+            }
+
+        }
+    }
 }

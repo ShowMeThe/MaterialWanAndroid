@@ -11,7 +11,7 @@ import com.showmethe.speeddiallib.expand.ExpandMenuChildLayout
 class ExpandIPlugin : IPlugin<ExpandMenuChildLayout> {
 
     override fun individuate(view: ExpandMenuChildLayout, attrName: String) {
-        val color = when(attrName){
+        val color = when (attrName) {
             themes_name[0] -> ContextCompat.getColor(view.context, R.color.colorAccent)
             themes_name[1] -> ContextCompat.getColor(view.context, R.color.color_304ffe)
             themes_name[2] -> ContextCompat.getColor(view.context, R.color.color_6200ea)
@@ -20,6 +20,27 @@ class ExpandIPlugin : IPlugin<ExpandMenuChildLayout> {
 
         view.fabs.forEach {
             it.backgroundTintList = ColorStateList.valueOf(color)
+        }
+    }
+
+    override fun individuate(
+        view: ExpandMenuChildLayout,
+        attrName: String,
+        colors: ArrayList<String>?
+    ) {
+        colors?.apply {
+            if (colors.size > 0) {
+                when (attrName) {
+                    themes_name[3],themes_name[4] -> {
+                        view.fabs.forEach {
+                            it.backgroundTintList =
+                                ColorStateList.valueOf(Color.parseColor("#${colors[0]}"))
+                        }
+                    }
+                }
+
+            }
+
         }
     }
 }

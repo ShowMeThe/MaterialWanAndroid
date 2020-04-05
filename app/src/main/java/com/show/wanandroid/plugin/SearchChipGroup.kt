@@ -23,4 +23,20 @@ class SearchChipGroup : IPlugin<ChipGroup> {
             chip.chipBackgroundColor = color
         }
     }
+
+    override fun individuate(view: ChipGroup, attrName: String, colors: ArrayList<String>?) {
+        colors?.apply {
+                if(colors.size>0){
+                    val color = ColorStateList.valueOf(Color.parseColor("#${colors[0]}"))
+                    when(attrName){
+                        themes_name[3],themes_name[4]  ->{
+                            for(child in view.children){
+                                val chip = child as Chip
+                                chip.chipBackgroundColor = color
+                            }
+                        }
+                    }
+            }
+        }
+    }
 }
