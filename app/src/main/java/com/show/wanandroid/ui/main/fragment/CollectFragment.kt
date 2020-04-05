@@ -112,6 +112,8 @@ class CollectFragment : BaseFragment<FragmentCollectBinding, MainViewModel>() {
             themes_name[0] -> R.color.colorAccent
             themes_name[1] -> R.color.color_304ffe
             themes_name[2] -> R.color.color_6200ea
+            themes_name[3] -> R.color.color_ff3d00
+            themes_name[4] -> R.color.color_FBC02D
             else -> R.color.colorAccent
         }
         SlideCreator().addItemMenu(getString(R.string.cancel_collect), R.color.white, color, 15f)
