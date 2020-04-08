@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.transition.Fade
 import android.transition.Transition
+import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.core.app.BundleCompat
@@ -83,13 +84,9 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
+
        if(savedInstanceState!=null){
-           when(savedInstanceState.getString(LastFragment,HomeFragment::class.java.name)){
-               HomeFragment::class.java.name -> bottomView.menu[0].isChecked = true
-               AccountFragment::class.java.name ->  bottomView.menu[1].isChecked = true
-               TreeFragment::class.java.name ->  bottomView.menu[2].isChecked = true
-               ProjectFragment::class.java.name ->  bottomView.menu[3].isChecked = true
-           }
+          tvTitle.text = savedInstanceState.getString(LastFragment,titles[0])
        }else{
            replaceFragment(HomeFragment())
        }
@@ -108,7 +105,8 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(LastFragment,currentTag)
+        //记录最后一个fragment的标题
+        outState.putString(LastFragment,tvTitle.text.toString())
     }
 
     override fun initListener() {
@@ -144,6 +142,7 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
                 }
 
                 R.id.tabArea ->{
+                    Log.e("22222222222","123123")
                     replaceFragment(AccountFragment())
                     tvTitle.text = titles[1]
                 }

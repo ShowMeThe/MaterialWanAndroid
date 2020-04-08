@@ -32,7 +32,6 @@ class ThemeDialog  : SimpleDialogFragment() {
                 rv.layoutManager = GridLayoutManager(context,3)
                 rv.addItemDecoration(GridSpaceItemDecoration(3,15))
 
-                bg.background = createDrawable(context,CornerFamily.CUT,35, Color.WHITE,ALL)
 
                 adapter.setOnItemClickListener { view, position ->
                     onThemeClick?.invoke(position)

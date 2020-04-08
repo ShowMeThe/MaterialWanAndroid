@@ -19,7 +19,7 @@ class ThemeAdapter(context: Context, data: ObservableArrayList<Int>) :
     override fun bindItems(binding: ItemThemeSelectBinding?, item: Int, position: Int) {
         binding?.apply {
             shape.shapeAppearanceModel = ShapeAppearanceModel.builder()
-                .setAllCorners(CornerFamily.CUT,55f)
+                .setAllCorners(CornerFamily.ROUNDED,35f)
                 .build()
             shape.setImageDrawable(ColorDrawable(ContextCompat.getColor(context,item)))
         }
