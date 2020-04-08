@@ -121,6 +121,7 @@ class CollectFragment : BaseFragment<FragmentCollectBinding, MainViewModel>() {
     }
 
     fun backPress() {
+        viewModel.replace set null
         requireActivity()
             .supportFragmentManager.popBackStack()
     }

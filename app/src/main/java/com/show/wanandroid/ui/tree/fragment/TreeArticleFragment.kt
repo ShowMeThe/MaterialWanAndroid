@@ -20,10 +20,7 @@ import showmethe.github.core.base.BaseFragment
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.http.coroutines.Result
-import showmethe.github.core.util.extras.ObList
-import showmethe.github.core.util.extras.plus
-import showmethe.github.core.util.extras.set
-import showmethe.github.core.util.extras.valueSameAs
+import showmethe.github.core.util.extras.*
 
 /**
  *  com.show.wanandroid.ui.tree.fragment
@@ -64,7 +61,7 @@ class TreeArticleFragment : LazyFragment<FragmentTreeArticleBinding, MainViewMod
             it?.apply {
                 when(status){
                     Result.Success ->{
-                        if(pager valueSameAs  0){
+                        if(pager valueSameAs 0){
                             list.clear()
                         }
                         response?.apply {
@@ -84,7 +81,7 @@ class TreeArticleFragment : LazyFragment<FragmentTreeArticleBinding, MainViewMod
 
     }
 
-    override fun init() {
+    override fun init(savedInstanceState: Bundle?) {
         refresh.isRefreshing = true
         tvTitle.text = title
         ivBack.startAnimator()
@@ -93,14 +90,15 @@ class TreeArticleFragment : LazyFragment<FragmentTreeArticleBinding, MainViewMod
         initAdapter()
 
 
-        pager set 0
+        if(treeArticle.valueIsNull()){
+            pager set 0
+        }
     }
 
     private fun initAdapter(){
         adapter = ArticleListAdapter(context,list)
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL,false)
-       // rv.addItemDecoration(RecycleViewDivider(LinearLayoutManager.VERTICAL,dividerColor = ContextCompat.getColor(context,R.color.colorAccent)))
     }
 
     override fun initListener() {
@@ -123,7 +121,6 @@ class TreeArticleFragment : LazyFragment<FragmentTreeArticleBinding, MainViewMod
 
 
         ivBack.setOnClickListener {
-            viewModel.treeNavigator set null
             viewModel.treeNavBack set true
         }
 

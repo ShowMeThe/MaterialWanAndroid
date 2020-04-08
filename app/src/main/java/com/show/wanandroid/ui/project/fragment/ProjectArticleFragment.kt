@@ -19,10 +19,7 @@ import showmethe.github.core.adapter.BaseRecyclerViewAdapter
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.http.coroutines.Result
-import showmethe.github.core.util.extras.ObList
-import showmethe.github.core.util.extras.plus
-import showmethe.github.core.util.extras.set
-import showmethe.github.core.util.extras.valueSameAs
+import showmethe.github.core.util.extras.*
 
 /**
  *  com.show.wanandroid.ui.project
@@ -94,13 +91,15 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
 
     }
 
-    override fun init() {
+    override fun init(savedInstanceState: Bundle?) {
 
 
 
         initAdapter()
 
-        pagerNumber set 0
+        if (cate.valueIsNull()) {
+            pagerNumber set 0
+        }
     }
 
     override fun initListener() {

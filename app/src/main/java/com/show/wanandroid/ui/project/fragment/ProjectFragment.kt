@@ -15,6 +15,7 @@ import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_project.*
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.http.coroutines.Result
+import showmethe.github.core.util.extras.valueIsNull
 
 /**
  *  com.show.wanandroid.ui.project
@@ -55,11 +56,14 @@ class ProjectFragment : LazyFragment<FragmentProjectBinding, MainViewModel>() {
 
     }
 
-    override fun init() {
+    override fun init(savedInstanceState: Bundle?) {
 
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
-        router.toTarget("getCateTab")
+        
+        if (viewModel.cateTab.valueIsNull()) {
+            router.toTarget("getCateTab")
+        }
 
 
     }

@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_accunt.*
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.http.coroutines.Result
 import showmethe.github.core.util.extras.onTabSelected
+import showmethe.github.core.util.extras.valueIsNull
 import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 
 
@@ -70,11 +71,13 @@ class AccountFragment : LazyFragment<FragmentAccuntBinding, MainViewModel>() {
     }
 
 
-    override fun init() {
+    override fun init(savedInstanceState: Bundle?) {
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
-        router.toTarget("getChapters")
 
+        if(viewModel.tabs.valueIsNull()){
+            router.toTarget("getChapters")
+        }
     }
 
     override fun initListener() {

@@ -17,6 +17,7 @@ import com.show.wanandroid.ui.main.fragment.MainFragment
 
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import showmethe.github.core.base.BaseActivity
+import showmethe.github.core.util.extras.set
 import showmethe.github.core.util.widget.StatusBarUtil.setFullScreen
 
 class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
@@ -100,6 +101,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
     override fun onBackPressed() {
         if(supportFragmentManager.fragments.size > 1){
             supportFragmentManager.popBackStack()
+            viewModel.replace set ""
         }else{
             val intent = Intent(Intent.ACTION_MAIN)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

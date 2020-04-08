@@ -96,6 +96,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
         finishAfterTransition()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        viewModel.searchWord set ""
+    }
+
     override fun onDestroy() {
         super.onDestroy()
     }

@@ -106,4 +106,9 @@ class SearchArticleFragment : BaseFragment<FragmentSearchArticleBinding, SearchV
             rv.setEnableLoadMore(true)
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.searchWord set ""
+    }
 }

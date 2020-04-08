@@ -69,6 +69,7 @@ object StatusBarUtil {
         if (mChildView != null) {
             mChildView.fitsSystemWindows = false
         }
+
     }
 
 

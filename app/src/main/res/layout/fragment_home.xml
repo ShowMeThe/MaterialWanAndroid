@@ -37,14 +37,13 @@
                         >
                         <com.showmethe.banner.Banner
                             android:id="@+id/banner"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/px500dp"
                             app:autoPlay="true"
                             app:dotType="RECTANGLE"
                             app:dotWith="12dp"
-                            app:imageScaleType="fitXY"
+                            app:imageScaleType="centerCrop"
                             app:indicator_gravity="CENTER"
-                            app:layout_constraintDimensionRatio="H,16:8"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"

@@ -78,11 +78,12 @@ class TreeBodyFragment : LazyFragment<FramentTreeBodyBinding, MainViewModel>() {
     }
 
 
-    override fun init() {
+    override fun init(savedInstanceState: Bundle?) {
         treeBody.setDefaultLoadingColor(ContextCompat.getColor(context,R.color.colorAccent))
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
         initAdapter()
+
 
         router.toTarget("getTree")
 

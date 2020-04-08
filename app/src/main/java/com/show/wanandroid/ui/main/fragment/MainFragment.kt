@@ -7,7 +7,9 @@ import android.transition.Fade
 import android.transition.Transition
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.core.app.BundleCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
@@ -16,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.show.wanandroid.R
 import com.show.wanandroid.const.HAS_LOGIN
+import com.show.wanandroid.const.LastFragment
 import com.show.wanandroid.const.User_Name
 import com.show.wanandroid.databinding.FragmentMainBinding
 import com.show.wanandroid.dialog.ThemeDialog
@@ -44,6 +47,7 @@ import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 @SuppressLint("SetTextI18n")
 class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
+    private var currentTag = ""
     private val dialog = ThemeDialog()
     private val interpolator = LinearInterpolator()
     private lateinit var titles : Array<String>
@@ -75,11 +79,19 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
         binding?.main = this
         titles = arrayOf(getString(R.string.home),getString(R.string.public_),getString(R.string.knowledge),getString(R.string.project))
         drawer.setScrimColor(Color.TRANSPARENT)
-        replaceFragment(HomeFragment())
 
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
-
+       if(savedInstanceState!=null){
+           when(savedInstanceState.getString(LastFragment,HomeFragment::class.java.name)){
+               HomeFragment::class.java.name -> bottomView.menu[0].isChecked = true
+               AccountFragment::class.java.name ->  bottomView.menu[1].isChecked = true
+               TreeFragment::class.java.name ->  bottomView.menu[2].isChecked = true
+               ProjectFragment::class.java.name ->  bottomView.menu[3].isChecked = true
+           }
+       }else{
+           replaceFragment(HomeFragment())
+       }
 
 
         dialog.setThemes()
@@ -91,6 +103,11 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
     override fun onVisible() {
         super.onVisible()
         checkLogin()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(LastFragment,currentTag)
     }
 
     override fun initListener() {
@@ -140,7 +157,7 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
                     tvTitle.text = titles[3]
                 }
             }
-            false
+            true
         }
 
 
@@ -160,6 +177,7 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
     private fun replaceFragment(replaceFragment : Fragment, id: Int = R.id.frameLayout) {
         val tag = replaceFragment::class.java.name
+        currentTag = tag
         var tempFragment = childFragmentManager.findFragmentByTag(tag)
         val transaction = childFragmentManager.beginTransaction()
         if (tempFragment == null) {

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.show.wanandroid.app.AppApplication.Companion.bannerPlugin
 import com.show.wanandroid.entity.Article
+import com.show.wanandroid.ui.main.SearchActivity
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.widget.IconSwitch
 import com.showmethe.skinlib.SkinManager
@@ -130,7 +131,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
 
     }
 
-    override fun init() {
+    override fun init(savedInstanceState: Bundle?) {
         refresh.setColorSchemeResources(R.color.colorAccent)
         initExpand()
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
@@ -139,9 +140,12 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
         initBanner()
         initAdapter()
 
+
         router.toTarget("getBanner")
-        router.toTarget("getHomeTop")
-        pagerNumber post 0
+        if( viewModel.article.valueIsNull()){
+            router.toTarget("getHomeTop")
+            pagerNumber post 0
+        }
     }
 
 
@@ -180,7 +184,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
                     rv.scrollToPosition(0)
                 }
                 1 ->{
-
+                    startActivity<SearchActivity>()
                 }
             }
         }

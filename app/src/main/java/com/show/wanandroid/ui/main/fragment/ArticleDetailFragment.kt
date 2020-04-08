@@ -51,9 +51,13 @@ class ArticleDetailFragment : BaseFragment<FragmentArticleDetailBinding, MainVie
     }
 
     fun backPress() {
-        viewModel.replace set ""
+        viewModel.replace set null
         requireActivity()
             .supportFragmentManager.popBackStack()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 
 }

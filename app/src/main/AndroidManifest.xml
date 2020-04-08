@@ -17,7 +17,6 @@
         <activity android:name="com.show.wanandroid.ui.main.SearchActivity"
             android:configChanges="orientation|keyboardHidden|navigation|locale"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
             >
         </activity>
         <activity android:name="com.show.wanandroid.ui.login.LoginActivity"
@@ -27,9 +26,6 @@
             >
         </activity>
         <activity android:name="com.show.wanandroid.ui.main.MainActivity"
-            android:configChanges="orientation|keyboardHidden|navigation|locale"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
             >
         </activity>
         <activity android:name="com.show.wanandroid.ui.login.SplashActivity"

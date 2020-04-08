@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import android.util.AttributeSet
+import android.util.Log
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -96,7 +97,7 @@ class AutoRecyclerView @JvmOverloads constructor(
                 if (lastPositions == null) {
                     lastPositions = IntArray(staggeredGridLayoutManager!!.spanCount)
                 }
-                lastPositions = staggeredGridLayoutManager!!.findFirstCompletelyVisibleItemPositions(lastPositions)
+                lastPositions = staggeredGridLayoutManager!!.findLastVisibleItemPositions(lastPositions)
                 lastPosition = findMax(lastPositions!!)
 
             }
@@ -114,7 +115,7 @@ class AutoRecyclerView @JvmOverloads constructor(
                 }
                 val flag: Boolean = if(layoutManager is LinearLayoutManager){
                     if(layoutManager.orientation == LinearLayoutManager.VERTICAL){
-                        dy >0
+                        dy > 0
                     }else{
                         dx > 0
                     }

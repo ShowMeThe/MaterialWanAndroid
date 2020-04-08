@@ -27,6 +27,7 @@ import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.http.coroutines.Result
 import showmethe.github.core.util.extras.plus
 import showmethe.github.core.util.extras.set
+import showmethe.github.core.util.extras.valueIsNull
 import showmethe.github.core.util.extras.valueSameAs
 
 
@@ -98,11 +99,14 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
 
     }
 
-    override fun init() {
+    override fun init(savedInstanceState: Bundle?) {
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
         initAdapter()
-        pagerNumber set 0
+
+        if (article.valueIsNull()) {
+            pagerNumber set 0
+        }
     }
 
 

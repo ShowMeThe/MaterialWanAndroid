@@ -33,9 +33,11 @@ abstract class LazyFragment <V : ViewDataBinding,VM : BaseViewModel> : Fragment(
     var  binding : V? = null
     lateinit var viewModel : VM
     private var firstLoad = true
+    private var savedInstanceState:Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.savedInstanceState = savedInstanceState
         context = activity as BaseActivity<*, *>
         if(arguments!=null){
             onBundle(requireArguments())
@@ -118,7 +120,7 @@ abstract class LazyFragment <V : ViewDataBinding,VM : BaseViewModel> : Fragment(
                 LiveEventBus.get("LiveData",LiveBusHelper::class.java).observe(this,observer)
             }
             observerUI()
-            init()
+            init(savedInstanceState)
             initListener()
             firstLoad = false
         }
@@ -194,7 +196,7 @@ abstract class LazyFragment <V : ViewDataBinding,VM : BaseViewModel> : Fragment(
 
     abstract fun observerUI()
 
-    abstract fun init()
+    abstract fun init(savedInstanceState: Bundle?)
 
     abstract fun initListener()
 

@@ -13,6 +13,7 @@ import com.show.wanandroid.R
 import com.show.wanandroid.databinding.FragmentTreeBinding
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import showmethe.github.core.base.BaseFragment
+import showmethe.github.core.util.extras.set
 
 /**
  *  com.show.wanandroid.ui.tree.fragment
@@ -43,6 +44,7 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, MainViewModel>() {
                 if(this){
                     if(childFragmentManager.fragments.size == 2){
                         childFragmentManager.popBackStack()
+                        viewModel.treeNavigator set null
                     }
                 }
             }

@@ -97,7 +97,7 @@
                 app:itemIconTint = "@color/colorAccent"
                 app:itemTextColor="@color/colorAccent"
                 app:menu="@menu/tab_menu"
-                app:layout_constraintTop_toBottomOf="@+id/vp"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -32,17 +32,19 @@ fun MutableLiveData<*>.valueIsNull() = this.value == null
 
 
 /**
- * 简化MutableLiveData<Int> 加法
+ * 简化MutableLiveData<Int> 加法 value为null时候从0开始+
  */
 infix fun MutableLiveData<Int>.plus(x:Int) : MutableLiveData<Int>{
     if(!this.valueIsNull()){
        postValue(value!!.plus(x))
+    }else{
+        postValue(0.plus(x))
     }
     return this
 }
 
 /**
- * 简化MutableLiveData<Int> 减法
+ * 简化MutableLiveData<Int> 减法value
  */
 infix fun MutableLiveData<Int>.sub(x:Int) : MutableLiveData<Int>{
     if(!this.valueIsNull()){
