@@ -84,7 +84,6 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
 
-
        if(savedInstanceState!=null){
           tvTitle.text = savedInstanceState.getString(LastFragment,titles[0])
        }else{
@@ -106,7 +105,7 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         //记录最后一个fragment的标题
-        outState.putString(LastFragment,tvTitle.text.toString())
+       // outState.putString(LastFragment,tvTitle.text.toString())
     }
 
     override fun initListener() {
@@ -142,7 +141,6 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
                 }
 
                 R.id.tabArea ->{
-                    Log.e("22222222222","123123")
                     replaceFragment(AccountFragment())
                     tvTitle.text = titles[1]
                 }

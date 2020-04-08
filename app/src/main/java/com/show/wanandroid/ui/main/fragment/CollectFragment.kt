@@ -22,10 +22,7 @@ import showmethe.github.core.base.BaseFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.http.coroutines.Result
 import showmethe.github.core.livebus.LiveBusHelper
-import showmethe.github.core.util.extras.ObList
-import showmethe.github.core.util.extras.plus
-import showmethe.github.core.util.extras.set
-import showmethe.github.core.util.extras.valueSameAs
+import showmethe.github.core.util.extras.*
 import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 
 class CollectFragment : BaseFragment<FragmentCollectBinding, MainViewModel>() {
@@ -74,8 +71,9 @@ class CollectFragment : BaseFragment<FragmentCollectBinding, MainViewModel>() {
 
         initAdapter()
 
-
-        pager set 0
+        if(viewModel.collect.valueIsNull()){
+            pager set 0
+        }
     }
 
     override fun initListener() {

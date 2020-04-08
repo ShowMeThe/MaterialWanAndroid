@@ -181,7 +181,7 @@ abstract class SlideAdapter<D>(var mContext: Context,
         })
 
 
-        val layoutParams = mRecycleView!!.getLayoutParams()
+        val layoutParams = mRecycleView!!.layoutParams
         val recyclerViewPadding = mRecycleView!!.paddingLeft + mRecycleView!!.paddingRight
         var recyclerViewMargin = 0
         if (layoutParams is ViewGroup.MarginLayoutParams) {

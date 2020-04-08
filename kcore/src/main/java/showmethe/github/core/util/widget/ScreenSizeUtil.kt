@@ -18,23 +18,19 @@ class ScreenSizeUtil{
        var height  = 0
 
        fun getWidth(context: Context) : Int{
-           if(width == 0){
-               val manager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-               val dm = DisplayMetrics()
-               manager.defaultDisplay.getMetrics(dm)
-               width = dm.widthPixels
-           }
+           val manager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+           val dm = DisplayMetrics()
+           manager.defaultDisplay.getMetrics(dm)
+           width = dm.widthPixels
            return width
        }
 
 
        fun getHeight(context: Context) : Int{
-           if(height == 0){
-               val manager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-               val dm = DisplayMetrics()
-               manager.defaultDisplay.getMetrics(dm)
-               height = dm.heightPixels
-           }
+           val manager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+           val dm = DisplayMetrics()
+           manager.defaultDisplay.getMetrics(dm)
+           height = dm.heightPixels
            return height
        }
    }
