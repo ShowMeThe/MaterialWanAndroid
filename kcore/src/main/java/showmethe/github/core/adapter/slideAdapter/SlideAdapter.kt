@@ -39,6 +39,8 @@ abstract class SlideAdapter<D>(var mContext: Context,
 
     init {
         mData.addCallback(this)
+        ScreenSizeUtil.needRefresh = true
+        ScreenSizeUtil.get().getWH(mContext)
     }
 
     fun holdOpenItem(openItem: SlideLayout) {

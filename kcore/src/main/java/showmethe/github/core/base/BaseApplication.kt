@@ -18,6 +18,7 @@ import showmethe.github.core.util.rden.RDEN
 import showmethe.github.core.util.system.Network
 import showmethe.github.core.util.system.crash.CrashHandler
 import showmethe.github.core.util.system.startLocalForIp
+import showmethe.github.core.util.widget.ScreenSizeUtil
 import java.lang.ref.WeakReference
 
 /**
@@ -32,6 +33,7 @@ open class BaseApplication : MultiDexApplication() {
         super.onCreate()
         RDEN.build(this@BaseApplication)
         GlobalScope.launch(Dispatchers.IO) {
+            ScreenSizeUtil.get().init(this@BaseApplication)
             startLocalForIp()
             RetroHttp.get()
             CrashHandler.get(this@BaseApplication)

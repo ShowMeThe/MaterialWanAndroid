@@ -39,8 +39,6 @@ abstract class BaseActivity<V : ViewDataBinding,  VM : BaseViewModel> : AppCompa
 
     lateinit var router : VMRouter
     private val loadingDialog = DialogLoading()
-    var screenWidth = 0
-    var screenHeight = 0
     lateinit var context: BaseActivity<*,*>
     lateinit var  binding : V
     lateinit var viewModel : VM
@@ -52,6 +50,8 @@ abstract class BaseActivity<V : ViewDataBinding,  VM : BaseViewModel> : AppCompa
         setTheme()
         binding = DataBindingUtil.setContentView(this,getViewId())
         root = (findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0)
+
+        ScreenSizeUtil.get().getWH(this)
 
         context = this
         binding.lifecycleOwner = this
@@ -72,9 +72,6 @@ abstract class BaseActivity<V : ViewDataBinding,  VM : BaseViewModel> : AppCompa
         }
 
         AppManager.get().addActivity(this)
-
-        screenWidth = ScreenSizeUtil.getWidth(this)
-        screenHeight = ScreenSizeUtil.getHeight(this)
 
 
         if (isLiveEventBusHere()) {
