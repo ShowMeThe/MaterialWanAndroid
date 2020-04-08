@@ -3,12 +3,15 @@ package com.show.wanandroid.ui.main.fragment
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.transition.Fade
+import android.transition.Transition
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.show.wanandroid.R
@@ -29,7 +32,6 @@ import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_main.*
 import showmethe.github.core.base.BaseFragment
 import showmethe.github.core.util.extras.set
-import showmethe.github.core.util.match.isNotNull
 import showmethe.github.core.util.rden.RDEN
 import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 
@@ -45,8 +47,6 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
     private val dialog = ThemeDialog()
     private val interpolator = LinearInterpolator()
     private lateinit var titles : Array<String>
-    private lateinit var adapter: MainAdapter
-    private val fragments = ArrayList<Fragment>()
     override fun initViewModel(): MainViewModel = createViewModel()
 
     override fun getViewId(): Int = R.layout.fragment_main
@@ -75,8 +75,10 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
         binding?.main = this
         titles = arrayOf(getString(R.string.home),getString(R.string.public_),getString(R.string.knowledge),getString(R.string.project))
         drawer.setScrimColor(Color.TRANSPARENT)
+        replaceFragment(HomeFragment())
 
         SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
+
 
 
 
@@ -114,32 +116,30 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
         })
 
 
-        vp.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener(){
-            override fun onPageSelected(position: Int) {
-                bottomView.menu.getItem(position).isChecked = true
-                tvTitle.text = titles[position]
-            }
-        })
+
 
         bottomView.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.tabHome ->{
-                    vp.setCurrentItem(0,false)
+                    replaceFragment(HomeFragment())
+                    tvTitle.text = titles[0]
                 }
 
                 R.id.tabArea ->{
-                    vp.setCurrentItem(1,false)
+                    replaceFragment(AccountFragment())
+                    tvTitle.text = titles[1]
                 }
 
                 R.id.tabNav ->{
-                    vp.setCurrentItem(2,false)
+                    replaceFragment(TreeFragment())
+                    tvTitle.text = titles[2]
                 }
 
                 R.id.tabPro ->{
-                    vp.setCurrentItem(3,false)
+                    replaceFragment(ProjectFragment())
+                    tvTitle.text = titles[3]
                 }
             }
-            tvTitle.text = titles[vp.currentItem]
             false
         }
 
@@ -153,16 +153,48 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
 
     private fun initAdapter(){
-        fragments.add(HomeFragment())
-        fragments.add(AccountFragment())
-        fragments.add(TreeFragment())
-        fragments.add(ProjectFragment())
-        adapter = MainAdapter(fragments,childFragmentManager, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
-        vp.adapter = adapter
-        vp.offscreenPageLimit = fragments.size
-        vp.setPageTransformer(false, PageTransformer())
+
+
     }
 
+
+    private fun replaceFragment(replaceFragment : Fragment, id: Int = R.id.frameLayout) {
+        val tag = replaceFragment::class.java.name
+        var tempFragment = childFragmentManager.findFragmentByTag(tag)
+        val transaction = childFragmentManager.beginTransaction()
+        if (tempFragment == null) {
+            try {
+                tempFragment = replaceFragment
+                tempFragment.enterTransition = createTransition()
+                transaction.addToBackStack(null)
+                    .add(id, tempFragment, tag)
+                    .setMaxLifecycle(tempFragment, Lifecycle.State.RESUMED)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        val fragments = childFragmentManager.fragments
+
+        for (i in fragments.indices) {
+            val fragment = fragments[i]
+            if (fragment.tag == tag) {
+                transaction
+                    .show(fragment)
+            } else {
+                transaction
+                    .hide(fragment)
+            }
+        }
+        transaction.commitAllowingStateLoss()
+    }
+
+    private fun createTransition(): Transition {
+        val fade = Fade()
+        fade.duration = 250
+        fade.interpolator = interpolator
+        return fade
+    }
 
 
     fun search(){

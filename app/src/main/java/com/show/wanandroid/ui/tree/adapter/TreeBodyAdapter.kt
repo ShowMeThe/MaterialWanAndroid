@@ -37,12 +37,13 @@ class TreeBodyAdapter(context: Context, data: ObservableArrayList<Tree>) :
         holder.binding.apply {
             bean = item
             executePendingBindings()
-            group.removeAllViews()
             if(item.chipChildren.isNotEmpty()){
+                group.removeAllViews()
                  item.chipChildren.forEach {
                      group.addView(it)
                  }
             }
+            Log.e("22222222222","${position}  ${item.chipChildren.size}   ${group.childCount}")
         }
     }
 

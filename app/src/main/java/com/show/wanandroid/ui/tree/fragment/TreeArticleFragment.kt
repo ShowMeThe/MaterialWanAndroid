@@ -123,6 +123,7 @@ class TreeArticleFragment : LazyFragment<FragmentTreeArticleBinding, MainViewMod
 
 
         ivBack.setOnClickListener {
+            viewModel.treeNavigator set null
             viewModel.treeNavBack set true
         }
 

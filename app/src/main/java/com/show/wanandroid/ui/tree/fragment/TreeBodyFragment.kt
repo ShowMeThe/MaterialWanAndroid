@@ -37,6 +37,7 @@ import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.http.coroutines.Result
 import showmethe.github.core.util.extras.ObList
 import showmethe.github.core.util.extras.set
+import showmethe.github.core.util.extras.valueIsNull
 import java.util.concurrent.ThreadLocalRandom
 
 /**
@@ -63,19 +64,19 @@ class TreeBodyFragment : LazyFragment<FramentTreeBodyBinding, MainViewModel>() {
                 when(status){
                     Result.Success ->{
                         response?.apply {
+                            treeBody.showContent()
+                            list.clear()
                             list.addAll(this)
+                            for((index,tree) in list.withIndex()){
+                                addInGroup(tree)
+                            }
                         }
-                        treeBody.showContent()
-                         list.forEach { tree ->
-                             addInGroup(tree)
-                         }
                     }
                 }
             }
         })
-
-
     }
+
 
     override fun init() {
         treeBody.setDefaultLoadingColor(ContextCompat.getColor(context,R.color.colorAccent))
@@ -83,8 +84,7 @@ class TreeBodyFragment : LazyFragment<FramentTreeBodyBinding, MainViewModel>() {
 
         initAdapter()
 
-       router.toTarget("getTree")
-
+        router.toTarget("getTree")
 
     }
 
@@ -105,16 +105,19 @@ class TreeBodyFragment : LazyFragment<FramentTreeBodyBinding, MainViewModel>() {
      * 改用预先设置到数组，而非在Adapter添加
      */
     private fun addInGroup(parent : Tree){
-        parent.children.forEach { bean ->
-            val chip = View.inflate(context,R.layout.chip_tree_layout,null) as Chip
-            chip.text =  bean.name
-            chip.setTextColor(Color.WHITE)
-            chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(colors[ThreadLocalRandom.current()
-                .nextInt(0, colors.size)]))
-            chip.setOnClickListener {
-                viewModel.treeNavigator set Pair(bean.id,bean.name)
+        if(parent.chipChildren.isEmpty()){
+            parent.children.forEach { bean ->
+                val chip = View.inflate(context,R.layout.chip_tree_layout,null) as Chip
+                chip.text =  bean.name
+                chip.setTextColor(Color.WHITE)
+                chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(colors[ThreadLocalRandom.current()
+                    .nextInt(0, colors.size)]))
+                chip.setOnClickListener {
+                    viewModel.treeNavigator set Pair(bean.id,bean.name)
+                }
+                parent.chipChildren.add(chip)
             }
-            parent.chipChildren.add(chip)
+
         }
     }
 

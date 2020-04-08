@@ -3,12 +3,16 @@ package com.show.wanandroid.ui.article.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.show.wanandroid.entity.TabItem
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
 
 
-class TabArticleAdapter(var list : List<Fragment>, var titles:ArrayList<TabItem>, fm: FragmentManager, behavior: Int) : FragmentPagerAdapter(fm, behavior) {
+class TabArticleAdapter(var list : List<Fragment>,
+                        fragmentManager: FragmentManager,
+                        lifecycle: Lifecycle
+) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
-    override fun getPageTitle(position: Int): CharSequence? = titles[position].title
-    override fun getCount(): Int = list.size
-    override fun getItem(position: Int): Fragment = list[position]
+    override fun getItemCount(): Int = list.size
+
+    override fun createFragment(position: Int): Fragment = list[position]
 }
