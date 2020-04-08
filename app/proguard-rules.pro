@@ -27,11 +27,11 @@
 # 指定混淆是采用的算法
 -optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
 # 指定外部模糊字典 proguard-chinese.txt 改为混淆文件名，下同
--obfuscationdictionary proguard-chinese.txt
+-obfuscationdictionary proguard.txt
 # 指定class模糊字典
--classobfuscationdictionary proguard-chinese.txt
+-classobfuscationdictionary proguard.txt
 # 指定package模糊字典
--packageobfuscationdictionary proguard-chinese.txt
+-packageobfuscationdictionary proguard.txt
 # 混合时不使用大小写混合，混合后的类名为小写
 -dontusemixedcaseclassnames
 
