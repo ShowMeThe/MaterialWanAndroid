@@ -22,7 +22,16 @@
 
 # 代码混淆压缩比，在0~7之间，默认为5，一般不做修改
 -optimizationpasses 5
-
+# 指定不去忽略非公共的库的类的成员
+-dontskipnonpubliclibraryclassmembers
+# 指定混淆是采用的算法
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
+# 指定外部模糊字典 proguard-chinese.txt 改为混淆文件名，下同
+-obfuscationdictionary proguard-chinese.txt
+# 指定class模糊字典
+-classobfuscationdictionary proguard-chinese.txt
+# 指定package模糊字典
+-packageobfuscationdictionary proguard-chinese.txt
 # 混合时不使用大小写混合，混合后的类名为小写
 -dontusemixedcaseclassnames
 
