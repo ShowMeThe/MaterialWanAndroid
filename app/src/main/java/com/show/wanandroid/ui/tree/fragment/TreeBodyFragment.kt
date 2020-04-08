@@ -3,6 +3,7 @@ package com.show.wanandroid.ui.tree.fragment
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.ArrayMap
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,7 @@ import java.util.concurrent.ThreadLocalRandom
  */
 class TreeBodyFragment : LazyFragment<FramentTreeBodyBinding, MainViewModel>() {
 
+    private val sp = ArrayMap<Int,ArrayList<Chip>>()
     private val list = ObList<Tree>()
     private lateinit var adapter : TreeBodyAdapter
 
@@ -65,10 +67,11 @@ class TreeBodyFragment : LazyFragment<FramentTreeBodyBinding, MainViewModel>() {
                     Result.Success ->{
                         response?.apply {
                             treeBody.showContent()
-                            list.clear()
-                            list.addAll(this)
-                            for((index,tree) in list.withIndex()){
-                                addInGroup(tree)
+                            if(list.isEmpty()){
+                                list.addAll(this)
+                                for((index,tree) in list.withIndex()){
+                                    addInGroup(index,tree)
+                                }
                             }
                         }
                     }
@@ -84,8 +87,9 @@ class TreeBodyFragment : LazyFragment<FramentTreeBodyBinding, MainViewModel>() {
 
         initAdapter()
 
-
-        router.toTarget("getTree")
+        if(viewModel.tree.valueIsNull()){
+            router.toTarget("getTree")
+        }
 
     }
 
@@ -96,7 +100,7 @@ class TreeBodyFragment : LazyFragment<FramentTreeBodyBinding, MainViewModel>() {
 
 
     private fun initAdapter(){
-        adapter = TreeBodyAdapter(context,list)
+        adapter = TreeBodyAdapter(context,sp,list)
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
     }
@@ -105,21 +109,20 @@ class TreeBodyFragment : LazyFragment<FramentTreeBodyBinding, MainViewModel>() {
     /**
      * 改用预先设置到数组，而非在Adapter添加
      */
-    private fun addInGroup(parent : Tree){
-        if(parent.chipChildren.isEmpty()){
-            parent.children.forEach { bean ->
-                val chip = View.inflate(context,R.layout.chip_tree_layout,null) as Chip
-                chip.text =  bean.name
-                chip.setTextColor(Color.WHITE)
-                chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(colors[ThreadLocalRandom.current()
-                    .nextInt(0, colors.size)]))
-                chip.setOnClickListener {
-                    viewModel.treeNavigator set Pair(bean.id,bean.name)
-                }
-                parent.chipChildren.add(chip)
+    private fun addInGroup(position:Int,parent : Tree){
+        val chips = ArrayList<Chip>()
+        parent.children.forEach { bean ->
+            val chip = View.inflate(context,R.layout.chip_tree_layout,null) as Chip
+            chip.text =  bean.name
+            chip.setTextColor(Color.WHITE)
+            chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(colors[ThreadLocalRandom.current()
+                .nextInt(0, colors.size)]))
+            chip.setOnClickListener {
+                 viewModel.treeNavigator set Pair(bean.id,bean.name)
             }
-
+            chips.add(chip)
         }
+        sp[position] = chips
     }
 
 

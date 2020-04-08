@@ -24,8 +24,8 @@ class Tree {
     var parentChapterId = 0
     var visible = 0
     var children: ArrayList<ChildrenBean> = ArrayList()
-    @Transient
-    var chipChildren: ArrayList<Chip> = ArrayList()
+
+
 
     class ChildrenBean {
         /**

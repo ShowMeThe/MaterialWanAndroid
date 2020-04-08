@@ -3,8 +3,9 @@ package com.show.wanandroid.ui.tree.adapter
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.util.ArrayMap
 import android.util.Log
-import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
@@ -14,14 +15,9 @@ import com.show.wanandroid.R
 import com.show.wanandroid.colors
 import com.show.wanandroid.databinding.ItemTreeBodyBinding
 import com.show.wanandroid.entity.Tree
-import io.reactivex.disposables.Disposable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.item_tree_body.view.*
 import showmethe.github.core.adapter.BaseRecyclerViewAdapter
-import showmethe.github.core.adapter.DataBindBaseAdapter
 import showmethe.github.core.adapter.DataBindingViewHolder
-import showmethe.github.core.base.BaseActivity
 import java.util.concurrent.ThreadLocalRandom
 
 /**
@@ -29,7 +25,7 @@ import java.util.concurrent.ThreadLocalRandom
  *  2020/3/21
  *  11:22
  */
-class TreeBodyAdapter(context: Context, data: ObservableArrayList<Tree>) :
+class TreeBodyAdapter(context: Context,var sp : ArrayMap<Int,ArrayList<Chip>>, data: ObservableArrayList<Tree>) :
     BaseRecyclerViewAdapter<Tree, TreeBodyAdapter.ViewHolder>(context, data) {
 
 
@@ -37,13 +33,11 @@ class TreeBodyAdapter(context: Context, data: ObservableArrayList<Tree>) :
         holder.binding.apply {
             bean = item
             executePendingBindings()
-            if(item.chipChildren.isNotEmpty()){
-                group.removeAllViews()
-                 item.chipChildren.forEach {
-                     group.addView(it)
-                 }
+            group.removeAllViews()
+            val chips = sp[position]
+            chips?.forEach {
+                group.addView(it)
             }
-            Log.e("22222222222","${position}  ${item.chipChildren.size}   ${group.childCount}")
         }
     }
 
