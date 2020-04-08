@@ -26,15 +26,24 @@
 -dontskipnonpubliclibraryclassmembers
 # 指定混淆是采用的算法
 -optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
-# 指定外部模糊字典 proguard-chinese.txt 改为混淆文件名，下同
+#指定外部模糊字典
 -obfuscationdictionary proguard.txt
-# 指定class模糊字典
+#指定class模糊字典
 -classobfuscationdictionary proguard.txt
-# 指定package模糊字典
+#指定package模糊字典
 -packageobfuscationdictionary proguard.txt
 # 混合时不使用大小写混合，混合后的类名为小写
 -dontusemixedcaseclassnames
-
+#优化时允许访问并修改有修饰符的类和类的成员
+-allowaccessmodification
+#将文件来源重命名为“SourceFile”字符串
+-renamesourcefileattribute SourceFile
+#保留行号
+-keepattributes SourceFile,LineNumberTable
+#保持泛型
+-keepattributes Signature
+#把混淆类中的方法名也混淆了
+-useuniqueclassmembernames
 # 指定不去忽略非公共库的类
 -dontskipnonpubliclibraryclasses
 

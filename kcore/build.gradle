@@ -28,17 +28,13 @@ android {
     }
 
     buildTypes {
-        debug{
-            buildConfigField ("String" ,"BaseUrl", "${baseUrl}")
-            minifyEnabled false
-            zipAlignEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
         release {
-            buildConfigField ("String" ,"BaseUrl", "${baseUrl}")
             minifyEnabled true
             zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField ("String" ,"BaseUrl", "${baseUrl}")
+        }
+        debug{
+            buildConfigField ("String" ,"BaseUrl", "${baseUrl}")
         }
     }
 
