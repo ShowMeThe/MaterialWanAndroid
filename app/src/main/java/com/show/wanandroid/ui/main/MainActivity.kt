@@ -35,7 +35,6 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
         viewModel.replace.observe(this, Observer {
             it?.apply {
                 when(this){
-                    getString(R.string.transition_name_search) -> startActivity<SearchActivity>()
                     getString(R.string.transition_name_collect) -> replaceFragment(CollectFragment())
                     getString(R.string.transition_name_web) -> replaceFragment(ArticleDetailFragment())
                 }

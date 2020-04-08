@@ -26,6 +26,7 @@ import com.show.wanandroid.themes_name
 import com.show.wanandroid.transform.PageTransformer
 import com.show.wanandroid.ui.article.fragment.AccountFragment
 import com.show.wanandroid.ui.login.LoginActivity
+import com.show.wanandroid.ui.main.SearchActivity
 import com.show.wanandroid.ui.main.adapter.MainAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.ui.project.fragment.ProjectFragment
@@ -216,7 +217,7 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
 
     fun search(){
-        viewModel.replace set getString(R.string.transition_name_search)
+        startActivity<SearchActivity>()
     }
 
 
