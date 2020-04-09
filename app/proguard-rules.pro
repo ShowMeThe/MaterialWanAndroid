@@ -66,12 +66,8 @@
 # 抛出异常时保留代码行号
 -keepattributes SourceFile,LineNumberTable
 
-# 指定混淆是采用的算法，后面的参数是一个过滤器
-# 这个过滤器是谷歌推荐的算法，一般不做更改
--optimizations !code/simplification/cast,!field/*,!class/merging/*
-
 # apk 包内所有 class 的内部结构
--dump class_files.txt
+-dump classfiles.txt
 # 未混淆的类和成员
 -printseeds seeds.txt
 # 列出从 apk 中删除的代码
@@ -141,6 +137,14 @@
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
+#关闭 Log日志
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+    public static *** e(...);
+    public static *** w(...);
+}
 
 #保留Parcelable序列化类不被混淆
 -keep class * implements android.os.Parcelable {
@@ -181,8 +185,6 @@
 
 #-----------处理实体类---------------
 # 在开发的时候我们可以将所有的实体类放在一个包内，这样我们写一次混淆就行了。
--keep class com.showmethe.wanandroid.entity.**{ *; }
--keep class com.showmethe.wanandroid.api.**{ *; }
 
 ################ gson ###############
 -keepattributes Signature

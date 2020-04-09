@@ -98,20 +98,18 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
         initAdapter()
 
         if (cate.valueIsNull()) {
-            pagerNumber set 0
+            pagerNumber set 1
         }
     }
 
     override fun initListener() {
 
         smrl.setOnReloadWhenErrorOrEmpty {
-            pagerNumber set 0
+            pagerNumber set 1
         }
 
-
         refresh.setOnRefreshListener {
-
-            pagerNumber set 0
+            pagerNumber set 1
         }
 
 
