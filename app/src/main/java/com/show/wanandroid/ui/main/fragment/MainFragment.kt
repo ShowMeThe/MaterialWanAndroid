@@ -32,6 +32,7 @@ import com.show.wanandroid.ui.main.adapter.MainAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.ui.project.fragment.ProjectFragment
 import com.show.wanandroid.ui.tree.fragment.TreeFragment
+import com.show.wanandroid.util.DexToFlutter
 import com.show.wanandroid.widget.IconSwitch
 import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -224,6 +225,10 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
 
     fun onCollect(){
         viewModel.replace set getString(R.string.transition_name_collect)
+    }
+
+    fun onFlutter(){
+        DexToFlutter.goToFlutter(context)
     }
 
     fun onLogin(){
