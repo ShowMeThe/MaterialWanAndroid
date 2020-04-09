@@ -26,4 +26,5 @@
     <string name="search_result">搜索结果</string>
     <string name="collect">收藏</string>
     <string name="personal_point">个人积分:</string>
+    <string name="flutter">Flutter</string>
 </resources>

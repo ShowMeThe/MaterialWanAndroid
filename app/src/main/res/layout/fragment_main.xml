@@ -211,10 +211,10 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFlutter"
-                android:text="@string/collect"
+                android:text="@string/flutter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:icon="@drawable/ic_collected"
+                app:icon="@drawable/ic_flutter_line"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/px43dp"
                 android:gravity="center|start"
