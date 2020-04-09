@@ -72,7 +72,7 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
             it?.apply {
                 when (status) {
                     Result.Success -> {
-                        if (pagerNumber valueSameAs 0) {
+                        if (pagerNumber valueSameAs 1) {
                             list.clear()
                         }
                         response?.apply {
