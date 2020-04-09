@@ -5,18 +5,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.transition.Fade
 import android.transition.Transition
-import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
-import androidx.core.app.BundleCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.viewpager.widget.ViewPager
 import com.show.wanandroid.R
 import com.show.wanandroid.const.HAS_LOGIN
 import com.show.wanandroid.const.LastFragment
@@ -24,15 +19,12 @@ import com.show.wanandroid.const.User_Name
 import com.show.wanandroid.databinding.FragmentMainBinding
 import com.show.wanandroid.dialog.ThemeDialog
 import com.show.wanandroid.themes_name
-import com.show.wanandroid.transform.PageTransformer
 import com.show.wanandroid.ui.article.fragment.AccountFragment
 import com.show.wanandroid.ui.login.LoginActivity
 import com.show.wanandroid.ui.main.SearchActivity
-import com.show.wanandroid.ui.main.adapter.MainAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.ui.project.fragment.ProjectFragment
 import com.show.wanandroid.ui.tree.fragment.TreeFragment
-import com.show.wanandroid.util.DexToFlutter
 import com.show.wanandroid.widget.IconSwitch
 import com.showmethe.skinlib.SkinManager
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -228,7 +220,7 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainViewModel>() {
     }
 
     fun onFlutter(){
-        DexToFlutter.goToFlutter(context)
+
     }
 
     fun onLogin(){
