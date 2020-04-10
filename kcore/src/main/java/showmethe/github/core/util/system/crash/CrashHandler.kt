@@ -99,13 +99,17 @@ private constructor() : Thread.UncaughtExceptionHandler {
      * 重启activity 拉起的activity 不能为singleTask
      */
     private fun restartActivity(activityPair: Pair<Activity?, Intent?>){
-        val restartClass = guessRestartActivityClass()
-        val intent = Intent(activityPair.first,restartClass)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        activityPair.first?.startActivity(intent)
-        activityPair.first?.overridePendingTransition(0, 0)
-        activityPair.first?.finish()
-        activityPair.first?.overridePendingTransition(0, 0)
+       try {
+           val restartClass = guessRestartActivityClass()
+           val intent = Intent(activityPair.first,restartClass)
+           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+           activityPair.first?.startActivity(intent)
+           activityPair.first?.overridePendingTransition(0, 0)
+           activityPair.first?.finish()
+           activityPair.first?.overridePendingTransition(0, 0)
+       }catch (e:java.lang.Exception){
+           e.printStackTrace()
+       }
     }
 
 
