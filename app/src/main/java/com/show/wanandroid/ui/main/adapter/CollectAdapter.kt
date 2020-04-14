@@ -17,9 +17,9 @@ class CollectAdapter(mContext: Context, mData: ObservableArrayList<Collect.Datas
     SlideAdapter<Collect.DatasBean>(mContext, mData) {
     override fun getItemLayout(): Int = R.layout.item_collect
 
-    override fun bindItems(holder: SlideViewHolder, item: Collect.DatasBean, position: Int) {
+    override fun bindItems(holder: SlideViewHolder, contentView:View,item: Collect.DatasBean, position: Int) {
         holder.itemView.apply {
-            val binding = DataBindingUtil.bind<ItemCollectBinding>(contentView!!)
+            val binding = DataBindingUtil.bind<ItemCollectBinding>(contentView)
             binding?.apply {
                 bean = item
                 executePendingBindings()

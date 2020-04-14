@@ -8,12 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import showmethe.github.core.R
 
 import java.util.ArrayList
 import showmethe.github.core.util.widget.ScreenSizeUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.android.synthetic.main.item_slide_layout.view.*
 import showmethe.github.core.adapter.addCallback
 
 
@@ -63,7 +65,7 @@ abstract class SlideAdapter<D>(var mContext: Context,
 
     abstract fun  getItemLayout(): Int
 
-    abstract fun bindItems(holder: SlideViewHolder, item: D, position: Int)
+    abstract fun bindItems(holder: SlideViewHolder, contentView: View,item: D, position: Int)
 
     private fun inflateItemView(viewGroup: ViewGroup): View {
         this.layoutId = getItemLayout()
@@ -77,7 +79,7 @@ abstract class SlideAdapter<D>(var mContext: Context,
             click?.onContentItemClick(position)
         }
 
-        bindItems(viewHolder, mData[position], position)
+        bindItems(viewHolder, (viewHolder.itemView.slideLayout[0] as LinearLayout)[0], mData[position], position)
     }
 
 
