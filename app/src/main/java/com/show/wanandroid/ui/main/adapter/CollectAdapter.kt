@@ -11,10 +11,17 @@ import com.show.wanandroid.databinding.ItemProjectBinding
 import com.show.wanandroid.entity.Collect
 import showmethe.github.core.adapter.slideAdapter.SlideAdapter
 import showmethe.github.core.adapter.slideAdapter.SlideViewHolder
-import showmethe.github.core.glide.loadReveal
+import showmethe.github.core.glide.TGlide
+import showmethe.github.core.glide.TGlide.Companion.load
 
 class CollectAdapter(mContext: Context, mData: ObservableArrayList<Collect.DatasBean>) :
     SlideAdapter<Collect.DatasBean>(mContext, mData) {
+
+    private val config = TGlide.Config.newConfig().apply {
+        isViewTarget = true
+        isReveal = true
+    }
+
     override fun getItemLayout(): Int = R.layout.item_collect
 
     override fun bindItems(holder: SlideViewHolder, contentView:View,item: Collect.DatasBean, position: Int) {
@@ -26,7 +33,7 @@ class CollectAdapter(mContext: Context, mData: ObservableArrayList<Collect.Datas
                 ivCover.visibility = View.GONE
                 if(item.envelopePic.isNotEmpty()){
                     ivCover.visibility = View.VISIBLE
-                    ivCover.loadReveal(item.envelopePic)
+                    ivCover.load(item.envelopePic,config)
                 }else{
                     ivCover.setImageDrawable(null)
                 }

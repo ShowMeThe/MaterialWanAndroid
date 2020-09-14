@@ -8,7 +8,6 @@ import com.show.wanandroid.databinding.FragmentArticleDetailBinding
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import kotlinx.android.synthetic.main.fragment_article_detail.*
 import showmethe.github.core.base.BaseFragment
-import showmethe.github.core.glide.load
 import showmethe.github.core.util.extras.set
 import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
 

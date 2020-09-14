@@ -16,13 +16,6 @@ import showmethe.github.core.widget.common.SmartRelativeLayout
  * Package Name:showmethe.github.core.util.extras
  */
 
-
-@BindingAdapter("img")
-fun ImageView.setImg(url : Any){
-    TGlide.load(url,this@setImg)
-}
-
-
 inline fun <T : View> T.onGlobalLayout(crossinline  onLayout: T.()->Unit){
     if (viewTreeObserver.isAlive) {
         viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {

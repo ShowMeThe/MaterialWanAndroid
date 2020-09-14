@@ -12,8 +12,7 @@ import showmethe.github.core.adapter.BaseRecyclerViewAdapter
 import showmethe.github.core.adapter.DataBindBaseAdapter
 import showmethe.github.core.adapter.DataBindingViewHolder
 import showmethe.github.core.glide.TGlide
-import showmethe.github.core.glide.loadReveal
-import showmethe.github.core.glide.loadScaleNoCrop
+import showmethe.github.core.glide.TGlide.Companion.load
 
 /**
  *  com.show.wanandroid.ui.project.adapter
@@ -23,12 +22,17 @@ import showmethe.github.core.glide.loadScaleNoCrop
 class ProjectAdapter(context: Context, data: ObservableArrayList<CateBean.DatasBean>) :
     BaseRecyclerViewAdapter<CateBean.DatasBean, ProjectAdapter.ViewHolder>(context, data) {
 
+    private val config = TGlide.Config.newConfig().apply {
+        isReveal = true
+        isViewTarget = true
+    }
+
     override fun bindDataToItemView(holder: ViewHolder, item: CateBean.DatasBean, position: Int) {
         holder.binding.apply {
             bean = item
             executePendingBindings()
 
-            ivCover.loadReveal(item.envelopePic)
+            ivCover.load(item.envelopePic,config)
 
             like.setLike(item.isCollect,false)
             like.setOnClickListener {

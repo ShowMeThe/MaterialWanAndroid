@@ -27,14 +27,6 @@ fun View.setOnSingleClickListener(onSingleClick : (it:View)->Unit){
     }
 }
 
-fun ImageView.load(resource:Any){
-    TGlide.load(resource,this)
-}
-
-fun ImageView.loadBackground(resource:Any){
-    TGlide.loadInBackground(resource,this)
-}
-
 
 /**
  * 反射获取mLayoutScreen 设置对象为true,全屏效果，覆盖状态栏

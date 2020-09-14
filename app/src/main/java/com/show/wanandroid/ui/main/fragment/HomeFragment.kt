@@ -30,6 +30,7 @@ import showmethe.github.core.adapter.BaseRecyclerViewAdapter
 import showmethe.github.core.base.LazyFragment
 import showmethe.github.core.divider.RecycleViewDivider
 import showmethe.github.core.glide.TGlide
+import showmethe.github.core.glide.TGlide.Companion.load
 
 import showmethe.github.core.util.extras.*
 import showmethe.github.core.util.rden.RDEN
@@ -43,6 +44,10 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
     private lateinit var adapter: ArticleListAdapter
     private val list = ObList<Article.DatasBean>()
     private  val bannerList  = ArrayList<String>()
+    private val config = TGlide.Config.newConfig().apply {
+        isViewTarget = true
+        isCenterCrop = false
+    }
     override fun initViewModel(): MainViewModel = createViewModel()
 
     override fun getViewId(): Int = R.layout.fragment_home
@@ -194,7 +199,7 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
     private fun initBanner(){
 
         banner.setOnImageLoader { url, imageView ->
-            TGlide.loadNoCrop(url, imageView)
+            imageView.load(url,config)
         }
         banner.bindToLife(this)
     }
