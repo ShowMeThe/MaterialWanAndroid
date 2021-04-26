@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
-	<changeBounds  android:duration="@integer/card_flip_time_full" android:interpolator="@android:interpolator/fast_out_slow_in" />
-	<fade android:duration="@integer/card_flip_time_full" android:interpolator="@android:interpolator/linear"/>
-	<changeClipBounds android:duration="@integer/card_flip_time_full" android:interpolator="@android:interpolator/fast_out_slow_in"/>
-	<explode android:duration="@integer/card_flip_time_full" android:interpolator="@android:interpolator/linear" />
-	<changeImageTransform android:duration="@integer/card_flip_time_full_alpha" android:interpolator="@android:interpolator/linear"/>
-</transitionSet>

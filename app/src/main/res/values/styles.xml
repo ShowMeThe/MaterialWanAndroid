@@ -27,19 +27,19 @@
 
     <style name="Theme.Splash" parent="MaterialTheme">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowDisablePreview">false</item>
+        <item name="android:statusBarColor">@color/transparent</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFullscreen">false</item>
         <item name="colorSurface">@color/white</item>
     </style>
 
 
 
-     <style name="MaterialTheme.Blue">
+    <!-- <style name="MaterialTheme.Blue">
          <item name="theme_text_color">@color/colorAccent</item>
          <item name="theme_viewGroup_backgroundColor">@color/colorAccent</item>
          <item name="theme_viewGroup_background">@drawable/shape_drawer_head_bg</item>
@@ -95,7 +95,7 @@
         <item name="theme_inputLayout_boxColor">@color/color_7c4dff</item>
         <item name="theme_inputLayout_hintColor">@color/color_7c4dff</item>
         <item name="theme_edit_highlightColor">@color/color_7c4dff</item>
-    </style>
+    </style>-->
 
 
 </resources>

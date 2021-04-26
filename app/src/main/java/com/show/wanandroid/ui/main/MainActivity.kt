@@ -1,112 +1,63 @@
 package com.show.wanandroid.ui.main
 
-import android.content.Intent
 import android.os.Bundle
-import android.transition.Fade
-import android.transition.Transition
-import android.util.Log
-import android.view.animation.LinearInterpolator
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
+import com.show.kcore.base.BaseActivity
+import com.show.kcore.base.Transition
+import com.show.kcore.base.TransitionMode
+import com.show.kcore.extras.status.statusBar
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ActivityMainBinding
-import com.show.wanandroid.ui.main.fragment.ArticleDetailFragment
-import com.show.wanandroid.ui.main.fragment.CollectFragment
-import com.show.wanandroid.ui.main.fragment.MainFragment
-
+import com.show.wanandroid.replaceFragment
+import com.show.wanandroid.ui.main.fragment.HomeFragment
 import com.show.wanandroid.ui.main.vm.MainViewModel
-import showmethe.github.core.base.BaseActivity
-import showmethe.github.core.util.extras.set
-import showmethe.github.core.util.widget.StatusBarUtil.setFullScreen
 
-class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
+@Transition(mode = TransitionMode.RevealCenter)
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
 
-    private  val interpolator = LinearInterpolator()
+    private val fragments by lazy { arrayListOf(HomeFragment()) }
+
     override fun getViewId(): Int = R.layout.activity_main
-    override fun initViewModel(): MainViewModel = createViewModel()
-    override fun onBundle(bundle: Bundle) {
 
+    override fun onBundle(bundle: Bundle) {
     }
 
     override fun observerUI() {
-
-        viewModel.replace.observe(this, Observer {
-            it?.apply {
-                when(this){
-                    getString(R.string.transition_name_collect) -> replaceFragment(CollectFragment())
-                    getString(R.string.transition_name_web) -> replaceFragment(ArticleDetailFragment())
-                }
-            }
-        })
-
-
-
     }
 
-
     override fun init(savedInstanceState: Bundle?) {
-       setFullScreen()
+        statusBar {
+            uiFullScreen()
+        }
 
-       replaceFragment(MainFragment())
 
+        replaceFragment(fragments[0])
 
     }
 
     override fun initListener() {
 
-    }
+        binding {
 
 
-    private fun replaceFragment(replaceFragment : Fragment, id: Int = R.id.frameLayout) {
-        val tag = replaceFragment::class.java.name
-        var tempFragment = supportFragmentManager.findFragmentByTag(tag)
-        val transaction = supportFragmentManager.beginTransaction()
-        if (tempFragment == null) {
-            try {
-                tempFragment = replaceFragment
-                tempFragment.enterTransition = createTransition()
-                transaction.addToBackStack(null)
-                    .add(id, tempFragment, tag)
-                    .setMaxLifecycle(tempFragment, Lifecycle.State.RESUMED)
+            bottomView.setOnNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.tabHome -> {
+                        replaceFragment(fragments[0])
+                    }
+                    R.id.tabArea -> {
 
-            } catch (e: Exception) {
-                e.printStackTrace()
+                    }
+                    R.id.tabNav -> {
+
+                    }
+                    R.id.tabPro -> {
+
+                    }
+                }
+
+                true
             }
         }
-        val fragments = supportFragmentManager.fragments
-
-        for (i in fragments.indices) {
-            val fragment = fragments[i]
-            if (fragment.tag == tag) {
-                transaction
-                    .show(fragment)
-            } else {
-                transaction
-                    .hide(fragment)
-            }
-        }
-        transaction.commitAllowingStateLoss()
     }
-
-    private fun createTransition(): Transition {
-        val fade = Fade()
-        fade.duration = 250
-        fade.interpolator = interpolator
-        return fade
-    }
-
-    override fun onBackPressed() {
-        if(supportFragmentManager.fragments.size > 1){
-            supportFragmentManager.popBackStack()
-            viewModel.replace set ""
-        }else{
-            val intent = Intent(Intent.ACTION_MAIN)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.addCategory(Intent.CATEGORY_HOME)
-            startActivity(intent)
-        }
-    }
-
 }

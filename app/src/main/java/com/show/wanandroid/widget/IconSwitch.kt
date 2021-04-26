@@ -16,11 +16,7 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import com.show.wanandroid.R
 import java.util.*
 
-/**
- *  com.show.wanandroid.widget
- *  2020/3/14
- *  9:27
- */
+
 class IconSwitch @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {

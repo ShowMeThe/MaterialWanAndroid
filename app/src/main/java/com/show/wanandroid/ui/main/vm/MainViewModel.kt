@@ -1,103 +1,27 @@
 package com.show.wanandroid.ui.main.vm
 
 import android.app.Application
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import com.show.wanandroid.entity.*
+import androidx.lifecycle.AndroidViewModel
+import com.show.kcore.http.coroutines.KResultData
+import com.show.wanandroid.bean.Banner
+import com.show.wanandroid.bean.DatasBean
+import com.show.wanandroid.bean.JsonData
 import com.show.wanandroid.ui.main.repository.MainRepository
-import showmethe.github.core.base.BaseViewModel
-import showmethe.github.core.base.InjectOwner
-import showmethe.github.core.base.vmpath.VMPath
-import showmethe.github.core.http.coroutines.Result
 
-class MainViewModel(application: Application) : BaseViewModel(application) {
-
-    @InjectOwner
-    val repository = MainRepository()
-
-    val replace = MutableLiveData<String>()
-    val openWeb = MutableLiveData<Pair<String,String>>()
-
-    val userInfo = MutableLiveData<Result<UserInfo>>()
-
-    val collect = MutableLiveData<Result<Collect>>()
-    val banner = MutableLiveData<Result<ArrayList<Banner>>>()
-    val tops = MutableLiveData<Result<ArrayList<Article.DatasBean>>>()
-    val article = MutableLiveData<Result<Article>>()
-    val tabs = MutableLiveData<Result<ArrayList<TabBean>>>()
-    val tree = MutableLiveData<Result<ArrayList<Tree>>>()
-    val treeNavigator = MutableLiveData<Pair<Int,String>>()
-    val treeNavBack  = MutableLiveData<Boolean>()
-    val cateTab = MutableLiveData<Result<ArrayList<CateTab>>>()
-
-    override fun onViewModelCreated(owner: LifecycleOwner) {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
+    private val repository by lazy { MainRepository(this) }
+
+    val banner by lazy { KResultData<JsonData<List<Banner>>>() }
+    val homeTops by lazy { KResultData<List<DatasBean>>() }
+
+    fun getBanner(){
+        repository.getBanner(banner)
     }
 
+    fun getHomeTop(){
+        repository.getArticleTop(homeTops)
+    }
 
-
-    /**
-     * Banner
-     */
-    @VMPath(path = "getBanner")
-    fun getBanner() = repository.getBanner(banner)
-
-
-    /**
-     * Article
-     */
-    @VMPath(path = "getHomeArticle")
-    fun getHomeArticle(pager:Int) = repository.getHomeArticle(pager,article)
-    @VMPath(path = "getHomeTop")
-    fun getHomeTop() = repository.getHomeTopArticle(tops)
-
-    /**
-     * Chapters
-     */
-    @VMPath(path = "getChapters")
-    fun getChapters() = repository.getChapters(tabs)
-    @VMPath(path = "getArticle")
-    fun getArticle(id:Int,pager:Int,article:MutableLiveData<Result<Article>>) = repository.getArticle(id,pager,article)
-
-
-    /**
-     * Tree
-     */
-    @VMPath(path = "getTree")
-    fun getTree() = repository.getTree(tree)
-    @VMPath(path = "getTreeArticle")
-    fun getTreeArticle(pager: Int,id: Int,call:MutableLiveData<Result<Article>>) = repository.getTreeArticle(pager,id,call)
-
-    /**
-     * Collect
-     */
-    @VMPath("homeCollect")
-    fun homeCollect(id:Int) = repository.homeCollect(id)
-    @VMPath("homeUnCollect")
-    fun homeUnCollect(id:Int) = repository.homeUnCollect(id)
-
-
-    /**
-     * CateTab
-     */
-    @VMPath(path = "getCateTab")
-    fun getCateTab() = repository.getCateTab(cateTab)
-
-    @VMPath(path = "getCate")
-    fun getCate(pager:Int,id:Int, cate : MutableLiveData<Result<CateBean>>) = repository.getCate(pager,id,cate)
-
-    /**
-     * collect
-     */
-    @VMPath(path = "getCollect")
-    fun getCollect(pager:Int) = repository.getCollect(pager,collect)
-    @VMPath(path = "unCollect")
-    fun unCollect(id:Int,originId:Int) = repository.unCollect(id,originId)
-
-    /**
-     * UserInfo
-     */
-    @VMPath(path = "getUserInfo")
-    fun getUserInfo() = repository.getUserInfo(userInfo)
 }

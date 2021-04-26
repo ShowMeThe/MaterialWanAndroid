@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AutoRecyclerView">
+        <attr name="autoFix" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="SmartRelativeLayout">
+        <attr name="loading_view" format="reference"/>
+        <attr name="error_view" format="reference"/>
+        <attr name="empty_view" format="reference"/>
+    </declare-styleable>
+
+
+</resources>
