@@ -59,7 +59,7 @@ data class DatasBean(
     @Json(name = "niceDate")
     val niceDate: String,
     @Json(name = "niceShareDate")
-    val niceShareDate: String,
+    val niceShareDate: String?,
     @Json(name = "origin")
     val origin: String,
     @Json(name = "prefix")
@@ -73,7 +73,7 @@ data class DatasBean(
     @Json(name = "selfVisible")
     val selfVisible: Int,
     @Json(name = "shareDate")
-    val shareDate: Long,
+    val shareDate: Long?,
     @Json(name = "shareUser")
     val shareUser: String,
     @Json(name = "superChapterId")

@@ -69,12 +69,12 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
                 refreshData.value = false
                 binding {
                     rvList.finishLoading()
+                    rvList.setEnableLoadMore(list.size != 0)
                 }
             }
         }
-
-
     }
+
 
     override fun init(savedInstanceState: Bundle?) {
         binding {

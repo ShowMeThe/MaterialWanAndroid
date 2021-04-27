@@ -1,9 +1,13 @@
 package com.show.wanandroid.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.transition.addListener
@@ -21,6 +25,7 @@ import com.show.wanandroid.ui.main.fragment.AccountFragment
 import com.show.wanandroid.ui.main.fragment.HomeFragment
 import com.show.wanandroid.ui.main.fragment.TreeFragment
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.show.wanandroid.widget.IconSwitch
 
 @Transition(mode = TransitionMode.RevealCenter)
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
@@ -50,6 +55,27 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
         binding {
 
+            iconSwitch.setOnSwitchClickListener {
+                if (it == IconSwitch.STATE_DEFAULT) {
+                    drawer.openDrawer(GravityCompat.START)
+                } else {
+                    drawer.closeDrawer(GravityCompat.START)
+                }
+            }
+
+            drawer.addDrawerListener(object : DrawerLayout.DrawerListener{
+                override fun onDrawerStateChanged(newState: Int) {
+                }
+                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                    mainLayout.translationX  = slideOffset * drawerView.width
+                    iconSwitch.transitionPosition = slideOffset
+                }
+                override fun onDrawerClosed(drawerView: View) {
+                }
+                override fun onDrawerOpened(drawerView: View) {
+                }
+            })
+
 
             bottomView.setOnNavigationItemSelectedListener {
                 when (it.itemId) {
@@ -78,11 +104,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
 
     override fun onBackPressed() {
-        if(binding.bottomView.selectedItemId == R.id.tabNav
-            && getShareViewModel().popBack.value == 2){
+        if (binding.bottomView.selectedItemId == R.id.tabNav
+            && getShareViewModel().popBack.value == 2
+        ) {
             getShareViewModel().popBack.value = null
-        }else{
-            super.onBackPressed()
+        } else {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            startActivity(intent)
         }
     }
 

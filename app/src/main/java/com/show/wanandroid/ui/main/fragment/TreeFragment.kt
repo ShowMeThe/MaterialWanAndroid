@@ -1,6 +1,7 @@
 package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
+import android.view.View
 import android.view.animation.LinearInterpolator
 import com.google.android.material.transition.MaterialSharedAxis
 import com.show.kcore.base.BaseFragment
@@ -12,7 +13,7 @@ import com.show.wanandroid.ui.main.vm.TreeViewModel
 
 class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
 
-    private val fragments by lazy { arrayListOf(TreeBodyFragment(),TreeArticleFragment()) }
+    private val fragments by lazy { arrayListOf(TreeBodyFragment()) }
 
     override fun getViewId(): Int = R.layout.fragment_tree
 
@@ -27,7 +28,8 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
                 childFragmentManager.popBackStack()
                 getShareViewModel().popBack.value = 1
             }else{
-                replaceFragment(fragments[1],transition = createTransition())
+                replaceFragment(TreeArticleFragment(),
+                    transition = createTransition())
                 getShareViewModel().popBack.value = 2
             }
         }

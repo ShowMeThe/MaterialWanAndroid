@@ -92,4 +92,13 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
+    fun getTreeArticle(id:Int,page:Int,data: KResultData<JsonData<Article>>) {
+        androidScope {
+            callResult {
+                hold { api.getTreeArticle(page,id) }
+                    .bindData(data)
+            }
+        }
+    }
+
 }

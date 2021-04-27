@@ -48,6 +48,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
                 list.clear()
                 list.addAll(this)
                 refreshData.value = false
+                binding.rvList.finishLoading()
+                binding.rvList.setEnableLoadMore(list.size != 0)
             }
         }
 

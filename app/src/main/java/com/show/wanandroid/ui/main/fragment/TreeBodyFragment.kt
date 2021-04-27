@@ -50,19 +50,19 @@ class TreeBodyFragment : BaseFragment<FragmentTreeBodyBinding, TreeViewModel>() 
     override fun observerUI() {
         viewModel.trees.read(this) {
             it?.data?.apply {
-                ioDispatcher {
-                    val result = suspendCancellableCoroutine<Boolean> { continuation ->
-                        forEachIndexed { index, tree ->
-                            addInGroup(index,tree)
+                mainDispatcher {
+                    val result = withContext(Dispatchers.IO){
+                        suspendCancellableCoroutine<Boolean> { continuation ->
+                            forEachIndexed { index, tree ->
+                                addInGroup(index,tree)
+                            }
+                            continuation.resume(true)
                         }
-                        continuation.resume(true)
                     }
                     if(result){
-                        withContext(Dispatchers.Main){
-                            binding.smart.showContent()
-                            list.clear()
-                            list.addAll(this@apply)
-                        }
+                        binding.smart.showContent()
+                        list.clear()
+                        list.addAll(this@apply)
                     }
                 }
             }

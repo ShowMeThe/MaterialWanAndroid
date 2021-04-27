@@ -1,5 +1,7 @@
 package com.show.wanandroid
 
+import android.app.SharedElementCallback
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
@@ -48,6 +50,7 @@ fun Fragment.replaceFragment(
             }
             transaction.addToBackStack(null)
                 .add(id, tempFragment, tag)
+
                 .setMaxLifecycle(tempFragment, Lifecycle.State.RESUMED)
 
         } catch (e: Exception) {
