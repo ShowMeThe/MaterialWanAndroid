@@ -29,24 +29,27 @@ interface Main {
     suspend fun banner() : Response<JsonData<List<Banner>>>
 
     /**
+     * 文章
+     */
+    @GET("/article/list/{pager}/json")
+    suspend  fun getHomeArticle(@Path("pager") pager :Int ) : Response<JsonData<Article>>
+    @GET("/article/top/json")
+    suspend  fun getHomeTop() : Response<JsonData<List<DatasBean>>>
+
+
+    /**
      * 文章Tab
      */
     @GET("/wxarticle/chapters/json")
-    suspend fun getChapters() : Response<JsonData<ArrayList<TabBean>>>
+    suspend fun getChapters() : Response<JsonData<List<TabBeanItem>>>
     /**
      * Tab的文章
      */
     @GET("/wxarticle/list/{id}/{page}/json")
     suspend fun getArticle(@Path("id") id:Int,@Path("page") page:Int) : Response<JsonData<Article>>
 
-    /**
-     * 文章
-     */
-    @GET("/article/list/{pager}/json")
-    suspend  fun getHomeArticle(@Path("pager") pager :Int ) : Response<JsonData<Article>>
 
-    @GET("/article/top/json")
-    suspend  fun getHomeTop() : Response<JsonData<List<DatasBean>>>
+
 
 
     /**
@@ -66,7 +69,7 @@ interface Main {
      * 体系数据
      */
     @GET("/tree/json")
-    suspend  fun getTree() : Response<JsonData<ArrayList<Tree>>>
+    suspend  fun getTree() : Response<JsonData<List<Tree>>>
     @GET("/article/list/{page}/json?")
     suspend  fun getTreeArticle(@Path("page") page: Int ,@Query("cid") id: Int) : Response<JsonData<Article>>
 

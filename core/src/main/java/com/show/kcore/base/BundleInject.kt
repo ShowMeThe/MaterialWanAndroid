@@ -1,4 +1,4 @@
-package com.show.bundle_inject
+package com.show.kcore.base
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD)

@@ -9,10 +9,7 @@ import com.show.kcore.http.coroutines.KResult
 import com.show.kcore.http.coroutines.KResultData
 import com.show.kcore.http.coroutines.callResult
 import com.show.wanandroid.api.Main
-import com.show.wanandroid.bean.Article
-import com.show.wanandroid.bean.Banner
-import com.show.wanandroid.bean.DatasBean
-import com.show.wanandroid.bean.JsonData
+import com.show.wanandroid.bean.*
 
 class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
 
@@ -26,7 +23,14 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
             }
         }
     }
-
+    fun getHomeArticle(page: Int,liveData: KResultData<JsonData<Article>>){
+        androidScope {
+            callResult {
+                hold { api.getHomeArticle(page) }
+                    .bindData(liveData)
+            }
+        }
+    }
 
     fun getArticleTop(liveData: KResultData<List<DatasBean>>) {
         androidScope {
@@ -60,5 +64,32 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
+
+    fun getChapters(data: KResultData<JsonData<List<TabBeanItem>>>) {
+        androidScope {
+            callResult {
+                hold { api.getChapters() }
+                    .bindData(data)
+            }
+        }
+    }
+
+    fun getChaptersArticle(id:Int,page:Int,data: KResultData<JsonData<Article>>) {
+        androidScope {
+            callResult {
+                hold { api.getArticle(id, page) }
+                    .bindData(data)
+            }
+        }
+    }
+
+    fun getTree(data: KResultData<JsonData<List<Tree>>>) {
+        androidScope {
+            callResult {
+                hold { api.getTree() }
+                    .bindData(data)
+            }
+        }
+    }
 
 }

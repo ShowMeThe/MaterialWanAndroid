@@ -15,13 +15,11 @@
         <item name="android:colorControlActivated">@color/colorPrimary</item>
         <item name="android:colorControlHighlight">@color/colorPrimary</item>
 
-        <item name="android:statusBarColor">@color/colorAccent</item>
         <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/colorAccent</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowSharedElementReenterTransition">@transition/transition_change_bound</item>
         <item name="android:windowSharedElementEnterTransition">@transition/transition_change_bound</item>
         <item name="android:windowSharedElementExitTransition">@transition/transition_change_bound</item>
-        <item name="android:windowSharedElementReturnTransition">@transition/transition_change_bound</item>
     </style>
 
 

@@ -1,46 +1,50 @@
 package com.show.wanandroid.bean
 
 import kotlin.collections.ArrayList
+import com.squareup.moshi.JsonClass
 
-
-class Tree {
-    /**
-     * children : [{"children":[],"courseId":13,"id":60,"name":"Android Studio相关","order":1000,"parentChapterId":150,"visible":1}]
-     * courseId : 13
-     * id : 150
-     * name : 开发环境
-     * order : 1
-     * parentChapterId : 0
-     * visible : 1
-     */
-    var courseId = 0
-    var id = 0
-    var name = ""
-    var order = 0
-    var parentChapterId = 0
-    var visible = 0
-    var children: ArrayList<ChildrenBean> = ArrayList()
+import com.squareup.moshi.Json
 
 
 
-    class ChildrenBean {
-        /**
-         * children : []
-         * courseId : 13
-         * id : 60
-         * name : Android Studio相关
-         * order : 1000
-         * parentChapterId : 150
-         * visible : 1
-         */
-        var courseId = 0
-        var id = 0
-        var name = ""
-        var order = 0
-        var parentChapterId = 0
-        var visible = 0
-        var children: List<*>? = null
-    }
 
 
-}
+@JsonClass(generateAdapter = true)
+data class Tree(
+    @Json(name = "children")
+    val children: List<Children>,
+    @Json(name = "courseId")
+    val courseId: Int,
+    @Json(name = "id")
+    val id: Int,
+    @Json(name = "name")
+    val name: String,
+    @Json(name = "order")
+    val order: Int,
+    @Json(name = "parentChapterId")
+    val parentChapterId: Int,
+    @Json(name = "userControlSetTop")
+    val userControlSetTop: Boolean,
+    @Json(name = "visible")
+    val visible: Int
+)
+
+@JsonClass(generateAdapter = true)
+data class Children(
+    @Json(name = "children")
+    val children: List<Any>,
+    @Json(name = "courseId")
+    val courseId: Int,
+    @Json(name = "id")
+    val id: Int,
+    @Json(name = "name")
+    val name: String,
+    @Json(name = "order")
+    val order: Int,
+    @Json(name = "parentChapterId")
+    val parentChapterId: Int,
+    @Json(name = "userControlSetTop")
+    val userControlSetTop: Boolean,
+    @Json(name = "visible")
+    val visible: Int
+)

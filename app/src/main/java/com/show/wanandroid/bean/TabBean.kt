@@ -1,24 +1,26 @@
 package com.show.wanandroid.bean
+import com.squareup.moshi.JsonClass
+
+import com.squareup.moshi.Json
 
 
-class TabBean {
-    /**
-     * children : []
-     * courseId : 13
-     * id : 408
-     * name : 鸿洋
-     * order : 190000
-     * parentChapterId : 407
-     * userControlSetTop : false
-     * visible : 1
-     */
-    var courseId = 0
-    var id = 0
-    var name: String = ""
-    var order = 0
-    var parentChapterId = 0
-    var isUserControlSetTop = false
-    var visible = 0
-    var children: List<*>? = null
 
-}
+@JsonClass(generateAdapter = true)
+data class TabBeanItem(
+    @Json(name = "children")
+    val children: List<Any>,
+    @Json(name = "courseId")
+    val courseId: Int,
+    @Json(name = "id")
+    val id: Int,
+    @Json(name = "name")
+    val name: String,
+    @Json(name = "order")
+    val order: Int,
+    @Json(name = "parentChapterId")
+    val parentChapterId: Int,
+    @Json(name = "userControlSetTop")
+    val userControlSetTop: Boolean,
+    @Json(name = "visible")
+    val visible: Int
+)

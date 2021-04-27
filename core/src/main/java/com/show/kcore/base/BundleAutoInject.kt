@@ -7,7 +7,6 @@ import android.util.Size
 import android.util.SizeF
 import androidx.activity.ComponentActivity
 import androidx.fragment.app.Fragment
-import com.show.bundle_inject.BundleInject
 import java.io.Serializable
 import java.util.ArrayList
 

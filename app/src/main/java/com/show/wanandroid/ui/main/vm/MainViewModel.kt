@@ -3,9 +3,7 @@ package com.show.wanandroid.ui.main.vm
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.show.kcore.http.coroutines.KResultData
-import com.show.wanandroid.bean.Banner
-import com.show.wanandroid.bean.DatasBean
-import com.show.wanandroid.bean.JsonData
+import com.show.wanandroid.bean.*
 import com.show.wanandroid.ui.main.repository.MainRepository
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -14,7 +12,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repository by lazy { MainRepository(this) }
 
     val banner by lazy { KResultData<JsonData<List<Banner>>>() }
+    val homeArticle by lazy { KResultData<JsonData<Article>>()  }
     val homeTops by lazy { KResultData<List<DatasBean>>() }
+    val tabs by lazy { KResultData<JsonData<List<TabBeanItem>>>() }
 
     fun getBanner(){
         repository.getBanner(banner)
@@ -23,5 +23,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun getHomeTop(){
         repository.getArticleTop(homeTops)
     }
+
+    fun getHomeArticle(page: Int){
+        repository.getHomeArticle(page,homeArticle)
+    }
+
+
+    fun getChapters(){
+        repository.getChapters(tabs)
+    }
+
+
+    fun getChaptersArticle(id:Int,page:Int,data: KResultData<JsonData<Article>>){
+        repository.getChaptersArticle(id, page, data)
+    }
+
 
 }
