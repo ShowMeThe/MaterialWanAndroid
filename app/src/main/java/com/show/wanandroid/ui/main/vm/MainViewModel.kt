@@ -15,6 +15,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val homeArticle by lazy { KResultData<JsonData<Article>>()  }
     val homeTops by lazy { KResultData<List<DatasBean>>() }
     val tabs by lazy { KResultData<JsonData<List<TabBeanItem>>>() }
+    val cateTab by lazy { KResultData<JsonData<List<CateTab>>>() }
 
     fun getBanner(){
         repository.getBanner(banner)
@@ -38,5 +39,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         repository.getChaptersArticle(id, page, data)
     }
 
+    fun getCateTab(){
+        repository.getCateTab(cateTab)
+    }
+
+    fun getCate(pager:Int,cid:Int,data: KResultData<JsonData<CateBean>>){
+        repository.getCate(pager, cid, data)
+    }
 
 }

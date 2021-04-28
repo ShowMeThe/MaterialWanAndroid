@@ -78,7 +78,7 @@ interface Main {
      *  项目分类
      */
     @GET("/project/tree/json")
-    suspend  fun getCateTab() : Response<JsonData<ArrayList<CateTab>>>
+    suspend  fun getCateTab() : Response<JsonData<List<CateTab>>>
     /**
      *  项目列表数据
      */

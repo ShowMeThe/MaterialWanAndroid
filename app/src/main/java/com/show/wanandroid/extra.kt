@@ -14,6 +14,13 @@ inline val CONFIG
         cacheMode = DiskCacheStrategy.DATA
     }
 
+inline val SCALE_CONFIG
+    get() = TGlide.Config.newConfig().apply {
+        cacheMode = DiskCacheStrategy.DATA
+        isRevealScale = true
+    }
+
+
 val themes_res = arrayListOf(
     R.color.colorAccent, R.color.color_304ffe,
     R.color.color_6200ea, R.color.color_f4511e, R.color.color_FBC02D

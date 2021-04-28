@@ -101,4 +101,24 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
+
+    fun getCateTab(data: KResultData<JsonData<List<CateTab>>>) {
+        androidScope {
+            callResult {
+                hold { api.getCateTab() }
+                    .bindData(data)
+            }
+        }
+    }
+
+
+    fun getCate(pager:Int,cid:Int,data: KResultData<JsonData<CateBean>>) {
+        androidScope {
+            callResult {
+                hold { api.getCate(pager,cid) }
+                    .bindData(data)
+            }
+        }
+    }
+
 }

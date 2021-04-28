@@ -23,6 +23,7 @@ import com.show.wanandroid.getShareViewModel
 import com.show.wanandroid.replaceFragment
 import com.show.wanandroid.ui.main.fragment.AccountFragment
 import com.show.wanandroid.ui.main.fragment.HomeFragment
+import com.show.wanandroid.ui.main.fragment.ProjectFragment
 import com.show.wanandroid.ui.main.fragment.TreeFragment
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.widget.IconSwitch
@@ -31,7 +32,14 @@ import com.show.wanandroid.widget.IconSwitch
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
 
-    private val fragments by lazy { arrayListOf(HomeFragment(), AccountFragment(), TreeFragment()) }
+    private val fragments by lazy {
+        arrayListOf(
+            HomeFragment(),
+            AccountFragment(),
+            TreeFragment(),
+            ProjectFragment()
+        )
+    }
 
     override fun getViewId(): Int = R.layout.activity_main
 
@@ -63,15 +71,18 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                 }
             }
 
-            drawer.addDrawerListener(object : DrawerLayout.DrawerListener{
+            drawer.addDrawerListener(object : DrawerLayout.DrawerListener {
                 override fun onDrawerStateChanged(newState: Int) {
                 }
+
                 override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
-                    mainLayout.translationX  = slideOffset * drawerView.width
+                    mainLayout.translationX = slideOffset * drawerView.width
                     iconSwitch.transitionPosition = slideOffset
                 }
+
                 override fun onDrawerClosed(drawerView: View) {
                 }
+
                 override fun onDrawerOpened(drawerView: View) {
                 }
             })
@@ -92,7 +103,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                         tvTitle.text = getString(R.string.knowledge)
                     }
                     R.id.tabPro -> {
-
+                        replaceFragment(fragments[3])
                         tvTitle.text = getString(R.string.project)
                     }
                 }
