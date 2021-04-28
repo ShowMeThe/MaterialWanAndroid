@@ -1,4 +1,4 @@
 rootProject.name= "MaterialWanAndroid"
 includeBuild("version")
-include(":app",":core")
+include(":app",":core","skinlib")
 

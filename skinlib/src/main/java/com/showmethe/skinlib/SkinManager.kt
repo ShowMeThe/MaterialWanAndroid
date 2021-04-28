@@ -32,29 +32,30 @@ import kotlin.collections.ArrayList
  * Package Name:com.showmethe.skinlib
  */
 
-fun String.getColorExtras() : ArrayList<String>?{
-    return SkinManager.getInstant().themesJson[this]?.colorObjects
+fun String.getColorExtras() : List<String>?{
+    return SkinManager.getManager().themesJson[this]?.colorObjects
 }
 
-fun String.isStyleFromJson() = SkinManager.getInstant().themesJson[this] != null
+fun String.isStyleFromJson() = SkinManager.getManager().themesJson[this] != null
 
-class SkinManager private constructor(var context: Context) {
+class SkinManager private constructor() {
+
+    private lateinit var context: Context
 
     companion object {
 
         var currentStyle = ""
-        private var instant: SkinManager? = null
+        private val instant by lazy { SkinManager() }
+
 
         @Synchronized
         fun init(context: Context): SkinManager {
-            if (instant == null) {
-                instant = SkinManager(context)
-            }
-            return instant!!
+            instant.context = context
+            return instant
         }
 
-        fun getInstant(): SkinManager {
-            return instant!!
+        fun getManager(): SkinManager {
+            return instant
         }
 
 
@@ -129,15 +130,15 @@ class SkinManager private constructor(var context: Context) {
 
 
         fun patchView(view: View, attr: String) {
-            getInstant().patchView(view, attr)
+            getManager().patchView(view, attr)
         }
 
         fun patchView(view: ViewGroup, attr: String) {
-            getInstant().patchView(view, attr)
+            getManager().patchView(view, attr)
         }
 
         fun patchPlugin(view: View, name: String) {
-            getInstant().patchPlugin(view, name)
+            getManager().patchPlugin(view, name)
         }
     }
 

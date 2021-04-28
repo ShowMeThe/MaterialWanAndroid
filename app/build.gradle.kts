@@ -82,7 +82,7 @@ android{
         })
         //debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
         implementation(project(":core"))
-
+        implementation(project(":skinlib"))
     }
 
 }

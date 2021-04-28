@@ -16,17 +16,21 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.show.kcore.base.BaseActivity
 import com.show.kcore.base.Transition
 import com.show.kcore.base.TransitionMode
+import com.show.kcore.extras.binding.DialogFragmentRef
 import com.show.kcore.extras.status.statusBar
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ActivityMainBinding
+import com.show.wanandroid.dialog.ThemeDialog
 import com.show.wanandroid.getShareViewModel
 import com.show.wanandroid.replaceFragment
+import com.show.wanandroid.themes_name
 import com.show.wanandroid.ui.main.fragment.AccountFragment
 import com.show.wanandroid.ui.main.fragment.HomeFragment
 import com.show.wanandroid.ui.main.fragment.ProjectFragment
 import com.show.wanandroid.ui.main.fragment.TreeFragment
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.widget.IconSwitch
+import com.showmethe.skinlib.SkinManager
 
 @Transition(mode = TransitionMode.RevealCenter)
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
@@ -40,6 +44,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             ProjectFragment()
         )
     }
+    private val dialog by DialogFragmentRef(ThemeDialog::class.java)
 
     override fun getViewId(): Int = R.layout.activity_main
 
@@ -54,6 +59,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             uiFullScreen()
         }
 
+        binding {
+            SkinManager.getManager().bindings(this)
+
+            main = this@MainActivity
+            executePendingBindings()
+
+        }
 
         replaceFragment(fragments[0])
 
@@ -124,6 +136,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addCategory(Intent.CATEGORY_HOME)
             startActivity(intent)
+        }
+    }
+
+
+    fun onTheme(){
+        dialog.show(supportFragmentManager,"theme")
+        dialog.setOnThemeClickListener {
+            SkinManager.getManager().switchThemeByName(themes_name[it])
         }
     }
 
