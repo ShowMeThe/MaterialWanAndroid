@@ -23,8 +23,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:tint="@color/colorAccent"
             android:src="@drawable/ic_author"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             />
 
         <TextView
@@ -36,7 +36,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/ivAuthor"
             app:layout_constraintTop_toTopOf="@+id/ivAuthor"
             app:layout_constraintStart_toEndOf="@+id/ivAuthor"
@@ -51,8 +50,8 @@
             app:layout_constraintStart_toEndOf="@+id/tvAuthor"
             android:tint="@color/colorAccent"
             android:src="@drawable/ic_level"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             />
 
         <TextView
@@ -64,7 +63,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/ivLevel"
             app:layout_constraintTop_toTopOf="@+id/ivLevel"
             app:layout_constraintStart_toEndOf="@+id/ivLevel"
@@ -95,20 +93,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:tint="@color/colorAccent"
             android:src="@drawable/ic_time"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             />
 
         <TextView
             android:id="@+id/tvTime"
             android:text="@{Bean.niceDate}"
             android:fontFamily="sans-serif-light"
-            android:textSize="12dp"
+            android:textSize="14dp"
             android:textColor="@color/color_666666"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/ivTime"
             app:layout_constraintTop_toTopOf="@+id/ivTime"
             app:layout_constraintStart_toEndOf="@+id/ivTime"

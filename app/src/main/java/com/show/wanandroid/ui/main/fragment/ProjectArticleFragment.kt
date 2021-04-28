@@ -59,7 +59,8 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
                 }
                 list.addAll(datas)
                 refreshData.value = false
-                binding.rvList.setEnableLoadMore(list.isEmpty())
+                binding.rvList.finishLoading()
+                binding.rvList.setEnableLoadMore(list.isNotEmpty())
             }
         }
 
