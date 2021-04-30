@@ -2,10 +2,13 @@ package com.show.wanandroid
 
 import android.app.SharedElementCallback
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.transition.MaterialSharedAxis
 import com.show.kcore.glide.TGlide
 
 
@@ -42,7 +45,7 @@ val colors = arrayListOf(
 
 fun Fragment.replaceFragment(
     replaceFragment: Fragment,
-    id: Int = R.id.frameLayout,
+    id: Int = R.id.mainTree,
     transition: androidx.transition.TransitionSet? = null
 ) {
     val tag = replaceFragment::class.java.name
@@ -86,8 +89,10 @@ fun FragmentActivity.replaceFragment(replaceFragment: Fragment, id: Int = R.id.f
     val transaction = supportFragmentManager.beginTransaction()
     if (tempFragment == null) {
         try {
-            tempFragment = replaceFragment
-            transaction.addToBackStack(null)
+            tempFragment = replaceFragment.apply {
+
+            }
+            transaction
                 .add(id, tempFragment, tag)
                 .setMaxLifecycle(tempFragment, Lifecycle.State.RESUMED)
 
@@ -109,3 +114,4 @@ fun FragmentActivity.replaceFragment(replaceFragment: Fragment, id: Int = R.id.f
     }
     transaction.commitAllowingStateLoss()
 }
+

@@ -34,7 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
 
     override fun observerUI() {
 
-        viewModel.banner.read(this){
+        viewModel.banner.read(viewLifecycleOwner){
             it?.data?.apply {
                 val urls = this.map { it.imagePath }
                 binding {
@@ -43,7 +43,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
             }
         }
 
-        viewModel.homeTops.read(this){
+        viewModel.homeTops.read(viewLifecycleOwner){
             it?.apply {
                 list.clear()
                 list.addAll(this)

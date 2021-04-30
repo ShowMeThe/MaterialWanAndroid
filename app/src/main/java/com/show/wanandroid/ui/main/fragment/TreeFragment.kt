@@ -23,7 +23,7 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
 
     override fun observerUI() {
 
-        viewModel.navigator.observe(this){
+        viewModel.navigator.observe(viewLifecycleOwner){
             if(it == null){
                 childFragmentManager.popBackStack()
                 getShareViewModel().popBack.value = 1

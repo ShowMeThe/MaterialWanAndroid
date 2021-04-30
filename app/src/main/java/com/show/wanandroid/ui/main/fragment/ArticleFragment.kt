@@ -60,7 +60,7 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
     override fun observerUI() {
 
 
-        article.read(this) { jsonData ->
+        article.read(viewLifecycleOwner) { jsonData ->
             jsonData?.data?.apply {
                 if (page == 0) {
                     list.clear()

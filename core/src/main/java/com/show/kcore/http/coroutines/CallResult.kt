@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
+import java.util.logging.Logger
 
 
 fun LifecycleOwner.androidScope(scope: LifecycleOwner.() -> Unit) {
@@ -23,6 +24,8 @@ class CallResult constructor(
     private var owner: LifecycleOwner?,
     var callResult: (CallResult.() -> Unit)?
 ) {
+
+    private val TAG = "CallResult"
 
     init {
         callResult?.invoke(this)
@@ -94,6 +97,7 @@ class CallResult constructor(
                     .repeatTime(repeatTime)
                     .addAsync(this){
                         if(this is TimeoutCancellationException){
+                            this.printStackTrace()
                             kResponse.doOnTimeOut()
                         }else{
                             kResponse.doOnError(this)
@@ -108,6 +112,7 @@ class CallResult constructor(
                         .timeOut(timeOut)
                         .repeatTime(repeatTime)
                         .addAsync(this) {
+                            this.printStackTrace()
                            if(this is TimeoutCancellationException){
                                kResponse.doOnTimeOut()
                            }else{

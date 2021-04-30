@@ -25,7 +25,7 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding, MainViewModel>() {
 
     override fun observerUI() {
 
-        viewModel.cateTab.read(this){
+        viewModel.cateTab.read(viewLifecycleOwner){
             it?.data?.apply {
                 titles.clear()
                 fragments.clear()
