@@ -18,12 +18,9 @@ import com.show.kcore.base.Transition
 import com.show.kcore.base.TransitionMode
 import com.show.kcore.extras.binding.DialogFragmentRef
 import com.show.kcore.extras.status.statusBar
-import com.show.wanandroid.R
+import com.show.wanandroid.*
 import com.show.wanandroid.databinding.ActivityMainBinding
 import com.show.wanandroid.dialog.ThemeDialog
-import com.show.wanandroid.getShareViewModel
-import com.show.wanandroid.replaceFragment
-import com.show.wanandroid.themes_name
 import com.show.wanandroid.ui.main.fragment.AccountFragment
 import com.show.wanandroid.ui.main.fragment.HomeFragment
 import com.show.wanandroid.ui.main.fragment.ProjectFragment
@@ -100,7 +97,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             })
 
 
-            bottomView.setOnNavigationItemSelectedListener {
+
+
+
+            bottomView.setOnNavigationSingleItemSelectedListener {
                 when (it.itemId) {
                     R.id.tabHome -> {
                         replaceFragment(fragments[0])
@@ -119,9 +119,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                         tvTitle.text = getString(R.string.project)
                     }
                 }
-
-                true
             }
+
         }
     }
 

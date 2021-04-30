@@ -1,6 +1,7 @@
 package com.show.wanandroid
 
 import android.app.SharedElementCallback
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
@@ -8,8 +9,23 @@ import androidx.fragment.app.FragmentActivity
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.transition.MaterialSharedAxis
 import com.show.kcore.glide.TGlide
+
+
+fun BottomNavigationView.setOnNavigationSingleItemSelectedListener(listener:(it:MenuItem)->Unit){
+    var lastTime = 0L
+    setOnNavigationItemSelectedListener {
+        if (System.currentTimeMillis() - lastTime >= 300){
+            lastTime = System.currentTimeMillis()
+            listener.invoke(it)
+            true
+        }else{
+            false
+        }
+    }
+}
 
 
 inline val CONFIG
