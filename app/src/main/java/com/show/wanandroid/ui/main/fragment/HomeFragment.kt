@@ -8,12 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.show.kcore.base.BaseFragment
 import com.show.kcore.extras.gobal.read
 import com.show.kcore.glide.TGlide.Companion.load
+import com.show.kcore.rden.Stores
 import com.show.wanandroid.CONFIG
 import com.show.wanandroid.R
+import com.show.wanandroid.bannerPlugin
 import com.show.wanandroid.bean.DatasBean
 import com.show.wanandroid.databinding.FragmentHomeBinding
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.showmethe.skinlib.SkinManager
+import com.showmethe.skinlib.getColorExtras
+import com.showmethe.skinlib.isStyleFromJson
 import com.showmethe.speeddiallib.expand.ExpandIcon
 import com.showmethe.speeddiallib.expand.ExpandManager
 
@@ -39,15 +44,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
                 val urls = this.map { it.imagePath }
                 binding {
                     banner.addList(ArrayList(urls))
+
+                    val styleName = Stores.getString("theme","BlueTheme")!!
+                    if(styleName.isStyleFromJson()){
+                        bannerPlugin.individuate(banner,styleName,styleName.getColorExtras())
+                    }else{
+                        bannerPlugin.individuate(banner,styleName)
+                    }
                 }
             }
         }
 
-        viewModel.homeTops.read(viewLifecycleOwner){
+        viewModel.homeTops.read(viewLifecycleOwner,timeOut = {
+            getHomeArticle()
+        }){
             it?.apply {
                 list.clear()
                 list.addAll(this)
                 refreshData.value = false
+                binding.rvList.finishLoading()
+                binding.rvList.setEnableLoadMore(list.size != 0)
+            }
+        }
+
+        viewModel.homeArticle.read(this){
+            it?.data?.apply {
+                list.addAll(datas)
                 binding.rvList.finishLoading()
                 binding.rvList.setEnableLoadMore(list.size != 0)
             }
@@ -58,9 +80,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
     override fun init(savedInstanceState: Bundle?) {
 
         binding {
+
+            SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
+
             main = this@HomeFragment
             executePendingBindings()
-            refresh.setColorSchemeResources(R.color.colorAccent)
+
+
             banner.bindToLife(viewLifecycleOwner)
             banner.setOnImageLoader { url, imageView ->
                 imageView.load(url,CONFIG)

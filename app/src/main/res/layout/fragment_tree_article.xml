@@ -28,6 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:onClick="@{()->Main.popBack()}"
             app:shake_auto="true"
+            plugin="@{`ShakingImageViewIPlugin`}"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -44,6 +45,7 @@
             app:layout_constraintBottom_toBottomOf="@id/ivBack"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            skin="@{`textColor`}"
             />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -54,6 +56,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ivBack"
             app:layout_constraintBottom_toBottomOf="parent"
             refresh="@{Main.refreshData}"
+            plugin="@{`RefreshPlugin`}"
             >
 
             <com.show.kcore.widget.AutoRecyclerView

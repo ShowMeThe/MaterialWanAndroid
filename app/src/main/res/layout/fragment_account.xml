@@ -24,6 +24,7 @@
             app:tabInlineLabel="true"
             app:tabIndicatorHeight="1dp"
             app:tabIndicatorFullWidth="false"
+            skin="@{`backgroundColor`}"
             >
         </com.google.android.material.tabs.TabLayout>
 

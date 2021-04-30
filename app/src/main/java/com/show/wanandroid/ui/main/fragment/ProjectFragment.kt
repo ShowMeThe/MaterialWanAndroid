@@ -9,6 +9,7 @@ import com.show.wanandroid.R
 import com.show.wanandroid.databinding.FragmentProjectBinding
 import com.show.wanandroid.ui.main.adapter.TabArticleAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.showmethe.skinlib.SkinManager
 
 
 class ProjectFragment : BaseFragment<FragmentProjectBinding, MainViewModel>() {
@@ -41,7 +42,7 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding, MainViewModel>() {
 
     override fun init(savedInstanceState: Bundle?) {
 
-
+        SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
 
         viewModel.getCateTab()
 

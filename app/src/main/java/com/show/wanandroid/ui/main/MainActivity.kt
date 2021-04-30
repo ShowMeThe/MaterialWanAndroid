@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -57,7 +58,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         }
 
         binding {
-            SkinManager.getManager().bindings(this)
+            SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
 
             main = this@MainActivity
             executePendingBindings()
@@ -95,7 +96,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                 override fun onDrawerOpened(drawerView: View) {
                 }
             })
-
 
 
 

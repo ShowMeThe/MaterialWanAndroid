@@ -21,6 +21,7 @@
         app:strokeWidth="1dp"
         app:cardCornerRadius="10dp"
         android:layout_margin="6dp"
+        skin="@{`strokeColor`}"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,6 +51,7 @@
                 android:src="@drawable/ic_author"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
+                skin="@{`tint`}"
                 />
 
             <TextView
@@ -77,6 +79,7 @@
                 android:src="@drawable/ic_level"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
+                skin="@{`tint`}"
                 />
 
             <TextView
@@ -125,6 +128,7 @@
                 android:src="@drawable/ic_time"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
+                skin="@{`tint`}"
                 />
 
             <TextView

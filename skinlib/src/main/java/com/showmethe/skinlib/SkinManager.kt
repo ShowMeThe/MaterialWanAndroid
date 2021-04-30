@@ -86,6 +86,7 @@ class SkinManager private constructor() {
 
             R.attr.theme_bottom_navigation_iconTint,
             R.attr.theme_bottom_navigation_textColor,
+            R.attr.theme_bottom_navigation_rippleColor,
 
             R.attr.theme_imageView_tint,
 
@@ -116,7 +117,7 @@ class SkinManager private constructor() {
             "theme_radio_textColor", "theme_radio_background",
             "theme_radio_backgroundColor", "theme_radio_drawableTint", "theme_radio_buttonTint",
 
-            "theme_bottom_navigation_iconTint", "theme_bottom_navigation_textColor",
+            "theme_bottom_navigation_iconTint", "theme_bottom_navigation_textColor","theme_bottom_navigation_rippleColor",
 
             "theme_imageView_tint",
 
@@ -325,6 +326,14 @@ class SkinManager private constructor() {
             ViewType.BottomNavigationView -> {
                 attrs.forEach {
                     when {
+                        it.trim() == "rippleColor" -> {
+                            theme["theme_bottom_navigation_rippleColor"]?.apply {
+                                view::class.java.methods.filter { method -> method.name == "setItemRippleColor" }[0].invoke(
+                                    view,
+                                    getColorStateList()
+                                )
+                            }
+                        }
                         it.trim() == "iconTint" -> {
                             theme["theme_bottom_navigation_iconTint"]?.apply {
                                 view::class.java.methods.filter { method -> method.name == "setItemIconTintList" }[0].invoke(
@@ -417,6 +426,14 @@ class SkinManager private constructor() {
             ViewType.BottomNavigationView -> {
                 attrs.forEach {
                     when {
+                        it.trim() == "rippleColor" -> {
+                            theme.theme_bottom_navigation_rippleColor?.apply {
+                                view::class.java.methods.filter { method -> method.name == "setItemRippleColor" }[0].invoke(
+                                    view,
+                                    getColorStateList()
+                                )
+                            }
+                        }
                         it.trim() == "iconTint" -> {
                             theme.theme_bottom_navigation_iconTint?.apply {
                                 view::class.java.methods.filter { method -> method.name == "setItemIconTintList" }[0].invoke(
@@ -604,7 +621,7 @@ class SkinManager private constructor() {
             }
             ViewType.Button, ViewType.MaterialButton -> {
                 val button = view as Button
-                theme?.apply {
+                theme.apply {
                     attrs.forEach {
                         when {
                             it.trim() == "textColor" -> {

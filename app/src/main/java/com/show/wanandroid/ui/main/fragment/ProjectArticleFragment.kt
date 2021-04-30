@@ -17,6 +17,7 @@ import com.show.wanandroid.const.BundleConst
 import com.show.wanandroid.databinding.FragmentProjectArticleBinding
 import com.show.wanandroid.ui.main.adapter.ProjectAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.showmethe.skinlib.SkinManager
 
 
 class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainViewModel>() {
@@ -68,7 +69,8 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
 
     override fun init(savedInstanceState: Bundle?) {
         binding {
-            refresh.setColorSchemeResources(R.color.colorAccent)
+            SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
+
             main = this@ProjectArticleFragment
             executePendingBindings()
 

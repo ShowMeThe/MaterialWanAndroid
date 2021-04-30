@@ -52,6 +52,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:scrollType="INFINITE"
+                        plugin="@{`BannerPlugin`}"
                         />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -69,6 +70,7 @@
             android:layout_marginTop="-12dp"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             refresh="@{Main.refreshData}"
+            plugin="@{`RefreshPlugin`}"
             >
 
             <com.show.kcore.widget.AutoRecyclerView
@@ -99,7 +101,9 @@
             app:rippleColor="@color/colorAccent"
             app:srcCompat="@drawable/ic_home"
             app:tint="@color/white"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            skin="@{`backgroundColor`}"
+            />
 
 
         <com.showmethe.speeddiallib.expand.ExpandMenuChildLayout
@@ -109,6 +113,7 @@
             android:layout_height="wrap_content"
             app:layout_anchor="@id/fab"
             app:layout_behavior="com.showmethe.speeddiallib.expand.ExpandBottomBehavior"
+            plugin="@{`ExpandIPlugin`}"
             />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

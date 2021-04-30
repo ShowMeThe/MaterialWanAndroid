@@ -10,6 +10,7 @@ import com.show.wanandroid.R
 import com.show.wanandroid.databinding.FragmentAccountBinding
 import com.show.wanandroid.ui.main.adapter.TabArticleAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.showmethe.skinlib.SkinManager
 
 
 class AccountFragment : BaseFragment<FragmentAccountBinding, MainViewModel>() {
@@ -49,6 +50,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding, MainViewModel>() {
     override fun init(savedInstanceState: Bundle?) {
 
 
+        SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
         viewModel.getChapters()
 
     }

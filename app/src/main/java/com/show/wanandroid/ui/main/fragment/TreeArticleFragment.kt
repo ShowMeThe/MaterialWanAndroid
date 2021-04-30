@@ -18,6 +18,7 @@ import com.show.wanandroid.databinding.FragmentTreeBodyBinding
 import com.show.wanandroid.getShareViewModel
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.TreeViewModel
+import com.showmethe.skinlib.SkinManager
 
 class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewModel>() {
 
@@ -66,10 +67,11 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
 
     override fun init(savedInstanceState: Bundle?) {
         binding {
+            SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
             main = this@TreeArticleFragment
             executePendingBindings()
 
-            refresh.setColorSchemeResources(R.color.colorAccent)
+            //refresh.setColorSchemeResources(R.color.colorAccent)
 
         }
     }

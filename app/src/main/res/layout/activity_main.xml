@@ -27,6 +27,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                app:layout_constraintTop_toTopOf="parent"
+               skin="@{`backgroundColor`}"
                />
 
             <RelativeLayout
@@ -35,6 +36,7 @@
                 android:layout_height="50dp"
                 android:background="@color/colorAccent"
                 app:layout_constraintTop_toBottomOf="@+id/fade"
+                skin="@{`backgroundColor`}"
                 >
 
                 <com.show.wanandroid.widget.IconSwitch
@@ -98,6 +100,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                skin="@{`iconTint|textColor|rippleColor`}"
                 />
 
 
@@ -118,6 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:layout_constraintTop_toTopOf="parent"
+                skin="@{`background`}"
                 >
 
 

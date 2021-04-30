@@ -12,6 +12,9 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import com.show.kcore.R
+import com.show.kcore.databinding.SmartEmptyLayoutBinding
+import com.show.kcore.databinding.SmartErrorLayoutBinding
+import com.show.kcore.databinding.SmartLoadingLayoutBinding
 
 import java.lang.ref.WeakReference
 import java.util.ArrayList
@@ -87,13 +90,13 @@ class SmartRelativeLayout @JvmOverloads constructor(context: Context,
 
 
     fun attachToView(
-        attachLoading:(View.()->Unit)? = null,
-        attachError: (View.()->Unit)? = null,
-        attachEmpty : (View.()->Unit)? = null){
+        attachLoading:(SmartLoadingLayoutBinding.()->Unit)? = null,
+        attachError: (SmartErrorLayoutBinding.()->Unit)? = null,
+        attachEmpty : (SmartEmptyLayoutBinding.()->Unit)? = null){
 
-        attachLoading?.invoke(loadingView)
-        attachError?.invoke(errorView)
-        attachEmpty?.invoke(emptyView)
+        attachLoading?.invoke(SmartLoadingLayoutBinding.bind(loadingView))
+        attachError?.invoke(SmartErrorLayoutBinding.bind(errorView))
+        attachEmpty?.invoke(SmartEmptyLayoutBinding.bind(emptyView))
 
     }
 

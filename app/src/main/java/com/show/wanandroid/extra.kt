@@ -12,6 +12,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.transition.MaterialSharedAxis
 import com.show.kcore.glide.TGlide
+import com.show.wanandroid.plugin.BannerPlugin
 
 
 fun BottomNavigationView.setOnNavigationSingleItemSelectedListener(listener:(it:MenuItem)->Unit){
@@ -27,6 +28,7 @@ fun BottomNavigationView.setOnNavigationSingleItemSelectedListener(listener:(it:
     }
 }
 
+val bannerPlugin = BannerPlugin()
 
 inline val CONFIG
     get() = TGlide.Config.newConfig().apply {

@@ -38,6 +38,7 @@
     <!-- BottomNavigationView-->
     <attr name="theme_bottom_navigation_iconTint" format="reference|color"/>
     <attr name="theme_bottom_navigation_textColor" format="reference|color"/>
+    <attr name="theme_bottom_navigation_rippleColor" format="reference|color"/>
 
     <!--ImageView-->
     <attr name="theme_imageView_tint" format="reference|color"/>

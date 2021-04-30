@@ -21,6 +21,7 @@ import com.show.wanandroid.databinding.FragmentTreeBodyBinding
 import com.show.wanandroid.getShareViewModel
 import com.show.wanandroid.ui.main.adapter.TreeBodyAdapter
 import com.show.wanandroid.ui.main.vm.TreeViewModel
+import com.showmethe.skinlib.SkinManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -71,6 +72,9 @@ class TreeBodyFragment : BaseFragment<FragmentTreeBodyBinding, TreeViewModel>() 
 
     override fun init(savedInstanceState: Bundle?) {
         binding {
+
+            SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
+
             main = this@TreeBodyFragment
             executePendingBindings()
 

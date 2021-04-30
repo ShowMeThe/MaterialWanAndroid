@@ -25,6 +25,7 @@
             android:src="@drawable/ic_author"
             android:layout_width="15dp"
             android:layout_height="15dp"
+            skin="@{`tint`}"
             />
 
         <TextView
@@ -52,6 +53,7 @@
             android:src="@drawable/ic_level"
             android:layout_width="15dp"
             android:layout_height="15dp"
+            skin="@{`tint`}"
             />
 
         <TextView
@@ -95,6 +97,7 @@
             android:src="@drawable/ic_time"
             android:layout_width="15dp"
             android:layout_height="15dp"
+            skin="@{`tint`}"
             />
 
         <TextView
@@ -152,6 +155,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            skin="@{`backgroundColor`}"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
