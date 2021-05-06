@@ -148,8 +148,8 @@ fun toast(error: Int, message:String?){
 }
 
 fun logOut(){
-    Stores.put(StoreConst.IsLogin,false)
     Stores.putObject<UserBean>(StoreConst.UserInfo,null)
+    Stores.put(StoreConst.IsLogin,false)
 }
 
 

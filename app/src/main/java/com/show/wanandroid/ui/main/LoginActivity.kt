@@ -1,6 +1,7 @@
 package com.show.wanandroid.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -21,11 +22,11 @@ import com.show.wanandroid.toast
 import com.show.wanandroid.ui.main.vm.LoginViewModel
 import com.showmethe.skinlib.SkinManager
 
-
+@SlideBackBinder
 @Transition(mode = TransitionMode.SlideBottom)
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
-    private lateinit var  behavior : BottomSheetBehavior<View>
+    private lateinit var behavior: BottomSheetBehavior<View>
     private val dialog by DialogFragmentRef(LoadingDialog::class.java)
 
     override fun getViewId(): Int = R.layout.activity_login
@@ -47,22 +48,23 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             dismissLoading()
             it?.data?.apply {
                 Stores.putObject(StoreConst.UserInfo, viewModel.loginBean)
-                Stores.put(StoreConst.IsLogin,true)
+                Stores.put(StoreConst.IsLogin, true)
+                Stores.put(StoreConst.UserName, viewModel.loginBean.account)
                 toast(0, "登录成功")
                 finishAfterTransition()
             }
         }
 
-        viewModel.register.read(this,loading = {
+        viewModel.register.read(this, loading = {
             showLoading()
-        },error = { exception, t ->
+        }, error = { exception, t ->
             dismissLoading()
             t?.apply {
                 toast(errorCode, errorMsg)
             }
-        }){
+        }) {
             dismissLoading()
-            Toast.makeText(this,"注册成功",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -75,7 +77,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             behavior = BottomSheetBehavior.from(bottomReg)
 
             main = this@LoginActivity
-            login = Stores.getObject<UserBean>(StoreConst.UserInfo,  viewModel.loginBean)
+
+            login = Stores.getObject(StoreConst.UserInfo, viewModel.loginBean.apply {
+                account = Stores.getString(StoreConst.UserName, "") ?: ""
+            })
             register = viewModel.registerBean
 
             SkinManager.getManager().autoTheme(SkinManager.currentStyle, binding)
@@ -104,10 +109,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
         val bean = viewModel.loginBean
         when {
             bean.account.isBlank() -> {
-                Toast.makeText(this,getString(R.string.please_input_your_username),Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.please_input_your_username),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             bean.password.isBlank() -> {
-                Toast.makeText(this,getString(R.string.please_input_your_password),Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.please_input_your_password),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             else -> {
                 viewModel.loginIn()
@@ -128,10 +141,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
         val bean = viewModel.registerBean
         when {
             bean.account.isBlank() -> {
-                Toast.makeText(this,getString(R.string.please_input_your_username),Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.please_input_your_username),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             bean.password.isBlank() -> {
-                Toast.makeText(this,getString(R.string.please_input_your_password),Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.please_input_your_password),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             else -> {
                 viewModel.register()

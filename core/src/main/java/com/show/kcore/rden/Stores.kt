@@ -100,7 +100,7 @@ object Stores {
 
     }
 
-    inline fun <reified T> getObject(@NotNull key: String, default: T): T? {
+    inline fun <reified T> getObject(@NotNull key: String, default: T?): T? {
         val bean = creator.roomDao().get(key)
         return if (bean != null) {
             val jsonData = bean.stringValue
