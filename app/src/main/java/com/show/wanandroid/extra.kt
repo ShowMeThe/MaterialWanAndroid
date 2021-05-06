@@ -4,6 +4,7 @@ import android.app.SharedElementCallback
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
@@ -11,7 +12,11 @@ import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.transition.MaterialSharedAxis
+import com.show.kcore.base.AppContext
 import com.show.kcore.glide.TGlide
+import com.show.kcore.rden.Stores
+import com.show.wanandroid.bean.UserBean
+import com.show.wanandroid.const.StoreConst
 import com.show.wanandroid.plugin.BannerPlugin
 
 
@@ -132,4 +137,19 @@ fun FragmentActivity.replaceFragment(replaceFragment: Fragment, id: Int = R.id.f
     }
     transaction.commitAllowingStateLoss()
 }
+
+
+fun toast(error: Int, message:String?){
+    val ctx = AppContext.get().getActivity()
+    Toast.makeText(ctx,message?:"网络错误",Toast.LENGTH_SHORT).show()
+    if(error == -1001){
+        logOut()
+    }
+}
+
+fun logOut(){
+    Stores.put(StoreConst.IsLogin,false)
+    Stores.putObject<UserBean>(StoreConst.UserInfo,null)
+}
+
 

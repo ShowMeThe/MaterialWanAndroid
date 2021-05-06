@@ -13,7 +13,7 @@ internal suspend fun <T1, T2, R> mergeResult(
 ) {
     runCatching {
         if (response == null || response2 == null) {
-            iResponse.doOnError(Exception("Response is null"))
+            iResponse.doOnError(Exception("Response is null"),null)
             return
         }
         if(response.code() != 200 || response2.code() != 200){
@@ -23,7 +23,7 @@ internal suspend fun <T1, T2, R> mergeResult(
         val result = iFunction.apply(response.body(), response2.body())
         iResponse.doOnSuccess(result)
     }.getOrElse {
-        iResponse.doOnError(it)
+        iResponse.doOnError(it,null)
     }
 }
 
@@ -42,7 +42,7 @@ internal suspend fun <T> singleResult(
                         if (jsonResult.isLegal()) {
                             iResponse.doOnSuccess(body())
                         } else {
-                            iResponse.doOnError(Exception("JsonResult is illegal"))
+                            iResponse.doOnError(Exception("JsonResult is illegal"),body())
                         }
                     } else {
                         iResponse.doOnSuccess(body())
@@ -51,11 +51,11 @@ internal suspend fun <T> singleResult(
                     iResponse.doOnSuccess(body())
                 }
             } else {
-                iResponse.doOnError(Exception(response.toString()))
+                iResponse.doOnError(Exception(response.toString()),body())
             }
         }
     }.getOrElse {
-        iResponse.doOnError(it)
+        iResponse.doOnError(it,null)
     }
 }
 

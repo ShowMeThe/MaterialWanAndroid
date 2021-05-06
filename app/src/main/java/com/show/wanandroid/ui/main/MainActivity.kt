@@ -19,8 +19,13 @@ import com.show.kcore.base.Transition
 import com.show.kcore.base.TransitionMode
 import com.show.kcore.extras.binding.DialogFragmentRef
 import com.show.kcore.extras.status.statusBar
+import com.show.kcore.rden.Stores
+import com.show.slideback.annotation.SlideBackPreview
 import com.show.wanandroid.*
+import com.show.wanandroid.bean.UserBean
+import com.show.wanandroid.const.StoreConst
 import com.show.wanandroid.databinding.ActivityMainBinding
+import com.show.wanandroid.dialog.ExitDialog
 import com.show.wanandroid.dialog.ThemeDialog
 import com.show.wanandroid.ui.main.fragment.AccountFragment
 import com.show.wanandroid.ui.main.fragment.HomeFragment
@@ -30,7 +35,8 @@ import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.widget.IconSwitch
 import com.showmethe.skinlib.SkinManager
 
-@Transition(mode = TransitionMode.RevealCenter)
+@SlideBackPreview
+@Transition(mode = TransitionMode.Fade)
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
 
@@ -42,6 +48,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             ProjectFragment()
         )
     }
+
+    private val exitDialog by DialogFragmentRef(ExitDialog::class.java)
     private val dialog by DialogFragmentRef(ThemeDialog::class.java)
 
     override fun getViewId(): Int = R.layout.activity_main
@@ -50,6 +58,19 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun observerUI() {
+
+        Stores.getLive<UserBean>(this, StoreConst.UserInfo) {
+            binding{
+                tvUser.text = it?.account ?: getString(R.string.login)
+
+                ivOut.visibility = if(it != null){
+                    View.VISIBLE
+                }else{
+                    View.GONE
+                }
+            }
+        }
+
     }
 
     override fun init(savedInstanceState: Bundle?) {
@@ -58,7 +79,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         }
 
         binding {
-            SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
+            SkinManager.getManager().autoTheme(SkinManager.currentStyle, binding)
 
             main = this@MainActivity
             executePendingBindings()
@@ -125,7 +146,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
 
-
     override fun onBackPressed() {
         if (binding.bottomView.selectedItemId == R.id.tabNav
             && getShareViewModel().popBack.value == 2
@@ -139,9 +159,22 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         }
     }
 
+    fun onLogin() {
+        if(Stores.getBoolean(StoreConst.IsLogin,false).not()){
+            startActivity<LoginActivity>(transition = true)
+        }
+    }
 
-    fun onTheme(){
-        dialog.show(supportFragmentManager,"theme")
+    fun exit(){
+        exitDialog.show(supportFragmentManager,"exitDialog")
+        exitDialog.setOnConfirmClickListener {
+            logOut()
+        }
+
+    }
+
+    fun onTheme() {
+        dialog.show(supportFragmentManager, "theme")
         dialog.setOnThemeClickListener {
             SkinManager.getManager().switchThemeByName(themes_name[it])
         }

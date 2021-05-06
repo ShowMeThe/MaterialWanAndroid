@@ -124,6 +124,31 @@
                 skin="@{`background`}"
                 >
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvUser"
+                    android:textSize="23dp"
+                    android:textColor="@color/white"
+                    android:text="@string/login"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fontFamily="sans-serif"
+                    android:onClick="@{()->Main.onLogin()}"
+                    />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivOut"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    app:tint="@color/white"
+                    android:src="@drawable/ic_exit"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_alignParentEnd="true"
+                    android:onClick="@{()->Main.exit()}"
+                    />
 
             </RelativeLayout>
 

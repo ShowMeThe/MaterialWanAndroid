@@ -35,10 +35,10 @@ class KResponse<T> : IResponse<T> {
     }
 
 
-    override suspend fun doOnError(e : Throwable) {
-        val out = KResult<T>(KResult.Failure,exception = Exception(e))
+    override suspend fun doOnError(e : Throwable,t:T?) {
+        val out = KResult<T>(KResult.Failure,exception = Exception(e),response = t)
         postData(out)
-        loadingTimeOut?.apply {
+        onError?.apply {
             withContext(Dispatchers.Main) {
                 invoke(out)
             }

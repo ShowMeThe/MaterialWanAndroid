@@ -6,7 +6,7 @@ interface IResponse<T> {
 
     suspend fun doOnTimeOut()
 
-    suspend fun doOnError(e:Throwable)
+    suspend fun doOnError(e:Throwable,t: T?)
 
     suspend fun doOnSuccess(t: T?)
 

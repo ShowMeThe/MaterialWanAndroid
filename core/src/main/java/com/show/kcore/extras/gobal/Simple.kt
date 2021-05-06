@@ -22,7 +22,7 @@ inline fun <reified T : ViewModel> Class<T>.getAppViewModel() = ViewModelProvide
 fun <T> MutableLiveData<KResult<T>>.read(lifecycleOwner:LifecycleOwner,
                                          loading:(()->Unit)? = null,
                                          timeOut :(()->Unit)? = null,
-                                         error:(Exception?.()->Unit)? = null,
+                                         error:((exception:Exception?,t:T?)->Unit)? = null,
                                          data:((data:T?)->Unit)? = null,){
 
 
@@ -37,7 +37,7 @@ fun <T> MutableLiveData<KResult<T>>.read(lifecycleOwner:LifecycleOwner,
                     data?.invoke(response)
                 }
                 KResult.Failure ->{
-                    error?.invoke(exception)
+                    error?.invoke(exception,it.response)
                 }
                 KResult.TimeOut ->{
                     timeOut?.invoke()

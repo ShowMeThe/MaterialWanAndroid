@@ -100,7 +100,7 @@ class CallResult constructor(
                             this.printStackTrace()
                             kResponse.doOnTimeOut()
                         }else{
-                            kResponse.doOnError(this)
+                            kResponse.doOnError(this,null)
                         }
                     }, kResponse)
             }
@@ -116,7 +116,7 @@ class CallResult constructor(
                            if(this is TimeoutCancellationException){
                                kResponse.doOnTimeOut()
                            }else{
-                               kResponse.doOnError(this)
+                               kResponse.doOnError(this,null)
                            }
                         }, kResponse)
 

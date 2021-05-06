@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data>
+        <variable
+            name="Main"
+            type="com.show.wanandroid.ui.main.LoginActivity" />
+
+        <variable
+            name="Login"
+            type="com.show.wanandroid.bean.UserBean" />
+        <variable
+            name="Register"
+            type="com.show.wanandroid.bean.UserBean" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/login_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.show.kcore.widget.FakeStatusView
+                android:id="@+id/fake"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                android:tint="@color/color_666666"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/fake"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_arrow_back_24px"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:onClick="@{()->Main.onBackPressed()}"
+                />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:transitionName="title"
+                android:text="@string/login"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                skin="@{`textColor`}"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:layout_marginEnd="55dp"
+                android:layout_marginStart="55dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:hint="@string/please_input_your_username"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                skin="@{`boxColor|hintColor`}"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edName"
+                    android:text="@={Login.account}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    skin="@{`cursor`}"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiPswd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="55dp"
+                android:layout_marginStart="55dp"
+                app:layout_constraintTop_toBottomOf="@+id/tiName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:hint="@string/please_input_your_password"
+                app:passwordToggleEnabled="true"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                skin="@{`boxColor|hintColor`}"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edPswd"
+                    android:text="@={Login.password}"
+                    android:inputType="textPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    skin="@{`cursor`}"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                app:backgroundTint="@color/white"
+                app:strokeColor="@color/colorAccent"
+                app:strokeWidth="1dp"
+                app:cornerRadius="5dp"
+                android:text="@string/login"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                app:iconTint="@color/colorAccent"
+                app:icon="@drawable/ic_login"
+                app:iconSize="25dp"
+                android:gravity="center"
+                app:elevation="1dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textColor="@color/colorAccent"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="55dp"
+                android:layout_marginStart="55dp"
+                android:layout_marginBottom="55dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tiPswd"
+                android:onClick="@{()->Main.onLogin()}"
+                skin="@{`textColor|strokeColor|iconTint|rippleColor`}"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnToRegister"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                app:backgroundTint="@color/white"
+                app:elevation="1dp"
+                android:text="@string/register"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                app:iconTint="@color/colorAccent"
+                app:icon="@drawable/ic_register"
+                app:iconSize="25dp"
+                android:gravity="center"
+                app:strokeColor="@color/colorAccent"
+                app:strokeWidth="1dp"
+                app:cornerRadius="5dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textColor="@color/colorAccent"
+                android:layout_marginEnd="55dp"
+                android:layout_marginStart="55dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+                android:onClick="@{()->Main.onRegisterShow()}"
+                skin="@{`textColor|strokeColor|iconTint|rippleColor`}"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bottomReg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="28dp"
+            app:behavior_peekHeight="50dp"
+            app:cardElevation="0dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            skin="@{`strokeColor`}"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <com.show.wanandroid.widget.ShakingImageView
+                    android:tint="@color/colorAccent"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/ic_arrow_up"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    app:shake_auto="true"
+                    app:shake_orientation="VERTICAL"
+                    android:onClick="@{()->Main.onRegisterShow()}"
+                    plugin="@{`ShakingImageViewIPlugin`}"
+                    />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivRegBack"
+                    android:tint="@color/color_666666"
+                    android:layout_marginTop="75dp"
+                    android:layout_marginStart="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_arrow_back_24px"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:onClick="@{()->Main.onBackPress()}"
+                    />
+
+                <TextView
+                    android:id="@+id/tvRegTitle"
+                    android:transitionName="title"
+                    android:text="@string/register"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/colorAccent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="75dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    skin="@{`textColor`}"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiRegName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginEnd="55dp"
+                    android:layout_marginStart="55dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRegTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:hint="@string/please_input_your_username"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    skin="@{`hintColor|boxColor`}"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edRegName"
+                        android:text="@={Register.account}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        skin="@{`cursor|highlightColor`}"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiRegPswd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="55dp"
+                    android:layout_marginStart="55dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tiRegName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:hint="@string/please_input_your_password"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    skin="@{`hintColor|boxColor`}"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edRegPswd"
+                        android:text="@={Register.password}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        skin="@{`cursor|highlightColor`}"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    app:backgroundTint="@color/white"
+                    app:strokeColor="@color/colorAccent"
+                    app:strokeWidth="1dp"
+                    app:elevation="1dp"
+                    android:text="@string/register"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    app:cornerRadius="5dp"
+                    app:icon="@drawable/ic_register"
+                    app:iconSize="25dp"
+                    app:iconTint="@color/colorAccent"
+                    android:gravity="center"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:textColor="@color/colorAccent"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="55dp"
+                    android:layout_marginStart="55dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tiRegPswd"
+                    android:onClick="@{()->Main.onRegister()}"
+                    skin="@{`textColor|strokeColor|iconTint|rippleColor`}"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

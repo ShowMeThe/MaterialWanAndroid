@@ -53,7 +53,11 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
 
     override fun observerUI() {
 
-        articles.read(this){
+        articles.read(this,timeOut = {
+            refreshData.value = false
+        },error = { _,_->
+            refreshData.value = false
+        }){
             it?.data?.apply {
                 if(page == 0){
                     list.clear()
