@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import retrofit2.Response
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
@@ -52,6 +53,22 @@ class CallResult constructor(
         val kResponse = KResponse<R>()
         val kRequest1 = KRequest(request1)
         val kRequest2 = KRequest(request2)
+        val onError1 : suspend ( e: Throwable)-> Unit = { e ->
+            if(e is TimeoutCancellationException){
+                e.printStackTrace()
+                kResponse.doOnTimeOut()
+            }else{
+                kResponse.doOnError(e,null)
+            }
+        }
+        val onError2 : suspend (e:Throwable)-> Unit = { e ->
+            if(e is TimeoutCancellationException){
+                e.printStackTrace()
+                kResponse.doOnTimeOut()
+            }else{
+                kResponse.doOnError(e,null)
+            }
+        }
         if (owner == null) {
             GlobalScope.launch(Dispatchers.IO) {
                 kResponse.doOnLoading()
@@ -59,12 +76,12 @@ class CallResult constructor(
                     response = kRequest1
                         .timeOut(timeOut)
                         .repeatTime(repeatTime)
-                        .addAsync(this,null),
+                        .addAsync(this,onError1),
 
                     response2 = kRequest2
                         .timeOut(timeOut)
                         .repeatTime(repeatTime)
-                        .addAsync(this,null), iFunction,kResponse)
+                        .addAsync(this,onError2), iFunction,kResponse)
             }
         }else{
             owner?.lifecycleScope?.launchWhenCreated {
@@ -74,11 +91,11 @@ class CallResult constructor(
                         response = kRequest1
                         .timeOut(timeOut)
                         .repeatTime(repeatTime)
-                        .addAsync(this,null),
+                        .addAsync(this,onError1),
                         response2 = kRequest2
                             .timeOut(timeOut)
                             .repeatTime(repeatTime)
-                            .addAsync(this,null), iFunction,kResponse)
+                            .addAsync(this,onError2), iFunction,kResponse)
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.show.wanandroid.ui.main.repository
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.show.kInject.core.ext.single
@@ -10,6 +11,7 @@ import com.show.kcore.http.coroutines.KResultData
 import com.show.kcore.http.coroutines.callResult
 import com.show.wanandroid.api.Main
 import com.show.wanandroid.bean.*
+import java.lang.Exception
 
 class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
 
@@ -59,6 +61,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
                             }
                             return list
                         }
+
                     }).bindData(liveData)
             }
         }

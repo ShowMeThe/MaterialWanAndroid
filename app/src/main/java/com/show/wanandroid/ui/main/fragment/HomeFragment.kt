@@ -1,6 +1,7 @@
 package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,8 +56,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
             }
         }
 
-        viewModel.homeTops.read(viewLifecycleOwner,timeOut = {
-            getHomeArticle()
+        viewModel.homeTops.read(viewLifecycleOwner,
+            error = { e, t ->
+                refreshData.value = false
+            },
+            timeOut = {
+                refreshData.value = false
         }){
             it?.apply {
                 list.clear()
