@@ -1,6 +1,7 @@
 package com.show.wanandroid
 
 import android.app.SharedElementCallback
+import android.content.Intent
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -18,6 +19,7 @@ import com.show.kcore.rden.Stores
 import com.show.wanandroid.bean.UserBean
 import com.show.wanandroid.const.StoreConst
 import com.show.wanandroid.plugin.BannerPlugin
+import com.show.wanandroid.ui.main.LoginActivity
 
 
 fun BottomNavigationView.setOnNavigationSingleItemSelectedListener(listener:(it:MenuItem)->Unit){
@@ -138,18 +140,28 @@ fun FragmentActivity.replaceFragment(replaceFragment: Fragment, id: Int = R.id.f
     transaction.commitAllowingStateLoss()
 }
 
+fun toast(error: Int, message: Int){
+    val ctx = AppContext.get().getActivity()
+    Toast.makeText(ctx,ctx?.getString(message)?:"网络错误",Toast.LENGTH_SHORT).show()
+    if(error == -1001){
+        logOut()
+        ctx?.startActivity(Intent(ctx,LoginActivity::class.java))
+    }
+}
 
 fun toast(error: Int, message:String?){
     val ctx = AppContext.get().getActivity()
     Toast.makeText(ctx,message?:"网络错误",Toast.LENGTH_SHORT).show()
     if(error == -1001){
         logOut()
+        ctx?.startActivity(Intent(ctx,LoginActivity::class.java))
     }
 }
 
 fun logOut(){
     Stores.putObject<UserBean>(StoreConst.UserInfo,null)
     Stores.put(StoreConst.IsLogin,false)
+    Stores.put("sessionId","")
 }
 
 

@@ -9,8 +9,11 @@ import com.show.kcore.http.coroutines.IFunction
 import com.show.kcore.http.coroutines.KResult
 import com.show.kcore.http.coroutines.KResultData
 import com.show.kcore.http.coroutines.callResult
+import com.show.wanandroid.R
 import com.show.wanandroid.api.Main
 import com.show.wanandroid.bean.*
+import com.show.wanandroid.toast
+import com.squareup.moshi.Json
 import java.lang.Exception
 
 class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
@@ -25,7 +28,8 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
             }
         }
     }
-    fun getHomeArticle(page: Int,liveData: KResultData<JsonData<Article>>){
+
+    fun getHomeArticle(page: Int, liveData: KResultData<JsonData<Article>>) {
         androidScope {
             callResult {
                 hold { api.getHomeArticle(page) }
@@ -77,7 +81,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getChaptersArticle(id:Int,page:Int,data: KResultData<JsonData<Article>>) {
+    fun getChaptersArticle(id: Int, page: Int, data: KResultData<JsonData<Article>>) {
         androidScope {
             callResult {
                 hold { api.getArticle(id, page) }
@@ -95,10 +99,10 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getTreeArticle(id:Int,page:Int,data: KResultData<JsonData<Article>>) {
+    fun getTreeArticle(id: Int, page: Int, data: KResultData<JsonData<Article>>) {
         androidScope {
             callResult {
-                hold { api.getTreeArticle(page,id) }
+                hold { api.getTreeArticle(page, id) }
                     .bindData(data)
             }
         }
@@ -115,13 +119,52 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     }
 
 
-    fun getCate(pager:Int,cid:Int,data: KResultData<JsonData<CateBean>>) {
+    fun getCate(pager: Int, cid: Int, data: KResultData<JsonData<CateBean>>) {
         androidScope {
             callResult {
-                hold { api.getCate(pager,cid) }
+                hold { api.getCate(pager, cid) }
                     .bindData(data)
             }
         }
     }
 
+    fun homeCollect(id: Int) {
+        androidScope {
+            callResult {
+                hold { api.homeCollect(id) }
+                    .success {
+                        toast(0, R.string.success_collect)
+                    }.error {
+                        response?.apply {
+                            toast(errorCode, errorMsg)
+                        }
+                    }
+            }
+        }
+    }
+
+    fun homeUnCollect(id: Int) {
+        androidScope {
+            callResult {
+                hold { api.homeUnCollect(id) }
+                    .success {
+                        toast(0, R.string.cancel_collect)
+                    }.error {
+                        response?.apply {
+                            toast(errorCode, errorMsg)
+                        }
+                    }
+            }
+        }
+    }
+
+    fun search(pager: Int, k: String, data: MutableLiveData<KResult<JsonData<Article>>>) {
+        androidScope {
+            callResult {
+                hold {
+                    api.search(pager, k)
+                }.bindData(data)
+            }
+        }
+    }
 }

@@ -47,4 +47,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         repository.getCate(pager, cid, data)
     }
 
+
+    fun homeCollect(id:Int) = repository.homeCollect(id)
+    fun homeUnCollect(id:Int) = repository.homeUnCollect(id)
+
 }

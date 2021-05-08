@@ -1,12 +1,12 @@
 package com.show.kcore.http.coroutines
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import com.show.kcore.extras.log.Logger
 import kotlinx.coroutines.*
 import retrofit2.Response
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
-import java.util.logging.Logger
 
 
 fun LifecycleOwner.androidScope(scope: LifecycleOwner.() -> Unit) {
@@ -69,7 +69,7 @@ class CallResult constructor(
                 kResponse.doOnError(e,null)
             }
         }
-        if (owner == null) {
+        if (owner == null || owner?.lifecycle?.currentState == Lifecycle.State.INITIALIZED) {
             GlobalScope.launch(Dispatchers.IO) {
                 kResponse.doOnLoading()
                 mergeResult(
@@ -106,7 +106,7 @@ class CallResult constructor(
     fun <T> hold(request: suspend () -> Response<T>): KResponse<T> {
         val kResponse = KResponse<T>()
         val kRequest = KRequest(request)
-        if (owner == null) {
+        if (owner == null || owner?.lifecycle?.currentState == Lifecycle.State.INITIALIZED) {
             GlobalScope.launch(Dispatchers.IO) {
                 kResponse.doOnLoading()
                 singleResult(kRequest
@@ -122,6 +122,7 @@ class CallResult constructor(
                     }, kResponse)
             }
         } else {
+            Logger.dLog(TAG,"owner state = ${ owner?.lifecycle?.currentState}")
             owner?.lifecycleScope?.launchWhenCreated {
                 withContext(Dispatchers.IO) {
                     kResponse.doOnLoading()

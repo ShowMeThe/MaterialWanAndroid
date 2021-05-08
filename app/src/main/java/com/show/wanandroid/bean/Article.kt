@@ -39,7 +39,7 @@ data class DatasBean(
     @Json(name = "chapterName")
     val chapterName: String,
     @Json(name = "collect")
-    val collect: Boolean,
+    var collect: Boolean,
     @Json(name = "courseId")
     val courseId: Int,
     @Json(name = "desc")

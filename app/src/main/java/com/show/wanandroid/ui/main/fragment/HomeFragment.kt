@@ -68,7 +68,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
                 list.addAll(this)
                 refreshData.value = false
                 binding.rvList.finishLoading()
-                binding.rvList.setEnableLoadMore(list.size != 0)
+                binding.rvList.setEnableLoadMore(it.isNotEmpty())
             }
         }
 
@@ -83,14 +83,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
     }
 
     override fun init(savedInstanceState: Bundle?) {
-
         binding {
+
+            initExpand()
 
             SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
 
             main = this@HomeFragment
             executePendingBindings()
-
 
             banner.bindToLife(viewLifecycleOwner)
             banner.setOnImageLoader { url, imageView ->
@@ -99,7 +99,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
 
         }
 
-        initExpand()
+
 
 
         getBanner()
@@ -132,6 +132,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
                     1 ->{
 
                     }
+                }
+            }
+
+            adapter.setOnLikeClickListener { item, isCollect ->
+                if(isCollect){
+                    viewModel.homeCollect(item.id)
+                }else{
+                    viewModel.homeUnCollect(item.id)
                 }
             }
 

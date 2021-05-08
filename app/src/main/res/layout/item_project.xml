@@ -159,6 +159,7 @@
                 app:likeColor="@color/colorAccent"
                 app:unLikeColor="@color/color_666666"
                 app:colors="@color/colorAccent"
+                plugin="@{`LikePlugin`}"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,10 +21,8 @@ class RequestNewHeaderInterceptor : Interceptor {
         val url = htbuilder.build()
         val builder = request.newBuilder().url(url)
 
-        if (this.sessionId.isEmpty()) {
-            this.sessionId = Stores.getString("sessionId", "") ?: ""
-            Logger.dLog("RequestNewHeaderInterceptor","JSESSIONID=$sessionId")
-        }
+        this.sessionId = Stores.getString("sessionId", "") ?: ""
+        Logger.dLog("RequestNewHeaderInterceptor","JSESSIONID=$sessionId")
         builder.addHeader("Cookie", "JSESSIONID=$sessionId")
         builder.addHeader("Content-Type", "application/json")
         builder.addHeader("Accept", "application/json")

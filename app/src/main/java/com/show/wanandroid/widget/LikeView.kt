@@ -73,6 +73,17 @@ class LikeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         arrary.recycle()
     }
 
+
+    fun dotColor(color: Int){
+        colors = arrayOf(color)
+    }
+
+    fun likeColor(color: Int){
+        like = likeImg.drawableToBitmap().tintBitmap(color)
+        postInvalidate()
+    }
+
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         setLike(isLike,false)

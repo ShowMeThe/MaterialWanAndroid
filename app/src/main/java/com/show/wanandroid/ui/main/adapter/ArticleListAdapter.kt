@@ -22,7 +22,16 @@ class ArticleListAdapter(context: Context, data: ObservableArrayList<DatasBean>)
             bean = item
             executePendingBindings()
 
-
+            like.setLike(item.collect,false)
+            like.setOnClickListener {
+                if(item.collect){
+                    like.setLike(boolean = false, state = false)
+                }else{
+                    like.setLike(boolean = true, state = true)
+                }
+                item.collect = !item.collect
+                onLikeClick?.invoke(item,item.collect)
+            }
         }
     }
 

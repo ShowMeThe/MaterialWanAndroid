@@ -76,7 +76,7 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
                 refreshData.value = false
                 binding {
                     rvList.finishLoading()
-                    rvList.setEnableLoadMore(list.size != 0)
+                    rvList.setEnableLoadMore(datas.isNotEmpty())
                 }
             }
         }
@@ -117,6 +117,15 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
             refresh.setOnRefreshListener {
                 page = 0
                 getArticles()
+            }
+
+
+            adapter.setOnLikeClickListener { item, isCollect ->
+                if(isCollect){
+                    viewModel.homeCollect(item.id)
+                }else{
+                    viewModel.homeUnCollect(item.id)
+                }
             }
 
         }

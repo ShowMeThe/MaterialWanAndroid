@@ -80,6 +80,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edName"
                     android:text="@={Login.account}"
+                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     skin="@{`cursor`}"
@@ -107,6 +108,7 @@
                     android:id="@+id/edPswd"
                     android:text="@={Login.password}"
                     android:inputType="textPassword"
+                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     skin="@{`cursor`}"
@@ -251,6 +253,7 @@
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edRegName"
+                        android:singleLine="true"
                         android:text="@={Register.account}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -276,6 +279,7 @@
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edRegPswd"
+                        android:singleLine="true"
                         android:text="@={Register.password}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

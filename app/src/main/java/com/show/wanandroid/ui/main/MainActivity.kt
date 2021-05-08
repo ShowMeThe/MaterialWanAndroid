@@ -3,6 +3,7 @@ package com.show.wanandroid.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.Pair
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
@@ -94,6 +95,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
         binding {
 
+
+
             iconSwitch.setOnSwitchClickListener {
                 if (it == IconSwitch.STATE_DEFAULT) {
                     drawer.openDrawer(GravityCompat.START)
@@ -158,6 +161,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             startActivity(intent)
         }
     }
+
+    fun onSearch(){
+        startActivityWithPair<SearchActivity>(null,Pair(binding.ivSearch,getString(R.string.transition_name_search)))
+    }
+
 
     fun onLogin() {
         if(Stores.getBoolean(StoreConst.IsLogin,false).not()){

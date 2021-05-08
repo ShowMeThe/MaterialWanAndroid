@@ -31,28 +31,30 @@ class AppApplication : BaseApplication() {
     }
 
     private fun initTheme() {
-        val json = AssetFile.getJson(this,"orange.json")
+        val json = AssetFile.getJson(this, "orange.json")
         val colorEntity = json.jsonToClazz<ColorEntity>()!!
-        val json2 = AssetFile.getJson(this,"yellow.json")
+        val json2 = AssetFile.getJson(this, "yellow.json")
         val colorEntity2 = json2.jsonToClazz<ColorEntity>()!!
 
         SkinManager.init(this).addStyle(
             themes_name[0] to R.style.MaterialTheme_Blue,
             themes_name[1] to R.style.MaterialTheme_Red,
-            themes_name[2] to R.style.MaterialTheme_Purple)
+            themes_name[2] to R.style.MaterialTheme_Purple
+        )
             .addJson(themes_name[3] to colorEntity, themes_name[4] to colorEntity2)
             .addPlugin(
-                RefreshPlugin(),SmartIPlugin(),
+                RefreshPlugin(), SmartIPlugin(), LikePlugin(),
                 ExpandIPlugin(), SearchChipGroup(),
-                bannerPlugin, ShakingImageViewIPlugin(),)
+                bannerPlugin, ShakingImageViewIPlugin(),
+            )
             .build()
-        if(Stores.getString("theme","").isNullOrEmpty()){
-            Stores.put("theme","BlueTheme")
+        if (Stores.getString("theme", "").isNullOrEmpty()) {
+            Stores.put("theme", "BlueTheme")
         }
         SkinManager.getManager().setOnStyleChangeListener {
-            Stores.put("theme",it)
+            Stores.put("theme", it)
         }
-        Stores.getString("theme","BlueTheme")?.apply {
+        Stores.getString("theme", "BlueTheme")?.apply {
             SkinManager.currentStyle = this
         }
     }

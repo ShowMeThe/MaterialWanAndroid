@@ -59,7 +59,7 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
                 list.addAll(datas)
                 refreshData.value = false
                 binding.rvList.finishLoading()
-                binding.rvList.setEnableLoadMore(list.size != 0)
+                binding.rvList.setEnableLoadMore(datas.isNotEmpty())
             }
         }
 

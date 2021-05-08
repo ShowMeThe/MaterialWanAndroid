@@ -53,6 +53,7 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding, MainViewModel>() {
     override fun initListener() {
 
 
+
     }
 
     private fun initVp(){
