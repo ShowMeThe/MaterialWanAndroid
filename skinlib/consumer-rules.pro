@@ -1,0 +1,1 @@
+-keep class * implements com.showmethe.skinlib.plugin.IPlugin

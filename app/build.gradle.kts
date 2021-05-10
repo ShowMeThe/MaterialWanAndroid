@@ -51,9 +51,9 @@ android{
         }
 
         findByName("debug")?.apply {
-            isMinifyEnabled = false
-            isZipAlignEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isZipAlignEnabled = true
+            isShrinkResources = true
             isDebuggable = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),file("proguard-rules.pro"))
             signingConfig = signingConfigs.findByName("release")

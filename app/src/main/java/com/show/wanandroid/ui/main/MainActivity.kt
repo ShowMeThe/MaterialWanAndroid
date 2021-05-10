@@ -37,7 +37,6 @@ import com.show.wanandroid.widget.IconSwitch
 import com.showmethe.skinlib.SkinManager
 
 @SlideBackPreview
-@Transition(mode = TransitionMode.Fade)
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
 
