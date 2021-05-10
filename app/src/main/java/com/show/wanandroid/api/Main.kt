@@ -90,7 +90,7 @@ interface Main {
      * 搜索热词
      */
     @GET("/hotkey/json")
-    suspend fun getHotKey() : Response<JsonData<ArrayList<KeyWord>>>
+    suspend fun getHotKey() : Response<JsonData<List<KeyWord>>>
 
     /**
      *  搜索

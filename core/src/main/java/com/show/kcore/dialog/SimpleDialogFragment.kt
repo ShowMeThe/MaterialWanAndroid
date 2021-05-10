@@ -113,7 +113,10 @@ abstract class SimpleDialogFragment : DialogFragment() {
             val container = FrameLayout(requireContext())
             var view = LayoutInflater.from(requireActivity()).inflate(viewId, container, true)
             val child = (view as ViewGroup).getChildAt(0)
-            child.measure(View.MeasureSpec.UNSPECIFIED,View.MeasureSpec.UNSPECIFIED)
+            view = LayoutInflater.from(requireActivity()).inflate(viewId, null, false)
+
+
+
             val childLayoutParams = child.layoutParams as ViewGroup.MarginLayoutParams
 
             val layoutParamsWidth = childLayoutParams.width
@@ -125,7 +128,7 @@ abstract class SimpleDialogFragment : DialogFragment() {
                     dm.widthPixels - childLayoutParams.leftMargin - childLayoutParams.rightMargin
                 }
                 ViewGroup.LayoutParams.WRAP_CONTENT -> {
-                    child.measuredWidth
+                    ViewGroup.LayoutParams.WRAP_CONTENT
                 }
                 else -> {
                     layoutParamsWidth
@@ -137,18 +140,18 @@ abstract class SimpleDialogFragment : DialogFragment() {
                     dm.heightPixels - childLayoutParams.topMargin - childLayoutParams.bottomMargin
                 }
                 ViewGroup.LayoutParams.WRAP_CONTENT -> {
-                    child.measuredHeight
+                    ViewGroup.LayoutParams.WRAP_CONTENT
                 }
                 else -> {
                     layoutParamsHeight
                 }
             }
 
-            view = LayoutInflater.from(requireActivity()).inflate(viewId, null, true)
+            onView?.invoke(view)
+
             mDialog.setContentView(view)
             mDialog.setCanceledOnTouchOutside(outSideCanceled)
             mDialog.setCancelable(canceled)
-
 
             val window = mDialog.window
             window?.apply {
@@ -168,7 +171,7 @@ abstract class SimpleDialogFragment : DialogFragment() {
                 onWindow?.invoke(this)
             }
 
-            onView?.invoke(view)
+
 
             hasInflate = true
         }

@@ -1,21 +1,31 @@
 package com.show.wanandroid.ui.main
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import androidx.core.content.ContextCompat
+import com.google.android.material.chip.Chip
 import com.show.kcore.base.BaseActivity
+import com.show.kcore.extras.gobal.read
 import com.show.kcore.extras.keyborad.hideSoftKeyboard
 import com.show.kcore.extras.status.statusBar
 import com.show.slideback.annotation.SlideBackBinder
 import com.show.slideback.annotation.SlideBackPreview
 import com.show.wanandroid.R
+import com.show.wanandroid.bean.KeyWord
+import com.show.wanandroid.colors
 import com.show.wanandroid.databinding.ActivitySearchBinding
 import com.show.wanandroid.ui.main.vm.SearchViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.lang.Exception
+import java.util.concurrent.ThreadLocalRandom
 
 @SlideBackPreview
 @SlideBackBinder
@@ -28,6 +38,14 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
     }
 
     override fun observerUI() {
+
+
+        viewModel.hotKey.read(this){
+            it?.data?.apply {
+                addGroup(this)
+            }
+        }
+
     }
 
     override fun init(savedInstanceState: Bundle?) {
@@ -41,6 +59,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
 
             setEditTextCursor()
 
+            viewModel.getHotKey()
 
         }
     }
@@ -62,6 +81,25 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
         }
     }
 
+
+    private fun addGroup(array:List<KeyWord>){
+        binding {
+            group.removeAllViews()
+            array.forEach { text ->
+                val chip = View.inflate(this@SearchActivity,R.layout.chip_tree_layout,null) as Chip
+                chip.text =  text.name
+                chip.setTextColor(Color.WHITE)
+                chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(
+                    colors[ThreadLocalRandom.current()
+                        .nextInt(0, colors.size)]))
+                group.addView(chip)
+                chip.setOnClickListener {
+                    binding.edSearch.setText(text.name)
+                    onSearch()
+                }
+            }
+        }
+    }
 
     fun onSearch() {
         val search = binding.edSearch.text?.toString()

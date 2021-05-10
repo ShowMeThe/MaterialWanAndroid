@@ -167,4 +167,15 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
             }
         }
     }
+
+    fun getHotKey(data: MutableLiveData<KResult<JsonData<List<KeyWord>>>>) {
+        androidScope {
+            callResult {
+                hold {
+                    api.getHotKey()
+                }.bindData(data)
+            }
+        }
+    }
+
 }
