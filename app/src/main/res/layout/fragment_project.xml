@@ -2,16 +2,17 @@
 <layout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mainProject"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/white"
         android:orientation="vertical"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px140dp"
+            android:layout_height="75dp"
             android:background="@color/colorAccent"
             app:tabTextColor="@color/color_fce4ec"
             app:tabIndicatorColor="@color/white"
@@ -19,7 +20,7 @@
             app:tabGravity="fill"
             app:tabRippleColor="@color/color_f8bbd0"
             app:tabInlineLabel="true"
-            app:tabIndicatorHeight="@dimen/px7dp"
+            app:tabIndicatorHeight="1dp"
             app:tabIndicatorFullWidth="false"
             skin="@{`backgroundColor`}"
             >

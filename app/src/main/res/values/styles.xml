@@ -15,25 +15,23 @@
         <item name="android:colorControlActivated">@color/colorPrimary</item>
         <item name="android:colorControlHighlight">@color/colorPrimary</item>
 
-        <item name="android:statusBarColor">@color/colorAccent</item>
         <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/colorAccent</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowSharedElementReenterTransition">@transition/transition_change_bound</item>
         <item name="android:windowSharedElementEnterTransition">@transition/transition_change_bound</item>
         <item name="android:windowSharedElementExitTransition">@transition/transition_change_bound</item>
-        <item name="android:windowSharedElementReturnTransition">@transition/transition_change_bound</item>
     </style>
 
 
     <style name="Theme.Splash" parent="MaterialTheme">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowDisablePreview">false</item>
+        <item name="android:statusBarColor">@color/transparent</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFullscreen">false</item>
         <item name="colorSurface">@color/white</item>
     </style>
 
@@ -49,6 +47,7 @@
          <item name="theme_button_strokeColor">@color/colorAccent</item>
          <item name="theme_bottom_navigation_iconTint">@color/colorAccent</item>
          <item name="theme_bottom_navigation_textColor">@color/colorAccent</item>
+         <item name="theme_bottom_navigation_rippleColor">@color/colorPrimary</item>
          <item name="theme_imageView_tint">@color/colorAccent</item>
          <item name="theme_card_strokeColor">@color/colorAccent</item>
          <item name="theme_floating_backgroundColor">@color/colorAccent</item>
@@ -69,6 +68,7 @@
         <item name="theme_button_strokeColor">@color/color_ff4081</item>
         <item name="theme_bottom_navigation_iconTint">@color/color_ff4081</item>
         <item name="theme_bottom_navigation_textColor">@color/color_ff4081</item>
+        <item name="theme_bottom_navigation_rippleColor">@color/color_5fff4081</item>
         <item name="theme_imageView_tint">@color/color_ff4081</item>
         <item name="theme_card_strokeColor">@color/color_ff4081</item>
         <item name="theme_floating_backgroundColor">@color/color_ff4081</item>
@@ -88,6 +88,7 @@
         <item name="theme_button_strokeColor">@color/color_7c4dff</item>
         <item name="theme_bottom_navigation_iconTint">@color/color_7c4dff</item>
         <item name="theme_bottom_navigation_textColor">@color/color_7c4dff</item>
+        <item name="theme_bottom_navigation_rippleColor">@color/color_5f7c4dff</item>
         <item name="theme_imageView_tint">@color/color_7c4dff</item>
         <item name="theme_card_strokeColor">@color/color_7c4dff</item>
         <item name="theme_floating_backgroundColor">@color/color_7c4dff</item>

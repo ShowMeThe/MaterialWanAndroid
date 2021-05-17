@@ -26,10 +26,10 @@ class ExpandIPlugin : IPlugin<ExpandMenuChildLayout> {
     override fun individuate(
         view: ExpandMenuChildLayout,
         attrName: String,
-        colors: ArrayList<String>?
+        colors: List<String>?
     ) {
         colors?.apply {
-            if (colors.size > 0) {
+            if (colors.isNotEmpty()) {
                 when (attrName) {
                     themes_name[3],themes_name[4] -> {
                         view.fabs.forEach {

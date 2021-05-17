@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="Main"
+            type="com.show.wanandroid.ui.main.fragment.TreeBodyFragment" />
+    </data>
+
+    <com.show.kcore.widget.SmartRelativeLayout
+        android:id="@+id/smart"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        plugin="@{`SmartIPlugin`}"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            adapter="@{Main.adapter}"
+            layoutManager="@{Main.layoutManager}"
+            />
+
+    </com.show.kcore.widget.SmartRelativeLayout>
+</layout>

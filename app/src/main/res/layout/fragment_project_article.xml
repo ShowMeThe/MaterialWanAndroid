@@ -1,38 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="Main"
+            type="com.show.wanandroid.ui.main.fragment.ProjectArticleFragment" />
+    </data>
 
-    <showmethe.github.core.widget.common.SmartRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/smrl"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        plugin="@{`SmartIPlugin`}"
+        refresh="@{Main.refreshData}"
+        plugin="@{`RefreshPlugin`}"
         >
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <com.show.kcore.widget.AutoRecyclerView
+            android:id="@+id/rvList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            adapter="@{Main.adapter}"
+            layoutManager="@{Main.layoutManager}"
+            />
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/refresh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                plugin="@{`RefreshPlugin`}"
-                >
-
-                <showmethe.github.core.widget.common.AutoRecyclerView
-                    android:id="@+id/rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
-
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    </showmethe.github.core.widget.common.SmartRelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>

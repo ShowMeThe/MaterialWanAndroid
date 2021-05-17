@@ -1,29 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/white"
+    app:cardElevation="3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/bg"
-        android:elevation="@dimen/px15dp"
-        android:padding="@dimen/px15dp"
-        android:layout_centerInParent="true"
-        android:layout_width="@dimen/px1000dp"
-        android:layout_height="@dimen/px1000dp"
-        app:cardCornerRadius="@dimen/px35dp"
-        app:cardBackgroundColor="@color/white"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         >
+    </androidx.recyclerview.widget.RecyclerView>
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </androidx.cardview.widget.CardView>
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -24,6 +24,7 @@ data class ColorEntity(var theme_viewGroup_background :String? =null,
                        var theme_radio_buttonTint :String? = null,
                        var theme_bottom_navigation_iconTint :String? = null,
                        var theme_bottom_navigation_textColor :String? = null,
+                       var theme_bottom_navigation_rippleColor:String? = null,
                        var theme_imageView_tint :String? = null,
                        var theme_floating_tint :String? = null,
                        var theme_floating_backgroundColor :String? = null,
@@ -33,5 +34,5 @@ data class ColorEntity(var theme_viewGroup_background :String? =null,
                        var theme_edit_highlightColor :String? = null,
                        var theme_inputLayout_boxColor :String? = null,
                        var theme_inputLayout_hintColor :String? = null,
-                       var colorObjects : ArrayList<String> = ArrayList()
+                       var colorObjects : List<String> = ArrayList()
                        )

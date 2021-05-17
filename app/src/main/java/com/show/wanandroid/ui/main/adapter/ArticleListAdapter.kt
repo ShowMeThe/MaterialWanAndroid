@@ -1,52 +1,52 @@
 package com.show.wanandroid.ui.main.adapter
 
 import android.content.Context
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
+import androidx.recyclerview.widget.RecyclerView
+import com.show.kcore.adapter.BaseRecyclerViewAdapter
 import com.show.wanandroid.R
+import com.show.wanandroid.bean.DatasBean
 import com.show.wanandroid.databinding.ItemHomeArticleBinding
-import com.show.wanandroid.entity.Article
 import com.showmethe.skinlib.SkinManager
-import showmethe.github.core.adapter.BaseRecyclerViewAdapter
-import showmethe.github.core.adapter.DataBindBaseAdapter
-import showmethe.github.core.adapter.DataBindingViewHolder
 
-class ArticleListAdapter(context: Context, data: ObservableArrayList<Article.DatasBean>) :
-    BaseRecyclerViewAdapter<Article.DatasBean, ArticleListAdapter.ViewHolder>(context, data) {
+class ArticleListAdapter(context: Context, data: ObservableArrayList<DatasBean>) :
+    BaseRecyclerViewAdapter<DatasBean, ArticleListAdapter.ViewHolder>(context, data) {
 
+    override fun getItemLayout(): Int = R.layout.item_home_article
 
-    override fun bindDataToItemView(holder: ViewHolder, item: Article.DatasBean, position: Int) {
+    override fun bindItems(holder: ViewHolder, item: DatasBean, position: Int) {
         holder.binding.apply {
             bean = item
             executePendingBindings()
-            like.setLike(item.isCollect,false)
+
+            like.setLike(item.collect,false)
             like.setOnClickListener {
-                if(item.isCollect){
+                if(item.collect){
                     like.setLike(boolean = false, state = false)
                 }else{
                     like.setLike(boolean = true, state = true)
                 }
-                item.isCollect = !item.isCollect
-                onLikeClick?.invoke(item,item.isCollect)
+                item.collect = !item.collect
+                onLikeClick?.invoke(item,item.collect)
             }
         }
     }
 
-    private var onLikeClick :((item: Article.DatasBean,isCollect:Boolean)->Unit)? = null
-    fun setOnLikeClickListener(onLikeClick :((item: Article.DatasBean,isCollect:Boolean)->Unit)){
-        this.onLikeClick = onLikeClick
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = DataBindingUtil.bind<ItemHomeArticleBinding>(inflateItemView(parent,
-            R.layout.item_home_article))!!
-        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
+        val binding = DataBindingUtil.bind<ItemHomeArticleBinding>(inflateItemView(parent,getItemLayout()))!!
+        SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
         return ViewHolder(binding)
     }
 
-    inner class ViewHolder(binding: ItemHomeArticleBinding) :
-        DataBindingViewHolder<ItemHomeArticleBinding>(binding){
+    inner class ViewHolder(val binding: ItemHomeArticleBinding) : RecyclerView.ViewHolder(binding.root)
+
+    private var onLikeClick: ((item: DatasBean, isCollect: Boolean) -> Unit)? = null
+    fun setOnLikeClickListener(onLikeClick: ((item: DatasBean, isCollect: Boolean) -> Unit)) {
+        this.onLikeClick = onLikeClick
     }
+
 
 }

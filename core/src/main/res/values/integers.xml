@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+     <integer name="window_transition_duration">320</integer>
+    <integer name="window_reveal_transition_duration">350</integer>
+    <integer name="window_share_transition_duration">350</integer>
+     <integer name="card_flip_time_full_alpha">300</integer>
+    <integer name="card_scale_time_full_alpha">250</integer>
+</resources>

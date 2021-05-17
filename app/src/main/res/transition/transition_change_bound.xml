@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@integer/window_share_transition_duration">
 
-	<fade android:duration="@integer/card_flip_time_full_alpha" android:interpolator="@android:interpolator/linear"/>
-	<explode android:duration="@integer/card_flip_time_full_alpha" android:interpolator="@android:interpolator/linear" />
-	<changeImageTransform android:duration="@integer/card_flip_time_full_alpha" android:interpolator="@android:interpolator/linear"/>
-	<changeBounds android:duration="@integer/card_flip_time_full_alpha" android:interpolator="@android:interpolator/linear_out_slow_in" />
-	<changeClipBounds android:duration="@integer/card_flip_time_full_alpha" android:interpolator="@android:interpolator/linear_out_slow_in" />
+    <fade android:interpolator="@android:interpolator/linear" />
+    <changeImageTransform android:interpolator="@android:interpolator/accelerate_decelerate" />
+    <changeBounds android:interpolator="@android:interpolator/accelerate_decelerate" />
+    <changeClipBounds android:interpolator="@android:interpolator/accelerate_decelerate" />
+    <changeTransform android:interpolator="@android:interpolator/linear" />
+    <changeScroll android:interpolator="@android:interpolator/linear"/>
 
 </transitionSet>

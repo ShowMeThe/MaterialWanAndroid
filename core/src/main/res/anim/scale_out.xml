@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set android:duration="@integer/card_scale_time_full_alpha"
+    android:interpolator="@android:interpolator/fast_out_slow_in" xmlns:android="http://schemas.android.com/apk/res/android">
+    <scale
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:fromXScale="1.0"
+        android:toXScale="0.2"
+        android:fromYScale="1.0"
+        android:toYScale="0.2" />
+
+    <alpha android:fromAlpha="1.0" android:toAlpha="0.2"/>
+
+</set>

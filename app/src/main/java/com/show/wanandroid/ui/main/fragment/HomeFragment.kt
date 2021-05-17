@@ -1,54 +1,37 @@
 package com.show.wanandroid.ui.main.fragment
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import androidx.core.content.ContextCompat
+import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
-import com.show.wanandroid.R
-import com.show.wanandroid.databinding.FragmentHomeBinding
-import com.show.wanandroid.ui.main.vm.MainViewModel
-import kotlinx.android.synthetic.main.fragment_home.*
-import showmethe.github.core.http.coroutines.Result
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.AppBarLayout
-import com.show.wanandroid.app.AppApplication.Companion.bannerPlugin
-import com.show.wanandroid.entity.Article
-import com.show.wanandroid.ui.main.SearchActivity
+import com.show.kcore.base.BaseFragment
+import com.show.kcore.extras.gobal.read
+import com.show.kcore.glide.TGlide.Companion.load
+import com.show.kcore.rden.Stores
+import com.show.wanandroid.CONFIG
+import com.show.wanandroid.R
+import com.show.wanandroid.bannerPlugin
+import com.show.wanandroid.bean.DatasBean
+import com.show.wanandroid.databinding.FragmentHomeBinding
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
-import com.show.wanandroid.widget.IconSwitch
+import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.showmethe.skinlib.SkinManager
 import com.showmethe.skinlib.getColorExtras
 import com.showmethe.skinlib.isStyleFromJson
 import com.showmethe.speeddiallib.expand.ExpandIcon
 import com.showmethe.speeddiallib.expand.ExpandManager
-import showmethe.github.core.adapter.BaseRecyclerViewAdapter
-import showmethe.github.core.base.LazyFragment
-import showmethe.github.core.divider.RecycleViewDivider
-import showmethe.github.core.glide.TGlide
-import showmethe.github.core.glide.TGlide.Companion.load
 
-import showmethe.github.core.util.extras.*
-import showmethe.github.core.util.rden.RDEN
-import showmethe.github.core.util.widget.StatusBarUtil.fixToolbar
-
-class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
 
 
-    private var topSize = 0
-    private val pagerNumber = MutableLiveData<Int>()
-    private lateinit var adapter: ArticleListAdapter
-    private val list = ObList<Article.DatasBean>()
-    private  val bannerList  = ArrayList<String>()
-    private val config = TGlide.Config.newConfig().apply {
-        isViewTarget = true
-        isCenterCrop = false
-    }
-    override fun initViewModel(): MainViewModel = createViewModel()
+
+    private var page = 0
+    private val list = ObservableArrayList<DatasBean>()
+    val adapter by lazy { ArticleListAdapter(requireContext(),list) }
+    val layoutManager by lazy { LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false) }
+    val refreshData = MutableLiveData<Boolean>(true)
 
     override fun getViewId(): Int = R.layout.fragment_home
 
@@ -57,175 +40,132 @@ class HomeFragment : LazyFragment<FragmentHomeBinding, MainViewModel>() {
 
     override fun observerUI() {
 
-        viewModel.banner.observe(this, Observer { bean ->
-            bean?.apply {
-                if(status == Result.Success){
-                    response?.apply {
-                        bannerList.clear()
-                        forEach {
-                            bannerList.add(it.imagePath)
-                        }
-                        banner.addList(bannerList)
-                        /**
-                         * Banner需要获得数据长度才会新建dot的
-                         */
-                        val styleName = RDEN.get("theme","")
-                        if(styleName.isStyleFromJson()){
-                            bannerPlugin.individuate(banner,styleName,styleName.getColorExtras())
-                        }else{
-                            bannerPlugin.individuate(banner,styleName)
-                        }
+        viewModel.banner.read(viewLifecycleOwner){
+            it?.data?.apply {
+                val urls = this.map { it.imagePath }
+                binding {
+                    banner.addList(ArrayList(urls))
+
+                    val styleName = Stores.getString("theme","BlueTheme")!!
+                    if(styleName.isStyleFromJson()){
+                        bannerPlugin.individuate(banner,styleName,styleName.getColorExtras())
+                    }else{
+                        bannerPlugin.individuate(banner,styleName)
                     }
                 }
             }
-        })
+        }
 
-        pagerNumber.observe(this, Observer {
+        viewModel.homeTops.read(viewLifecycleOwner,
+            error = { e, t ->
+                refreshData.value = false
+            },
+            timeOut = {
+                refreshData.value = false
+        }){
             it?.apply {
-                router.toTarget("getHomeArticle",this)
+                list.clear()
+                list.addAll(this)
+                refreshData.value = false
+                binding.rvList.finishLoading()
+                binding.rvList.setEnableLoadMore(it.isNotEmpty())
             }
-        })
+        }
 
-        viewModel.article.observe(this, Observer {
-            it?.apply {
-                whenStatus {
-                    whenSuccess {
-                        this?.apply {
-                            if(pagerNumber valueSameAs  1){
-                                if(topSize!=0){
-                                    list.clearAfter(topSize - 1)
-                                }else{
-                                    list.clear()
-                                }
-                            }
-                            this.datas.apply {
-                                if(topSize == 0){
-                                    list.addAll(this)
-                                }else{
-                                    list.addAll(topSize,this)
-                                }
-                                onLoadSize(size)
-                            }
-                        }
-                    }
-                    whenOutTime {
-                        rv.finishLoading()
-                        refresh.isRefreshing = false
-                    }
-                }
+        viewModel.homeArticle.read(this){
+            it?.data?.apply {
+                list.addAll(datas)
+                binding.rvList.finishLoading()
+                binding.rvList.setEnableLoadMore(list.size != 0)
             }
-        })
-
-        viewModel.tops.observe(this, Observer {
-            it?.apply {
-                when(status){
-                    Result.Success ->{
-                        response?.apply {
-                            topSize = size
-                            forEach { bean ->
-                                bean.isTop = true
-                                list.add(0,bean)
-                            }
-                        }
-                    }
-                }
-            }
-        })
-
-
+        }
 
     }
 
     override fun init(savedInstanceState: Bundle?) {
-        refresh.setColorSchemeResources(R.color.colorAccent)
-        initExpand()
-        SkinManager.getInstant().autoTheme(SkinManager.currentStyle,binding)
+        binding {
 
+            initExpand()
 
-        initBanner()
-        initAdapter()
+            SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
 
+            main = this@HomeFragment
+            executePendingBindings()
 
-        router.toTarget("getBanner")
-        if( viewModel.article.valueIsNull()){
-            router.toTarget("getHomeTop")
-            pagerNumber post 0
+            banner.bindToLife(viewLifecycleOwner)
+            banner.setOnImageLoader { url, imageView ->
+                imageView.load(url,CONFIG)
+            }
+
         }
+
+
+
+
+        getBanner()
+        getHomeTop()
+
     }
+
 
 
     override fun initListener() {
 
-        refresh.setOnRefreshListener {
-            pagerNumber post 0
-        }
+        binding{
 
-
-        rv.setOnLoadMoreListener {
-            pagerNumber plus 1
-        }
-
-
-        adapter.setOnLikeClickListener { item, isCollect ->
-            if(isCollect){
-                router.toTarget("homeCollect",item.id)
-            }else{
-                router.toTarget("homeUnCollect",item.id)
+            refresh.setOnRefreshListener {
+                page = 0
+                getHomeTop()
             }
-        }
 
-        adapter.setOnItemClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener{
-            override fun onItemClick(view: View, position: Int) {
-                val item = list[position]
-                viewModel.openWeb set (item.title to item.link)
-                viewModel.replace set getString(R.string.transition_name_web)
+            rvList.setOnLoadMoreListener {
+                page++
+                getHomeArticle()
             }
-        })
 
 
-        crl.setOnMenuClickListener {
-            when(it){
-                0 ->{
-                    rv.scrollToPosition(0)
-                }
-                1 ->{
-                    startActivity<SearchActivity>()
+            crl.setOnMenuClickListener {
+                when(it){
+                    0 ->{
+                        rvList.scrollToPosition(0)
+                    }
+                    1 ->{
+
+                    }
                 }
             }
-        }
 
+            adapter.setOnLikeClickListener { item, isCollect ->
+                if(isCollect){
+                    viewModel.homeCollect(item.id)
+                }else{
+                    viewModel.homeUnCollect(item.id)
+                }
+            }
+
+        }
     }
 
-    private fun initBanner(){
-
-        banner.setOnImageLoader { url, imageView ->
-            imageView.load(url,config)
-        }
-        banner.bindToLife(this)
-    }
 
     private fun initExpand(){
         val expands = ArrayList<ExpandIcon>()
         expands.add(ExpandIcon().setIcon(R.drawable.ic_arrow_up).setBackgroundTint(R.color.colorPrimaryDark))
         expands.add(ExpandIcon().setIcon(R.drawable.ic_search).setBackgroundTint(R.color.colorPrimaryDark))
         ExpandManager.newBuilder().setExpandIcons(expands).motion(R.color.black,R.drawable.ic_close)
-            .bindTarget(crl).build()
+            .bindTarget(binding.crl).build()
     }
 
-    private fun initAdapter(){
-        adapter = ArticleListAdapter(context,list)
-        rv.adapter = adapter
-        rv.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL,false)
+    private fun getHomeArticle(){
+        viewModel.getHomeArticle(page)
     }
 
 
-    private fun onLoadSize(size: Int) {
-        rv.finishLoading()
-        refresh.isRefreshing = false
-        if(size == 0){
-            rv.setEnableLoadMore(false)
-        }else{
-            rv.setEnableLoadMore(true)
-        }
+    private fun getHomeTop() {
+        viewModel.getHomeTop()
     }
+    private fun getBanner(){
+        viewModel.getBanner()
+    }
+
+
 }

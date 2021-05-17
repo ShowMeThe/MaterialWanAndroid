@@ -12,6 +12,7 @@ import com.showmethe.skinlib.plugin.IPlugin
 class RefreshPlugin : IPlugin<SwipeRefreshLayout> {
 
     override fun individuate(view: SwipeRefreshLayout, attrName: String) {
+
         when (attrName) {
             themes_name[0] -> view.setColorSchemeResources(R.color.colorAccent)
             themes_name[1] -> view.setColorSchemeResources(R.color.color_304ffe)
@@ -22,10 +23,10 @@ class RefreshPlugin : IPlugin<SwipeRefreshLayout> {
     override fun individuate(
         view: SwipeRefreshLayout,
         attrName: String,
-        colors: ArrayList<String>?
+        colors: List<String>?
     ) {
         colors?.apply {
-            if (colors.size > 0) {
+            if (colors.isNotEmpty()) {
                 when(attrName){
                     themes_name[3],themes_name[4] ->view.setColorSchemeColors(Color.parseColor("#${colors[0]}"))
                 }

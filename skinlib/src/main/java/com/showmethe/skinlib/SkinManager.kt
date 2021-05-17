@@ -32,29 +32,30 @@ import kotlin.collections.ArrayList
  * Package Name:com.showmethe.skinlib
  */
 
-fun String.getColorExtras() : ArrayList<String>?{
-    return SkinManager.getInstant().themesJson[this]?.colorObjects
+fun String.getColorExtras() : List<String>?{
+    return SkinManager.getManager().themesJson[this]?.colorObjects
 }
 
-fun String.isStyleFromJson() = SkinManager.getInstant().themesJson[this] != null
+fun String.isStyleFromJson() = SkinManager.getManager().themesJson[this] != null
 
-class SkinManager private constructor(var context: Context) {
+class SkinManager private constructor() {
+
+    private lateinit var context: Context
 
     companion object {
 
         var currentStyle = ""
-        private var instant: SkinManager? = null
+        private val instant by lazy { SkinManager() }
+
 
         @Synchronized
         fun init(context: Context): SkinManager {
-            if (instant == null) {
-                instant = SkinManager(context)
-            }
-            return instant!!
+            instant.context = context
+            return instant
         }
 
-        fun getInstant(): SkinManager {
-            return instant!!
+        fun getManager(): SkinManager {
+            return instant
         }
 
 
@@ -85,6 +86,7 @@ class SkinManager private constructor(var context: Context) {
 
             R.attr.theme_bottom_navigation_iconTint,
             R.attr.theme_bottom_navigation_textColor,
+            R.attr.theme_bottom_navigation_rippleColor,
 
             R.attr.theme_imageView_tint,
 
@@ -115,7 +117,7 @@ class SkinManager private constructor(var context: Context) {
             "theme_radio_textColor", "theme_radio_background",
             "theme_radio_backgroundColor", "theme_radio_drawableTint", "theme_radio_buttonTint",
 
-            "theme_bottom_navigation_iconTint", "theme_bottom_navigation_textColor",
+            "theme_bottom_navigation_iconTint", "theme_bottom_navigation_textColor","theme_bottom_navigation_rippleColor",
 
             "theme_imageView_tint",
 
@@ -129,15 +131,15 @@ class SkinManager private constructor(var context: Context) {
 
 
         fun patchView(view: View, attr: String) {
-            getInstant().patchView(view, attr)
+            getManager().patchView(view, attr)
         }
 
         fun patchView(view: ViewGroup, attr: String) {
-            getInstant().patchView(view, attr)
+            getManager().patchView(view, attr)
         }
 
         fun patchPlugin(view: View, name: String) {
-            getInstant().patchPlugin(view, name)
+            getManager().patchPlugin(view, name)
         }
     }
 
@@ -324,6 +326,14 @@ class SkinManager private constructor(var context: Context) {
             ViewType.BottomNavigationView -> {
                 attrs.forEach {
                     when {
+                        it.trim() == "rippleColor" -> {
+                            theme["theme_bottom_navigation_rippleColor"]?.apply {
+                                view::class.java.methods.filter { method -> method.name == "setItemRippleColor" }[0].invoke(
+                                    view,
+                                    getColorStateList()
+                                )
+                            }
+                        }
                         it.trim() == "iconTint" -> {
                             theme["theme_bottom_navigation_iconTint"]?.apply {
                                 view::class.java.methods.filter { method -> method.name == "setItemIconTintList" }[0].invoke(
@@ -416,6 +426,14 @@ class SkinManager private constructor(var context: Context) {
             ViewType.BottomNavigationView -> {
                 attrs.forEach {
                     when {
+                        it.trim() == "rippleColor" -> {
+                            theme.theme_bottom_navigation_rippleColor?.apply {
+                                view::class.java.methods.filter { method -> method.name == "setItemRippleColor" }[0].invoke(
+                                    view,
+                                    getColorStateList()
+                                )
+                            }
+                        }
                         it.trim() == "iconTint" -> {
                             theme.theme_bottom_navigation_iconTint?.apply {
                                 view::class.java.methods.filter { method -> method.name == "setItemIconTintList" }[0].invoke(
@@ -603,7 +621,7 @@ class SkinManager private constructor(var context: Context) {
             }
             ViewType.Button, ViewType.MaterialButton -> {
                 val button = view as Button
-                theme?.apply {
+                theme.apply {
                     attrs.forEach {
                         when {
                             it.trim() == "textColor" -> {

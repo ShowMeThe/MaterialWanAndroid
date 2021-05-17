@@ -1,18 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <data>
+        <variable
+            name="Main"
+            type="com.show.wanandroid.ui.main.MainActivity" />
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.main.MainActivity">
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+           <com.show.kcore.widget.FakeStatusView
+               android:id="@+id/fade"
+               android:background="@color/colorAccent"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:layout_constraintTop_toTopOf="parent"
+               skin="@{`backgroundColor`}"
+               />
 
+            <RelativeLayout
+                android:id="@+id/titleBar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/colorAccent"
+                app:layout_constraintTop_toBottomOf="@+id/fade"
+                skin="@{`backgroundColor`}"
+                >
+
+                <com.show.wanandroid.widget.IconSwitch
+                    android:id="@+id/iconSwitch"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:tint="@color/white"
+                    app:clickToTransition="false"
+                    app:defaultTint="@color/white"
+                    app:iconDefault="@drawable/ic_drawable"
+                    app:iconTransition="@drawable/ic_more"
+                    app:transitionTint="@color/white"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/home"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivSearch"
+                    android:transitionName="@string/transition_name_search"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:src="@drawable/ic_search"
+                    android:tint="@color/white"
+                    android:onClick="@{()->Main.onSearch()}"
+                    />
+
+            </RelativeLayout>
+
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/titleBar"
+                app:layout_constraintBottom_toTopOf="@+id/bottomView"
+                />
+
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomView"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/white"
+                app:itemIconTint = "@color/colorAccent"
+                app:itemTextColor="@color/colorAccent"
+                app:menu="@menu/tab_menu"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                skin="@{`iconTint|textColor|rippleColor`}"
+                />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/drawLayout"
+            android:elevation="0.5dp"
+            android:layout_gravity="start"
+            android:background="@color/white"
+            android:layout_width="200dp"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/head"
+                android:background="@drawable/shape_drawer_head_bg"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintTop_toTopOf="parent"
+                skin="@{`background`}"
+                >
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvUser"
+                    android:textSize="23dp"
+                    android:textColor="@color/white"
+                    android:text="@string/login"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fontFamily="sans-serif"
+                    android:onClick="@{()->Main.onLogin()}"
+                    />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivOut"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    app:tint="@color/white"
+                    android:src="@drawable/ic_exit"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_alignParentEnd="true"
+                    android:onClick="@{()->Main.exit()}"
+                    />
+
+            </RelativeLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTheme"
+                android:text="@string/switch_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_theme"
+                android:textColor="@color/colorAccent"
+                android:textSize="15dp"
+                android:gravity="center|start"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:layout_constraintTop_toBottomOf="@+id/head"
+                android:onClick="@{()->Main.onTheme()}"
+                skin="@{`iconTint|textColor|rippleColor`}"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

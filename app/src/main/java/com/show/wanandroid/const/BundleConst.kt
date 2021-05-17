@@ -1,6 +1,7 @@
 package com.show.wanandroid.const
 
+object BundleConst {
 
-const val Id = "id"
-const val Data = "Data"
-const val LastFragment = "LastFragment"
+    const val Id = "id"
+
+}

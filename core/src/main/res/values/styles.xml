@@ -1,0 +1,40 @@
+<resources>
+
+
+
+
+
+    <style name="AnimAlpha" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/alpha_in</item>
+        <item name="android:windowExitAnimation">@anim/alpha_out</item>
+    </style>
+
+
+    <style name="BaseBottomSheetStyle" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowElevation">0dp</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:backgroundTint">@color/transparent</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="BaseDialogStyle" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:windowElevation">0dp</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:backgroundTint">@color/transparent</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Dialog</item>
+    </style>
+
+
+    <style name="Animation.Dialog" parent="Animation.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@anim/scale_in</item>
+        <item name="android:windowExitAnimation">@anim/scale_out</item>
+    </style>
+
+</resources>

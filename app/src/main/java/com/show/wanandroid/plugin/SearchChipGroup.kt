@@ -24,9 +24,9 @@ class SearchChipGroup : IPlugin<ChipGroup> {
         }
     }
 
-    override fun individuate(view: ChipGroup, attrName: String, colors: ArrayList<String>?) {
+    override fun individuate(view: ChipGroup, attrName: String, colors: List<String>?) {
         colors?.apply {
-                if(colors.size>0){
+                if(colors.isNotEmpty()){
                     val color = ColorStateList.valueOf(Color.parseColor("#${colors[0]}"))
                     when(attrName){
                         themes_name[3],themes_name[4]  ->{

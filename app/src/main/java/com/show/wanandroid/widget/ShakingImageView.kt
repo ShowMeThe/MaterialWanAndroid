@@ -8,9 +8,7 @@ import android.view.animation.AnticipateInterpolator
 import androidx.appcompat.widget.AppCompatImageView
 import com.show.wanandroid.R
 
-/**
- * 摇晃ImageView
- */
+
 class ShakingImageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : AppCompatImageView(context, attrs, defStyleAttr){
@@ -21,7 +19,6 @@ class ShakingImageView @JvmOverloads constructor(
     private var shakeAuto = false
     private var duration = 500
     init {
-
         initAttr(context,attrs)
     }
 
@@ -32,7 +29,6 @@ class ShakingImageView @JvmOverloads constructor(
         shakeAuto  =array.getBoolean(R.styleable.ShakingImageView_shake_auto,false)
         duration = array.getInt(R.styleable.ShakingImageView_shake_duration,500)
         array.recycle()
-        buildAnim()
     }
 
     private fun buildAnim(){
@@ -46,9 +42,19 @@ class ShakingImageView @JvmOverloads constructor(
         animator?.interpolator = AnticipateInterpolator()
         animator?.repeatCount = -1
         animator?.repeatMode = REVERSE
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
         if(shakeAuto){
-            animator?.start()
+            buildAnim()
+            startAnimator()
         }
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        stopAnimator()
     }
 
     fun startAnimator(){

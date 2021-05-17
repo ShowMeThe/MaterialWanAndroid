@@ -2,186 +2,180 @@ package com.show.wanandroid.ui.main.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.ken.materialwanandroid.entity.Empty
+import androidx.lifecycle.ViewModel
+import com.show.kInject.core.ext.single
+import com.show.kcore.base.BaseRepository
+import com.show.kcore.http.coroutines.IFunction
+import com.show.kcore.http.coroutines.KResult
+import com.show.kcore.http.coroutines.KResultData
+import com.show.kcore.http.coroutines.callResult
 import com.show.wanandroid.R
 import com.show.wanandroid.api.Main
-import com.show.wanandroid.entity.*
+import com.show.wanandroid.bean.*
 import com.show.wanandroid.toast
-import showmethe.github.core.base.BaseRepository
-import showmethe.github.core.base.ContextProvider
-import showmethe.github.core.http.coroutines.CallResult
-import showmethe.github.core.http.coroutines.Result
-import showmethe.github.core.kinit.inject
+import com.squareup.moshi.Json
+import java.lang.Exception
 
-class MainRepository : BaseRepository() {
+class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
 
-    private val api: Main by inject()
+    private val api: Main by single()
 
+    fun getBanner(data: KResultData<JsonData<List<Banner>>>) {
+        androidScope {
+            callResult {
+                hold { api.banner() }
+                    .bindData(data)
+            }
+        }
+    }
 
-    fun getBanner(call: MutableLiveData<Result<ArrayList<Banner>>>) {
-        CallResult<ArrayList<Banner>>(owner) {
-            post(call)
-            hold {
-                api.banner()
+    fun getHomeArticle(page: Int, liveData: KResultData<JsonData<Article>>) {
+        androidScope {
+            callResult {
+                hold { api.getHomeArticle(page) }
+                    .bindData(liveData)
+            }
+        }
+    }
+
+    fun getArticleTop(liveData: KResultData<List<DatasBean>>) {
+        androidScope {
+            callResult {
+                merge({ api.getHomeArticle(0) },
+                    { api.getHomeTop() },
+                    object :
+                        IFunction<JsonData<Article>, JsonData<List<DatasBean>>, List<DatasBean>> {
+                        override fun apply(
+                            t1: JsonData<Article>?,
+                            t2: JsonData<List<DatasBean>>?
+                        ): List<DatasBean> {
+                            val list = ArrayList<DatasBean>()
+                            t2?.apply {
+                                if (isLegal() && data != null) {
+                                    data!!.forEach {
+                                        it.top = true
+                                    }
+                                    list.addAll(data!!)
+                                }
+                            }
+                            t1?.apply {
+                                if (isLegal() && data != null) {
+                                    list.addAll(data!!.datas)
+                                }
+                            }
+                            return list
+                        }
+
+                    }).bindData(liveData)
             }
         }
     }
 
 
-    fun getChapters(call: MutableLiveData<Result<ArrayList<TabBean>>>) {
-        CallResult<ArrayList<TabBean>>(owner) {
-            post(call)
-            hold {
-                api.getChapters()
+    fun getChapters(data: KResultData<JsonData<List<TabBeanItem>>>) {
+        androidScope {
+            callResult {
+                hold { api.getChapters() }
+                    .bindData(data)
             }
         }
     }
 
-    fun getArticle(id: Int, pager: Int, call: MutableLiveData<Result<Article>>) {
-        CallResult<Article>(owner) {
-            post(call)
-            hold {
-                api.getArticle(id, pager)
+    fun getChaptersArticle(id: Int, page: Int, data: KResultData<JsonData<Article>>) {
+        androidScope {
+            callResult {
+                hold { api.getArticle(id, page) }
+                    .bindData(data)
+            }
+        }
+    }
+
+    fun getTree(data: KResultData<JsonData<List<Tree>>>) {
+        androidScope {
+            callResult {
+                hold { api.getTree() }
+                    .bindData(data)
+            }
+        }
+    }
+
+    fun getTreeArticle(id: Int, page: Int, data: KResultData<JsonData<Article>>) {
+        androidScope {
+            callResult {
+                hold { api.getTreeArticle(page, id) }
+                    .bindData(data)
             }
         }
     }
 
 
-    fun getHomeArticle(pager: Int, call: MutableLiveData<Result<Article>>) {
-        CallResult<Article>(owner) {
-            post(call)
-            hold {
-                api.getHomeArticle(pager)
+    fun getCateTab(data: KResultData<JsonData<List<CateTab>>>) {
+        androidScope {
+            callResult {
+                hold { api.getCateTab() }
+                    .bindData(data)
             }
         }
     }
 
-    fun getHomeTopArticle(call: MutableLiveData<Result<ArrayList<Article.DatasBean>>>) {
-        CallResult<ArrayList<Article.DatasBean>>(owner) {
-            post(call)
-            hold {
-                api.getHomeTop()
+
+    fun getCate(pager: Int, cid: Int, data: KResultData<JsonData<CateBean>>) {
+        androidScope {
+            callResult {
+                hold { api.getCate(pager, cid) }
+                    .bindData(data)
             }
         }
     }
 
     fun homeCollect(id: Int) {
-        CallResult<Empty>(owner) {
-            success { result, message ->
-                showToast(context.getString(R.string.success_collect))
-            }
-            error { result, code, message ->
-                toast(code, message)
-            }
-            hold {
-                api.homeCollect(id)
+        androidScope {
+            callResult {
+                hold { api.homeCollect(id) }
+                    .success {
+                        toast(0, R.string.success_collect)
+                    }.error {
+                        response?.apply {
+                            toast(errorCode, errorMsg)
+                        }
+                    }
             }
         }
     }
 
     fun homeUnCollect(id: Int) {
-        CallResult<Empty>(owner) {
-            success { result, message ->
-                showToast(context.getString(R.string.cancel_collect))
-            }.error { result, code, message ->
-                toast(code, message)
-            }.hold {
-                api.homeUnCollect(id)
-            }
-
-        }
-    }
-
-    fun getTree(call: MutableLiveData<Result<ArrayList<Tree>>>) {
-        CallResult<ArrayList<Tree>>(owner) {
-            post(call)
-            hold {
-                api.getTree()
+        androidScope {
+            callResult {
+                hold { api.homeUnCollect(id) }
+                    .success {
+                        toast(0, R.string.cancel_collect)
+                    }.error {
+                        response?.apply {
+                            toast(errorCode, errorMsg)
+                        }
+                    }
             }
         }
     }
 
-    fun getTreeArticle(pager: Int, id: Int, call: MutableLiveData<Result<Article>>) {
-        CallResult<Article>(owner) {
-            post(call)
-            hold {
-                api.getTreeArticle(pager, id)
+    fun search(pager: Int, k: String, data: MutableLiveData<KResult<JsonData<Article>>>) {
+        androidScope {
+            callResult {
+                hold {
+                    api.search(pager, k)
+                }.bindData(data)
             }
         }
     }
 
-    fun getCateTab(call: MutableLiveData<Result<ArrayList<CateTab>>>) {
-        CallResult<ArrayList<CateTab>>(owner) {
-            post(call)
-            hold {
-                api.getCateTab()
+    fun getHotKey(data: MutableLiveData<KResult<JsonData<List<KeyWord>>>>) {
+        androidScope {
+            callResult {
+                hold {
+                    api.getHotKey()
+                }.bindData(data)
             }
         }
     }
-
-
-    fun getCate(pager: Int, id: Int, call: MutableLiveData<Result<CateBean>>) {
-        CallResult<CateBean>(owner) {
-            post(call)
-            hold {
-                api.getCate(pager, id)
-            }
-        }
-    }
-
-    fun getHotKey(call: MutableLiveData<Result<ArrayList<KeyWord>>>) {
-        CallResult<ArrayList<KeyWord>>(owner) {
-            post(call)
-            hold {
-                api.getHotKey()
-            }
-        }
-    }
-
-    fun search(pager: Int, k: String, call: MutableLiveData<Result<Article>>) {
-        CallResult<Article>(owner) {
-            post(call)
-            hold {
-                api.search(pager, k)
-            }
-        }
-    }
-
-    fun getCollect(pager: Int, call: MutableLiveData<Result<Collect>>) {
-        CallResult<Collect>(owner) {
-            post(call)
-            error { result, code, message ->
-                toast(code, message)
-            }
-            hold {
-                api.getCollect(pager)
-            }
-        }
-    }
-
-    fun unCollect(id: Int, originId: Int) {
-        CallResult<Empty>(owner){
-            success { result, message ->
-                showToast(context.getString(R.string.cancel_collect))
-            }.error { result, code, message ->
-                toast(code, message)
-            }.hold {
-                api.unCollect(id, originId)
-            }
-        }
-    }
-
-    fun getUserInfo(call: MutableLiveData<Result<UserInfo>>) {
-        CallResult<UserInfo>(owner) {
-            post(call)
-            error { result, code, message ->
-                toast(code, message)
-            }
-            hold {
-                api.getUserInfo()
-            }
-        }
-    }
-
 
 }

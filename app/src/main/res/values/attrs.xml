@@ -30,4 +30,20 @@
         <attr name="wakeColor" format="color"/>
         <attr name="wakeCount" format="integer"/>
     </declare-styleable>
+
+
+    <declare-styleable name="LikeView">
+        <attr name="like_state" format="boolean"/>
+        <attr name="like" format="reference"/>
+        <attr name="likeColor" format="color"/>
+        <attr name="unLikeColor" format="color"/>
+        <attr name="colors" format="color"/>
+        <attr name="percentage" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="BallRotationProgressBar">
+        <attr name="firstBallColor" format="color"/>
+        <attr name="secondBallColor" format="color"/>
+    </declare-styleable>
+
 </resources>

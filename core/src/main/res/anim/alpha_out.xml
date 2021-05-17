@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set android:shareInterpolator="true"
+	android:interpolator="@android:anim/linear_interpolator" xmlns:android="http://schemas.android.com/apk/res/android">
+	<alpha
+		android:duration="@integer/card_flip_time_full_alpha"
+		android:fromAlpha="1.0"
+		android:toAlpha="0.2"/>
+
+</set>

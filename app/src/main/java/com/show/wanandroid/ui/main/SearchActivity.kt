@@ -1,108 +1,138 @@
 package com.show.wanandroid.ui.main
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.animation.AccelerateInterpolator
-import android.view.inputmethod.EditorInfo
-import androidx.lifecycle.Observer
-import com.google.android.material.transition.MaterialSharedAxis
+import android.view.KeyEvent
+import android.view.View
+import androidx.core.content.ContextCompat
+import com.google.android.material.chip.Chip
+import com.show.kcore.base.BaseActivity
+import com.show.kcore.extras.gobal.read
+import com.show.kcore.extras.keyborad.hideSoftKeyboard
+import com.show.kcore.extras.status.statusBar
+import com.show.slideback.annotation.SlideBackBinder
+import com.show.slideback.annotation.SlideBackPreview
 import com.show.wanandroid.R
+import com.show.wanandroid.bean.KeyWord
+import com.show.wanandroid.colors
 import com.show.wanandroid.databinding.ActivitySearchBinding
-import com.show.wanandroid.ui.main.fragment.SearchArticleFragment
-import com.show.wanandroid.ui.main.fragment.SearchBodyFragment
 import com.show.wanandroid.ui.main.vm.SearchViewModel
-import com.showmethe.skinlib.SkinManager
-import kotlinx.android.synthetic.main.activity_search.*
-import showmethe.github.core.base.BaseActivity
-import showmethe.github.core.util.extras.set
-import showmethe.github.core.util.widget.StatusBarUtil.fixToolbarScreen
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.lang.Exception
+import java.util.concurrent.ThreadLocalRandom
 
+@SlideBackPreview
+@SlideBackBinder
 class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
 
-    override fun initViewModel(): SearchViewModel = createViewModel()
 
     override fun getViewId(): Int = R.layout.activity_search
 
     override fun onBundle(bundle: Bundle) {
-
     }
 
     override fun observerUI() {
 
-        viewModel.searchWord.observe(this, Observer {
-            it?.apply {
-                if(it.isNotEmpty()){
-                    edSearch.setText(it)
-                    replaceToArticle()
-                }
+
+        viewModel.hotKey.read(this){
+            it?.data?.apply {
+                addGroup(this)
             }
-        })
+        }
+
     }
-
-
 
     override fun init(savedInstanceState: Bundle?) {
-        fixToolbarScreen(toolBar)
-        binding.main = this
-        SkinManager.getInstant().bindings(binding)
+        statusBar { uiFullScreen(true) }
+
+        binding {
+
+            main = this@SearchActivity
+            executePendingBindings()
 
 
-        val fragment = SearchBodyFragment()
-        fragment.exitTransition = createTransition(true)
-        fragment.exitTransition = createTransition(false)
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.frame,fragment)
-            .commitAllowingStateLoss()
+            setEditTextCursor()
 
+            viewModel.getHotKey()
 
-    }
-
-    override fun initListener() {
-
-        edSearch.setOnEditorActionListener { v, actionId, event ->
-            if(actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE){
-                val search = edSearch.text.toString().trim()
-                if(search.isNotEmpty()){
-                    viewModel.searchWord set search
-                    replaceToArticle()
-                }
-
-            }
-            true
         }
     }
 
-    private fun replaceToArticle(){
-        val fragment =
-            SearchArticleFragment()
-        fragment.exitTransition = createTransition(true)
-        fragment.exitTransition = createTransition(false)
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.frame,fragment)
-            .commitAllowingStateLoss()
+    override fun initListener() {
+        binding {
+
+            edSearch.setOnKeyListener { v, keyCode, event ->
+                if ((keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_SEARCH)
+                    && event.action == KeyEvent.ACTION_DOWN) {
+                    onSearch()
+                    hideSoftKeyboard()
+                    return@setOnKeyListener true
+                }
+                false
+            }
+
+
+        }
     }
 
 
-    private fun createTransition(boolean: Boolean): MaterialSharedAxis? {
-        val transition = MaterialSharedAxis.create(context, MaterialSharedAxis.Z, boolean)
-        transition.interpolator = AccelerateInterpolator()
-        transition.duration = 350
-        transition.addTarget(R.id.searchBody)
-        return transition
+    private fun addGroup(array:List<KeyWord>){
+        binding {
+            group.removeAllViews()
+            array.forEach { text ->
+                val chip = View.inflate(this@SearchActivity,R.layout.chip_tree_layout,null) as Chip
+                chip.text =  text.name
+                chip.setTextColor(Color.WHITE)
+                chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(
+                    colors[ThreadLocalRandom.current()
+                        .nextInt(0, colors.size)]))
+                group.addView(chip)
+                chip.setOnClickListener {
+                    binding.edSearch.setText(text.name)
+                    onSearch()
+                }
+            }
+        }
     }
 
-    fun popBackToFront(){
-        finishAfterTransition()
+    fun onSearch() {
+        val search = binding.edSearch.text?.toString()
+        if(!search.isNullOrBlank()){
+            startActivity<SearchResultActivity>(Bundle().apply {
+                putString("title",search)
+            },true)
+        }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        viewModel.searchWord set ""
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
+
+    private fun setEditTextCursor() {
+        binding {
+            val cursor =
+                ContextCompat.getDrawable(this@SearchActivity, R.drawable.shape_blue_cursor)
+                    ?.apply {
+                        setTint(Color.WHITE)
+                        setTintMode(PorterDuff.Mode.SRC_IN)
+                    }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                edSearch.textCursorDrawable = cursor
+            } else {
+                try {
+                    val field =
+                        android.widget.TextView::class.java.getDeclaredField("mCursorDrawableRes")
+                    field.isAccessible = true
+                    field.set(edSearch, cursor)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 
 }

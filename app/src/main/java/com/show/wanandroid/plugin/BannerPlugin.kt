@@ -2,9 +2,9 @@ package com.show.wanandroid.plugin
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
+import com.show.banner.Banner
 import com.show.wanandroid.R
 import com.show.wanandroid.themes_name
-import com.showmethe.banner.Banner
 import com.showmethe.skinlib.plugin.IPlugin
 
 class BannerPlugin  : IPlugin<Banner> {
@@ -27,7 +27,7 @@ class BannerPlugin  : IPlugin<Banner> {
         view.setUnSelectorColor(unSelector)
     }
 
-    override fun individuate(view: Banner, attrName: String, colors: ArrayList<String>?) {
+    override fun individuate(view: Banner, attrName: String, colors: List<String>?) {
         colors?.apply {
             when(attrName){
                 themes_name[3],themes_name[4] ->{

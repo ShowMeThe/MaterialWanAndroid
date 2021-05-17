@@ -1,1 +1,23 @@
-{"theme_viewGroup_background":"ff3d00","theme_viewGroup_backgroundColor":"ff3d00","theme_card_strokeColor":"ff3d00","theme_text_color":"ff3d00","theme_button_textColor":"ff3d00","theme_button_rippleColor":"2cf4511e","theme_button_iconTint":"ff3d00","theme_button_strokeColor":"ff3d00","theme_bottom_navigation_iconTint":"ff3d00","theme_bottom_navigation_textColor":"ff3d00","theme_imageView_tint":"ff3d00","theme_floating_backgroundColor":"ff3d00","theme_edit_cursorDrawable":"ff3d00","theme_edit_highlightColor":"ff3d00","theme_inputLayout_boxColor":"ff3d00","theme_inputLayout_hintColor":"ff3d00","colorObjects":["ff3d00","2cf4511e"]}
+{
+  "theme_viewGroup_background": "ff3d00",
+  "theme_viewGroup_backgroundColor": "ff3d00",
+  "theme_card_strokeColor": "ff3d00",
+  "theme_text_color": "ff3d00",
+  "theme_button_textColor": "ff3d00",
+  "theme_button_rippleColor": "2cf4511e",
+  "theme_button_iconTint": "ff3d00",
+  "theme_button_strokeColor": "ff3d00",
+  "theme_bottom_navigation_iconTint": "ff3d00",
+  "theme_bottom_navigation_textColor": "ff3d00",
+  "theme_bottom_navigation_rippleColor":"2cf4511e",
+  "theme_imageView_tint": "ff3d00",
+  "theme_floating_backgroundColor": "ff3d00",
+  "theme_edit_cursorDrawable": "ff3d00",
+  "theme_edit_highlightColor": "ff3d00",
+  "theme_inputLayout_boxColor": "ff3d00",
+  "theme_inputLayout_hintColor": "ff3d00",
+  "colorObjects": [
+    "ff3d00",
+    "2cf4511e"
+  ]
+}

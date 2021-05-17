@@ -5,7 +5,7 @@
     <data>
         <variable
             name="Bean"
-            type="com.show.wanandroid.entity.Article.DatasBean" />
+            type="com.show.wanandroid.bean.DatasBean" />
 
         <import type="android.view.View"/>
     </data>
@@ -13,18 +13,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px400dp">
+        android:layout_height="150dp">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivAuthor"
-            android:layout_marginTop="@dimen/px48dp"
-            android:layout_marginStart="@dimen/px48dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:tint="@color/colorAccent"
             android:src="@drawable/ic_author"
-            android:layout_width="@dimen/px35dp"
-            android:layout_height="@dimen/px35dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             skin="@{`tint`}"
             />
 
@@ -32,28 +32,27 @@
             android:id="@+id/tvAuthor"
             android:text="@{Bean.author.empty?  Bean.shareUser : Bean.author}"
             android:fontFamily="sans-serif-light"
-            android:textSize="@dimen/px37dp"
-            android:textColor="@color/text_666666"
+            android:textSize="14dp"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/px10dp"
-            android:layout_marginBottom="@dimen/px10dp"
+            android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/ivAuthor"
             app:layout_constraintTop_toTopOf="@+id/ivAuthor"
             app:layout_constraintStart_toEndOf="@+id/ivAuthor"
             tools:text="作者"
             />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivLevel"
-            android:layout_marginTop="@dimen/px48dp"
-            android:layout_marginStart="@dimen/px48dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvAuthor"
             android:tint="@color/colorAccent"
             android:src="@drawable/ic_level"
-            android:layout_width="@dimen/px35dp"
-            android:layout_height="@dimen/px35dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             skin="@{`tint`}"
             />
 
@@ -61,46 +60,43 @@
             android:id="@+id/tvLevel"
             android:text="@{Bean.superChapterName}"
             android:fontFamily="sans-serif-light"
-            android:textSize="@dimen/px37dp"
-            android:textColor="@color/text_666666"
+            android:textSize="14dp"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/px10dp"
-            android:layout_marginBottom="@dimen/px10dp"
+            android:layout_marginStart="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/ivLevel"
             app:layout_constraintTop_toTopOf="@+id/ivLevel"
             app:layout_constraintStart_toEndOf="@+id/ivLevel"
             tools:text="作者"
             />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTit"
             android:textStyle="bold"
             android:text="@{Bean.title}"
             android:maxEms="13"
             android:maxLines="2"
             android:ellipsize="end"
-            android:textSize="@dimen/px52dp"
-            android:fontFamily="sans-serif-black"
-            android:textColor="@color/text_333333"
-            android:layout_marginTop="@dimen/px15dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/ivAuthor"
             app:layout_constraintStart_toStartOf="@+id/ivAuthor"
             />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivTime"
-            android:layout_marginTop="@dimen/px35dp"
+            android:layout_marginTop="12dp"
             app:layout_constraintTop_toBottomOf="@+id/tvTit"
             app:layout_constraintStart_toStartOf="@+id/tvTit"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="@dimen/px65dp"
             android:tint="@color/colorAccent"
             android:src="@drawable/ic_time"
-            android:layout_width="@dimen/px35dp"
-            android:layout_height="@dimen/px35dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             skin="@{`tint`}"
             />
 
@@ -108,55 +104,57 @@
             android:id="@+id/tvTime"
             android:text="@{Bean.niceDate}"
             android:fontFamily="sans-serif-light"
-            android:textSize="@dimen/px37dp"
-            android:textColor="@color/text_666666"
+            android:textSize="14dp"
+            android:textColor="@color/color_666666"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/px10dp"
-            android:layout_marginBottom="@dimen/px10dp"
+            android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/ivTime"
             app:layout_constraintTop_toTopOf="@+id/ivTime"
             app:layout_constraintStart_toEndOf="@+id/ivTime"
             tools:text="作者"
             />
 
-        <com.google.android.material.textview.MaterialTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTop"
             android:text="@string/to_top"
             app:fontFamily="sans-serif-light"
             android:textColor="@color/color_d50000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/px48dp"
-            android:paddingStart="@dimen/px5dp"
-            android:paddingEnd="@dimen/px5dp"
-            android:paddingTop="@dimen/px2dp"
-            android:paddingBottom="@dimen/px2dp"
+            android:layout_marginEnd="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
             android:gravity="center"
+            android:clickable="false"
+            android:focusable="false"
+            android:background="@drawable/shape_top_bg"
             android:visibility="@{Bean.top?View.VISIBLE:View.INVISIBLE}"
-            android:background="@drawable/shape_to_top_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvAuthor"
             />
 
-        <showmethe.github.core.widget.common.LikeView
+        <com.show.wanandroid.widget.LikeView
             android:id="@+id/like"
-            android:layout_marginEnd="@dimen/px20dp"
-            android:layout_width="@dimen/px110dp"
-            android:layout_height="@dimen/px110dp"
-            android:layout_marginBottom="@dimen/px15dp"
+            android:layout_marginEnd="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:like="@drawable/ic_heart"
             app:likeColor="@color/colorAccent"
-            app:unLikeColor="@color/text_666666"
+            app:unLikeColor="@color/color_666666"
             app:colors="@color/colorAccent"
+            plugin="@{`LikePlugin`}"
             />
 
         <View
             android:background="@color/colorAccent"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px1dp"
+            android:layout_height="0.5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             skin="@{`backgroundColor`}"
             />
