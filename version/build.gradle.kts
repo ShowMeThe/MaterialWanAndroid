@@ -1,10 +1,9 @@
 buildscript {
     repositories {
-        jcenter()
         google()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30")
     }
 }
 
@@ -16,13 +15,12 @@ plugins {
 repositories {
     mavenCentral()
     google()
-    jcenter()
 }
 
 dependencies {
     compileOnly(gradleApi())
-    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21")
-    compileOnly("com.android.tools.build:gradle:4.1.0")
+    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30")
+    compileOnly("com.android.tools.build:gradle:4.1.2")
 }
 
 gradlePlugin {
