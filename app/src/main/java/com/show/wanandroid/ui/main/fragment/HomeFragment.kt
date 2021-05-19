@@ -129,10 +129,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
             crl.setOnMenuClickListener {
                 when(it){
                     0 ->{
-                        startActivity<SearchActivity>()
+                        rvList.scrollToPosition(0)
                     }
                     1 ->{
-                        rvList.scrollToPosition(0)
+                        startActivity<SearchActivity>()
                     }
                 }
             }
