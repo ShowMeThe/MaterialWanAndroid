@@ -15,6 +15,8 @@ import com.show.wanandroid.R
 import com.show.wanandroid.bannerPlugin
 import com.show.wanandroid.bean.DatasBean
 import com.show.wanandroid.databinding.FragmentHomeBinding
+import com.show.wanandroid.ui.main.SearchActivity
+import com.show.wanandroid.ui.main.WebActivity
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.showmethe.skinlib.SkinManager
@@ -127,10 +129,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
             crl.setOnMenuClickListener {
                 when(it){
                     0 ->{
-                        rvList.scrollToPosition(0)
+                        startActivity<SearchActivity>()
                     }
                     1 ->{
-
+                        rvList.scrollToPosition(0)
                     }
                 }
             }
@@ -142,6 +144,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
                     viewModel.homeUnCollect(item.id)
                 }
             }
+
+            adapter.setOnItemClickListener { view, data, position ->
+                WebActivity.start(requireActivity(),data.title,data.link)
+            }
+
 
         }
     }

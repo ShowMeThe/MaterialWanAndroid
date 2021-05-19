@@ -11,7 +11,8 @@
         android:roundIcon="@drawable/ic_android"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
-        <activity android:name=".ui.main.SearchResultActivity"></activity>
+        <activity android:name=".ui.main.WebActivity"></activity>
+        <activity android:name=".ui.main.SearchResultActivity" />
         <activity android:name=".ui.main.SearchActivity" />
         <activity
             android:name=".ui.main.LoginActivity"

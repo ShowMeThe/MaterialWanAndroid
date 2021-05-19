@@ -84,7 +84,7 @@ object Extra{
 
     const val glide = "4.12.0"
 
-    const val mmkv = "1.2.7"
+    const val mmkv = "1.2.8"
 
 
 

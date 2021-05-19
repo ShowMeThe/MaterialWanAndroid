@@ -15,6 +15,7 @@ import com.show.wanandroid.bean.Data
 import com.show.wanandroid.bean.JsonData
 import com.show.wanandroid.const.BundleConst
 import com.show.wanandroid.databinding.FragmentProjectArticleBinding
+import com.show.wanandroid.ui.main.WebActivity
 import com.show.wanandroid.ui.main.adapter.ProjectAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.showmethe.skinlib.SkinManager
@@ -111,6 +112,9 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
                 }
             }
 
+            adapter.setOnItemClickListener { view, data, position ->
+                WebActivity.start(requireActivity(),data.title,data.link)
+            }
 
         }
 
