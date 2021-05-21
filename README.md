@@ -95,7 +95,7 @@
 这个InjectOwner是我配合利用反射，初始化数据仓库class *** : BaseRepository
 
 ### CallResult的改进
-增加合并的接口的处理，通过注解viewModel的对象到仓库，androidScope中通过getLifeOwner获取预先注入的owner，viewmodel对应着owner,Fragment共用Activity的owner
+增加合并的接口的处理，通过注解viewModel的对象到仓库，androidScope中通过getLifeOwner获取预先注入的LifecycleOwner，每个viewmodel对应着一个LifecycleOwner, Fragment共用Activity的LifecycleOwner
 ```
   fun androidScope(scope:LifecycleOwner?.()->Unit){
         if(owner == null){
