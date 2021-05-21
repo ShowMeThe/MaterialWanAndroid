@@ -92,39 +92,74 @@
 题外话如果是使用 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"</br>
 的话那个高亮的底线是需要和boxColor一起修改，即TextInputLayout的setBoxStrokeColor和TextView的setHighlightColor使用，没错你们看错，是TextView,我采用反射的操作方法进行修改的。
 ### @InjectOwner这个注解和VMRouter的使用
-这个InjectOwner是我配合利用反射，初始化数据仓库class *** : BaseRepository,而这个VMRouter只是单纯的解耦，可以不需要用到，我在WanAndroid那边也说过有使用bug的，这边我也修复了。但是我不太建议这种方案。
+这个InjectOwner是我配合利用反射，初始化数据仓库class *** : BaseRepository
+
 ### CallResult的改进
+增加合并的接口的处理，通过注解viewModel的对象到仓库，androidScope中通过getLifeOwner获取预先注入的owner，viewmodel对应着owner,Fragment共用Activity的owner
 ```
-   fun getArticle(id: Int, pager: Int, call: MutableLiveData<Result<Article>>) {
-        CallResult<Article>(owner) {
-            post(call)
-            hold {
-                api.getArticle(id, pager)
+  fun androidScope(scope:LifecycleOwner?.()->Unit){
+        if(owner == null){
+            owner = getLifeOwner(viewModel)
+            owner?.lifecycle?.addObserver(this)
+        }
+        scope.invoke(owner)
+    }
+
+
+
+  fun getHomeArticle(page: Int, liveData: KResultData<JsonData<Article>>) {
+        androidScope {
+            callResult {
+                hold { api.getHomeArticle(page) }
+                    .bindData(liveData)
+            }
+        }
+    }
+
+    fun getArticleTop(liveData: KResultData<List<DatasBean>>) {
+        androidScope {
+            callResult {
+                merge({ api.getHomeArticle(0) },
+                    { api.getHomeTop() },
+                    object :
+                        IFunction<JsonData<Article>, JsonData<List<DatasBean>>, List<DatasBean>> {
+                        override fun apply(
+                            t1: JsonData<Article>?,
+                            t2: JsonData<List<DatasBean>>?
+                        ): List<DatasBean> {
+                            val list = ArrayList<DatasBean>()
+                            t2?.apply {
+                                if (isLegal() && data != null) {
+                                    data!!.forEach {
+                                        it.top = true
+                                    }
+                                    list.addAll(data!!)
+                                }
+                            }
+                            t1?.apply {
+                                if (isLegal() && data != null) {
+                                    list.addAll(data!!.datas)
+                                }
+                            }
+                            return list
+                        }
+
+                    }).bindData(liveData)
             }
         }
     }
 
 ```  
-post的方法可以把MutableLiveData<Result<*>> 更新数据，所以使用时候需要谨慎处理response null的问题。</br>
+post的方法可以把MutableLiveData<KResult<*>> 更新数据，所以使用时候需要谨慎处理response null的问题。</br>
 而Retrofit api接口的初始化，我也改善了，如下:
 ```
 //初始化
- startInit {
-            modules(Module{
-                single{ RetroHttp.createApi(Main::class.java) }
-            }) 
+   initScope {
+            single { Http.createApi(Main::class.java) }
         }
-//调用inject        
-private val api: Main by inject()
+        
+//调用single() ，全局获取单例的接口对象
+private val api : Main by single()
+
 ```
-### 优化ViewModel的初始化
-在BaseFragment和LazFragment中的createViewModel采用如下方式：当bindActivity默认为true,即viewModel和 Acitvity如果是同一个VM类即共享对象。相关原理参考官方源码，十分容易理解，只需慢慢阅读
-```
-   inline fun <reified VM :ViewModel>createViewModel(bindActivity: Boolean = true) : VM{
-        return if(bindActivity){
-            activityViewModels<VM>{ViewModelProvider.AndroidViewModelFactory(requireActivity().application)}.value
-        }else{
-            viewModels<VM> {ViewModelProvider.AndroidViewModelFactory(requireActivity().application)}.value
-        }
-    }
-```
+
