@@ -166,11 +166,29 @@ abstract class SwipeMenuAdapter<D, V : ViewBinding>(
                 val padding = textMenu.menuPadding.toInt()
                 setPadding(padding, padding, padding, padding)
             }
+            textMenu.apply {
+                setCompoundDrawablesRelativeWithIntrinsicBounds(drawableStart,drawableTop,drawableEnd,drawableBottom)
+            }
+            compoundDrawablePadding = textMenu.drawablePadding.toInt()
         }
         return textView
     }
 
-    private fun createImage(textMenu: ImageMenu): View {
+    private fun createImage(imageMenu : ImageMenu): View {
+        val imageView = ImageView(context)
+        imageView.apply {
+            setBackgroundColor(imageMenu.backgroundColor)
+            setImageDrawable(imageMenu.drawable)
+            setColorFilter(imageMenu.tintColor)
+
+            layoutParams = LinearLayout.LayoutParams(
+                imageMenu.menuWidth.toInt(),
+                ViewGroup.LayoutParams.MATCH_PARENT
+            ).also {
+                val padding = imageMenu.menuPadding.toInt()
+                setPadding(padding, padding, padding, padding)
+            }
+        }
         return ImageView(context)
     }
 

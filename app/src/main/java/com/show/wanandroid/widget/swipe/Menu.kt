@@ -22,7 +22,12 @@ class TextMenu (call: TextMenu.() -> Unit) : Menu() {
     var text = ""
     var textSize = 15f
     var textColor = tintColor
-    var drawable: Drawable? = null
+    var drawableStart: Drawable? = null
+    var drawableEnd: Drawable? = null
+    var drawableTop: Drawable? = null
+    var drawableBottom: Drawable? = null
+    var drawablePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+        15f, Resources.getSystem().displayMetrics)
 
     init {
         call.invoke(this)
@@ -33,7 +38,6 @@ class TextMenu (call: TextMenu.() -> Unit) : Menu() {
 class ImageMenu(call: ImageMenu.() -> Unit) : Menu() {
 
     var drawable: Drawable? = null
-    var drawableSize = 50f
 
     init {
         call.invoke(this)
