@@ -42,7 +42,6 @@ class ProgressWebView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
         webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
-                Log.e("2222222","$newProgress")
                 if (newProgress == 100) {
                     onProgressComplete.invoke()
                 }

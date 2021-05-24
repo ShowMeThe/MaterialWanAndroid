@@ -178,4 +178,24 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
+    fun getCollects(pager:Int,data: MutableLiveData<KResult<JsonData<Collect>>>) {
+        androidScope {
+            callResult {
+                hold {
+                    api.getCollect(pager)
+                }.bindData(data)
+            }
+        }
+    }
+
+    fun unCollect(id:Int,originId:Int) {
+        androidScope {
+            callResult {
+                hold {
+                    api.unCollect(id, originId)
+                }
+            }
+        }
+    }
+
 }

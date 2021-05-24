@@ -10,17 +10,16 @@ import kotlin.math.roundToInt
 
 
 inline val Float.dp
-   get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this,
-       AppContext.get().context.resources.displayMetrics)
+   get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this,Resources.getSystem().displayMetrics)
 
 inline val Float.px
   get() = (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, this,
-      AppContext.get().context.resources.displayMetrics) + 0.5).toInt()
+      Resources.getSystem().displayMetrics) + 0.5).toInt()
 
 inline val Float.sp
     get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, this,
-        AppContext.get().context.resources.displayMetrics)
+        Resources.getSystem().displayMetrics)
 
 
-val screenW by lazy { AppContext.get().context.resources.displayMetrics.widthPixels }
-val screenH by lazy { AppContext.get().context.resources.displayMetrics.widthPixels }
+val screenW by lazy { Resources.getSystem().displayMetrics.widthPixels }
+val screenH by lazy { Resources.getSystem().displayMetrics.widthPixels }

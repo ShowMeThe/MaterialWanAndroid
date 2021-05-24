@@ -187,4 +187,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         }
     }
 
+    fun onCollect() {
+        if(Stores.getBoolean(StoreConst.IsLogin,false).not()){
+            startActivity<LoginActivity>(transition = true)
+        }else{
+            startActivity<CollectActivity>(transition = true)
+        }
+    }
+
 }
