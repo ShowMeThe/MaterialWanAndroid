@@ -40,6 +40,8 @@ class SwipeMenuLayout @JvmOverloads constructor(
 
     private var isDragging = false
 
+    private var isMenuOpen = false
+
     private var mActivePointerId = INVALID_POINTER
 
     private val mScroller by lazy { OverScroller(context) }
@@ -56,6 +58,8 @@ class SwipeMenuLayout @JvmOverloads constructor(
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         val action = event.action
+
+        Log.e("MotionEvent","onInterceptTouchEvent ${event.action}")
 
         if (!clickInContent(event)) {
             return false
@@ -171,7 +175,7 @@ class SwipeMenuLayout @JvmOverloads constructor(
                     }
                 }
             }
-            MotionEvent.ACTION_CANCEL -> {
+            MotionEvent.ACTION_CANCEL ->{
                 isDragging = false
                 mActivePointerId = INVALID_POINTER
 
@@ -180,9 +184,9 @@ class SwipeMenuLayout @JvmOverloads constructor(
                 mVelocityTracker = null
 
 
-                closeMenu()
+
             }
-            MotionEvent.ACTION_UP -> {
+            MotionEvent.ACTION_UP, -> {
                 isDragging = false
                 mActivePointerId = INVALID_POINTER
 
@@ -242,7 +246,6 @@ class SwipeMenuLayout @JvmOverloads constructor(
     fun openMenu() {
         val scroll = (leftMenuView?.right ?: 0) - (leftMenuView?.left ?: 0) - abs(scrollX)
         scrollTo(scroll, 0)
-
     }
 
     fun closeMenu() {

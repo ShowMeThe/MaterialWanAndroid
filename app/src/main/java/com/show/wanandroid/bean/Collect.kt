@@ -18,7 +18,7 @@ class Collect {
     var pageCount = 0
     var size = 0
     var total = 0
-    var datas: List<DatasBean> = ArrayList()
+    var datas: List<DatasBean> = emptyList()
 
     class DatasBean {
         /**

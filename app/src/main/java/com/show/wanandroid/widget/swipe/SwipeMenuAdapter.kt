@@ -1,6 +1,7 @@
 package com.show.wanandroid.widget.swipe
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.ArrayMap
 import android.util.Log
 import android.view.Gravity
@@ -12,6 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.children
+import androidx.core.widget.TextViewCompat
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
 import androidx.lifecycle.Lifecycle
@@ -40,6 +42,8 @@ abstract class SwipeMenuAdapter<D, V : ViewBinding>(
     fun getRestoreState(int: Int) = restoreState[int]
 
     fun removeRestoreState(int: Int) = restoreState.remove(int)
+
+    fun clearRestoreState() = restoreState.clear()
 
     init {
         initLife()
@@ -170,6 +174,7 @@ abstract class SwipeMenuAdapter<D, V : ViewBinding>(
                 setCompoundDrawablesRelativeWithIntrinsicBounds(drawableStart,drawableTop,drawableEnd,drawableBottom)
             }
             compoundDrawablePadding = textMenu.drawablePadding.toInt()
+            TextViewCompat.setCompoundDrawableTintList(textView,ColorStateList.valueOf(textMenu.tintColor))
         }
         return textView
     }

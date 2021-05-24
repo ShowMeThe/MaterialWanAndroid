@@ -4,6 +4,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import com.show.kcore.base.BaseActivity
 import com.show.kcore.base.Transition
 import com.show.kcore.base.TransitionMode
 import com.show.kcore.extras.counter.timer
+import com.show.kcore.extras.display.dp
 import com.show.kcore.extras.gobal.read
 import com.show.kcore.extras.status.statusBar
 import com.show.slideback.annotation.SlideBackBinder
@@ -39,6 +41,10 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
             text = "取消收藏"
             backgroundColor = Color.RED
             textColor = Color.WHITE
+            drawableStart = ContextCompat.getDrawable(this@CollectActivity,R.drawable.ic_hidden)
+            menuWidth = 130f.dp
+            drawablePadding = 0f.dp
+            menuPadding = 5f.dp
         }).build()
     }
     var refreshData = MutableLiveData(true)
@@ -61,10 +67,11 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
             it?.data?.apply {
                 if(page == 0){
                     list.clear()
+                    adapter.clearRestoreState()
                 }
                 list.addAll(datas)
-                refreshData.value = false
                 binding {
+                    refreshData.value = false
                     rvList.finishLoading()
                     rvList.setEnableLoadMore(datas.isNotEmpty())
                 }
@@ -82,6 +89,7 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
 
             SkinManager.getManager().autoTheme(SkinManager.currentStyle, this)
 
+            rvList.hideWhenScrolling(refresh)
         }
 
         timer(Dispatchers.Main,300){
