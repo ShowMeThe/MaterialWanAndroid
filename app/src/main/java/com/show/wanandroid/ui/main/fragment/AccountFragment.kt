@@ -1,6 +1,7 @@
 package com.show.wanandroid.ui.main.fragment
 
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -10,6 +11,7 @@ import com.show.wanandroid.R
 import com.show.wanandroid.databinding.FragmentAccountBinding
 import com.show.wanandroid.ui.main.adapter.TabArticleAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
+import com.showmethe.skinlib.ReflectEdge
 import com.showmethe.skinlib.SkinManager
 
 
@@ -52,7 +54,6 @@ class AccountFragment : BaseFragment<FragmentAccountBinding, MainViewModel>() {
 
         SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
         viewModel.getChapters()
-
     }
 
     override fun initListener() {

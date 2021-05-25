@@ -9,7 +9,7 @@ class KRequest<T>(private val request: suspend () -> Response<T>) {
 
 
     private var timeOut = 15000L
-    private var repeatTime = 0
+    private var repeatTime = 1
     private var tryCount = 0
 
     fun timeOut(time: Long): KRequest<T> {
@@ -24,7 +24,7 @@ class KRequest<T>(private val request: suspend () -> Response<T>) {
 
 
     suspend fun addAsync(scope: CoroutineScope, onError:(suspend Throwable.() -> Unit)?): Response<T>? {
-        val deferred = scope.async {
+        val deferred = scope.async(Dispatchers.IO) {
             doRequest()
         }
         return tryRepeat(deferred, onError)
@@ -42,6 +42,7 @@ class KRequest<T>(private val request: suspend () -> Response<T>) {
             val out = withTimeoutOrNull(timeOut) {
                 deferred.await()
             }
+            Log.e("222","tryRepeat = $out")
             if (out == null && tryCount < repeatTime) {
                 tryCount++
                 tryRepeat(deferred, onError)

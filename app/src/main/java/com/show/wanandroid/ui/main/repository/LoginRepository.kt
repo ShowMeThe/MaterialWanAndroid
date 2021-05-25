@@ -19,9 +19,9 @@ class LoginRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun login(username:String,password:String,data: MutableLiveData<KResult<JsonData<Auth>>>){
         androidScope {
             callResult {
-                hold {
+                hold(data){
                     api.login(username, password)
-                }.bindData(data)
+                }
             }
         }
     }
@@ -31,10 +31,9 @@ class LoginRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
                  login: MutableLiveData<KResult<JsonData<Auth>>>,){
         androidScope {
             callResult {
-                hold {
+                hold(data) {
                     api.register(username, password,password)
-                }.bindData(data)
-                    .success {
+                }.success {
                         login(username,password,login)
                     }
             }

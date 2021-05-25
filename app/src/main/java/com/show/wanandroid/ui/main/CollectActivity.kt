@@ -20,6 +20,7 @@ import com.show.slideback.annotation.SlideBackBinder
 import com.show.wanandroid.R
 import com.show.wanandroid.bean.Collect
 import com.show.wanandroid.databinding.ActivityCollectBinding
+import com.show.wanandroid.toast
 import com.show.wanandroid.ui.main.adapter.CollectAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.widget.swipe.Menu
@@ -61,7 +62,10 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
     override fun observerUI() {
         viewModel.collects.read(this, timeOut = {
             refreshData.value = false
-        }, error = { _, _ ->
+        }, error = { _, it ->
+            it?.apply {
+                toast(errorCode,errorMsg)
+            }
             refreshData.value = false
         }){
             it?.data?.apply {

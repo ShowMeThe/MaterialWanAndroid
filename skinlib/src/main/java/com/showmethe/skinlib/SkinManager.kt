@@ -99,7 +99,9 @@ class SkinManager private constructor() {
             R.attr.theme_edit_highlightColor,
 
             R.attr.theme_inputLayout_boxColor,
-            R.attr.theme_inputLayout_hintColor
+            R.attr.theme_inputLayout_hintColor,
+
+            R.attr.theme_edge_color
         )
 
 
@@ -126,7 +128,10 @@ class SkinManager private constructor() {
             "theme_edit_textColor", "theme_edit_hintColor",
             "theme_edit_cursorDrawable","theme_edit_highlightColor",
 
-            "theme_inputLayout_boxColor", "theme_inputLayout_hintColor"
+            "theme_inputLayout_boxColor", "theme_inputLayout_hintColor",
+
+
+            "theme_edge_color"
         )
 
 
@@ -356,6 +361,13 @@ class SkinManager private constructor() {
             else -> {
                 attrs.forEach {
                     when {
+                        it.trim() == "edgeColor" ->{
+                            theme["theme_edge_color"]?.apply {
+                                view.post {
+                                    ReflectEdge.reflectColor(view,getColor())
+                                }
+                            }
+                        }
                         it.trim() == "background" -> {
                             theme["theme_viewGroup_background"]?.apply {
                                 view.background = getDrawable()
@@ -456,6 +468,13 @@ class SkinManager private constructor() {
             else -> {
                 attrs.forEach {
                     when {
+                        it.trim() == "edgeColor" ->{
+                            theme.theme_edge_color?.apply {
+                                view.post {
+                                    ReflectEdge.reflectColor(view,getColor())
+                                }
+                            }
+                        }
                         it.trim() == "background" -> {
                             theme.theme_viewGroup_background?.apply {
                                 getDrawable{ drawable->
@@ -758,9 +777,16 @@ class SkinManager private constructor() {
                 }
             }
             else -> {
-                theme?.apply {
+                theme.apply {
                     attrs.forEach {
                         when {
+                            it.trim() == "edgeColor" -> {
+                                theme["theme_edge_color"]?.apply {
+                                    view.post {
+                                        ReflectEdge.reflectColor(view,getColor())
+                                    }
+                                }
+                            }
                             it.trim() == "background" -> {
                                 theme["theme_viewGroup_background"]?.apply {
                                     view.background = getDrawable()
@@ -1048,6 +1074,13 @@ class SkinManager private constructor() {
                 theme?.apply {
                     attrs.forEach {
                         when {
+                            it.trim() == "edgeColor" ->{
+                                theme_edge_color?.apply {
+                                    view.post {
+                                        ReflectEdge.reflectColor(view,getColor())
+                                    }
+                                }
+                            }
                             it.trim() == "background" -> {
                                 theme_viewGroup_background?.apply {
                                     getDrawable{ d ->

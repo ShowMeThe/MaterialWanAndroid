@@ -7,14 +7,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-class KResponse<T> : IResponse<T> {
+class KResponse<T>(val data: MutableLiveData<KResult<T>>? = null) : IResponse<T> {
 
-
-    private var data: MutableLiveData<KResult<T>>? = null
-    fun bindData(data: MutableLiveData<KResult<T>>): KResponse<T> {
-        this.data = data
-        return this
-    }
 
     override suspend fun doOnLoading() {
         postData(KResult(KResult.Loading))
@@ -36,8 +30,8 @@ class KResponse<T> : IResponse<T> {
     }
 
 
-    override suspend fun doOnError(e : Throwable,t:T?) {
-        val out = KResult<T>(KResult.Failure,exception = Exception(e),response = t)
+    override suspend fun doOnError(e: Throwable, t: T?) {
+        val out = KResult<T>(KResult.Failure, exception = Exception(e), response = t)
         postData(out)
         onError?.apply {
             withContext(Dispatchers.Main) {

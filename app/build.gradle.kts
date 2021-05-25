@@ -2,6 +2,7 @@ import com.show.version.getDateTime
 
 plugins{
     id("com.android.application")
+    id("com.tencent.matrix-plugin")
     id("kotlin-android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
@@ -90,4 +91,39 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+
+    implementation("com.tencent.matrix:matrix-android-lib:${rootProject.extra["matrix_version"]}"){
+        isChanging = true
+    }
+    implementation("com.tencent.matrix:matrix-android-commons:${rootProject.extra["matrix_version"]}"){
+        isChanging = true
+    }
+    implementation("com.tencent.matrix:matrix-trace-canary:${rootProject.extra["matrix_version"]}"){
+        isChanging = true
+    }
+    implementation("com.tencent.matrix:matrix-resource-canary-android:${rootProject.extra["matrix_version"]}"){
+        isChanging = true
+    }
+    implementation("com.tencent.matrix:matrix-resource-canary-common:${rootProject.extra["matrix_version"]}"){
+        isChanging = true
+    }
+    implementation("com.tencent.matrix:matrix-io-canary:${rootProject.extra["matrix_version"]}"){
+        isChanging = true
+    }
+    implementation("com.tencent.matrix:matrix-sqlite-lint-android-sdk:${rootProject.extra["matrix_version"]}"){
+        isChanging = true
+    }
+    implementation("com.tencent.matrix:matrix-battery-canary:${rootProject.extra["matrix_version"]}"){
+        isChanging = true
+    }
 }
+
+matrix{
+    trace{
+        
+
+    }
+}
+
+
+

@@ -1,6 +1,7 @@
 package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.show.kcore.base.BundleInject
 import com.show.kcore.base.LazyFragment
 import com.show.kcore.extras.gobal.read
+import com.show.kcore.extras.log.Logger
 import com.show.kcore.http.coroutines.KResultData
 import com.show.wanandroid.R
 import com.show.wanandroid.bean.CateBean
@@ -54,17 +56,18 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
 
     override fun observerUI() {
 
-        articles.read(this,timeOut = {
+
+        articles.read(requireActivity(),timeOut = {
             refreshData.value = false
         },error = { _,_->
             refreshData.value = false
         }){
+            refreshData.value = false
             it?.data?.apply {
                 if(page == 0){
                     list.clear()
                 }
                 list.addAll(datas)
-                refreshData.value = false
                 binding.rvList.finishLoading()
                 binding.rvList.setEnableLoadMore(datas.isNotEmpty())
             }
@@ -120,6 +123,8 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
 
 
     }
+
+
 
     private fun getArticle(){
         viewModel.getCate(page,cid,articles)

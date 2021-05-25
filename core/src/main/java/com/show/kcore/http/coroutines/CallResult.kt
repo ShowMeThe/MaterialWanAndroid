@@ -2,6 +2,7 @@ package com.show.kcore.http.coroutines
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.show.kcore.extras.log.Logger
 import kotlinx.coroutines.*
@@ -46,11 +47,12 @@ class CallResult constructor(
 
 
     fun <T1, T2, R> merge(
+        data: KResultData<R>? = null,
         request1: suspend () -> Response<T1>,
         request2: suspend () -> Response<T2>,
         iFunction: IFunction<T1, T2, R>
     ): KResponse<R> {
-        val kResponse = KResponse<R>()
+        val kResponse = KResponse<R>(data)
         val kRequest1 = KRequest(request1)
         val kRequest2 = KRequest(request2)
         val onError1 : suspend ( e: Throwable)-> Unit = { e ->
@@ -103,8 +105,8 @@ class CallResult constructor(
     }
 
 
-    fun <T> hold(request: suspend () -> Response<T>): KResponse<T> {
-        val kResponse = KResponse<T>()
+    fun <T> hold(data: MutableLiveData<KResult<T>>? = null,request: suspend () -> Response<T>):KResponse<T>{
+        val kResponse = KResponse<T>(data)
         val kRequest = KRequest(request)
         if (owner == null || owner?.lifecycle?.currentState == Lifecycle.State.INITIALIZED) {
             GlobalScope.launch(Dispatchers.IO) {
@@ -122,7 +124,7 @@ class CallResult constructor(
                     }, kResponse)
             }
         } else {
-            Logger.dLog(TAG,"owner state = ${ owner?.lifecycle?.currentState}")
+
             owner?.lifecycleScope?.launchWhenCreated {
                 withContext(Dispatchers.IO) {
                     kResponse.doOnLoading()

@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import java.lang.Exception
 
 @Keep
-class KResult<T>(var status:String,
+data class KResult<T>(var status:String,
                  var response: T? = null,
                  var exception: Exception? = null
 ){
