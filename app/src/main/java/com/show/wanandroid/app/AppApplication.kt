@@ -63,7 +63,7 @@ class AppApplication : BaseApplication() {
             .addPlugin(
                 RefreshPlugin(), SmartIPlugin(), LikePlugin(),
                 ExpandIPlugin(), SearchChipGroup(),
-                bannerPlugin, ShakingImageViewIPlugin(),
+                bannerPlugin, ShakingImageViewIPlugin(),BallPlugin()
             )
             .build()
         if (Stores.getString("theme", "").isNullOrEmpty()) {

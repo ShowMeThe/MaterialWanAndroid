@@ -27,6 +27,7 @@ import com.show.wanandroid.bean.UserBean
 import com.show.wanandroid.const.StoreConst
 import com.show.wanandroid.databinding.ActivityMainBinding
 import com.show.wanandroid.dialog.ExitDialog
+import com.show.wanandroid.dialog.LoadingDialog
 import com.show.wanandroid.dialog.ThemeDialog
 import com.show.wanandroid.ui.main.fragment.AccountFragment
 import com.show.wanandroid.ui.main.fragment.HomeFragment
