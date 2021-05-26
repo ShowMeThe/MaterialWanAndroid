@@ -1,12 +1,16 @@
 package com.show.kcore.http.coroutines
 
 import android.util.Log
+import com.show.kcore.extras.log.Logger
 import kotlinx.coroutines.*
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
 class KRequest<T>(private val request: suspend () -> Response<T>) {
 
+    companion object {
+        private val TAG = "Request"
+    }
 
     private var timeOut = 15000L
     private var repeatTime = 1
@@ -23,29 +27,30 @@ class KRequest<T>(private val request: suspend () -> Response<T>) {
     }
 
 
-    suspend fun addAsync(scope: CoroutineScope, onError:(suspend Throwable.() -> Unit)?): Response<T>? {
-        val deferred = scope.async(Dispatchers.IO) {
-            doRequest()
-        }
-        return tryRepeat(deferred, onError)
+    suspend fun addAsync(
+        scope: CoroutineScope,
+        onError: (suspend Throwable.() -> Unit)?
+    ): Response<T>? {
+        return tryRepeat(scope, onError)
     }
 
-    private suspend fun doRequest(): Response<T> {
-        return request.invoke()
+    private suspend fun <T> Deferred<T>.awaitWithTimeout(time: Long): T? {
+        return withTimeoutOrNull(time) { await() }
     }
+
 
     private suspend fun tryRepeat(
-        deferred: Deferred<Response<T>>,
-        onError:  (suspend Throwable.() -> Unit)?
+        scope: CoroutineScope,
+        onError: (suspend Throwable.() -> Unit)?
     ): Response<T>? {
         return kotlin.runCatching {
-            val out = withTimeoutOrNull(timeOut) {
-                deferred.await()
-            }
-            Log.e("222","tryRepeat = $out")
+            val out = scope.async {
+                request.invoke()
+            }.awaitWithTimeout(timeOut)
+            Logger.dLog(TAG, "response = $out")
             if (out == null && tryCount < repeatTime) {
                 tryCount++
-                tryRepeat(deferred, onError)
+                tryRepeat(scope, onError)
             } else {
                 out
             }

@@ -1,5 +1,6 @@
 package com.show.kcore.http.coroutines
 
+import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.show.kcore.extras.log.Logger
 import kotlinx.coroutines.*
 import retrofit2.Response
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 
@@ -15,7 +17,7 @@ fun LifecycleOwner.androidScope(scope: LifecycleOwner.() -> Unit) {
 }
 
 fun  LifecycleOwner?.callResult(scope: CallResult.() -> Unit) {
-    CallResult(this, scope)
+   CallResult(this, scope)
 }
 
 fun callResult(scope: CallResult.() -> Unit) {
@@ -27,15 +29,17 @@ class CallResult constructor(
     var callResult: (CallResult.() -> Unit)?
 ) {
 
+
     private val TAG = "CallResult"
+
+    private var timeOut = 15000L
+    private var repeatTime = 1
+
 
     init {
         callResult?.invoke(this)
     }
 
-
-    private var timeOut = 15000L
-    private var repeatTime = 0
 
     fun timeOut(time: Long, util: TimeUnit) {
         timeOut = util.toMillis(time)
@@ -124,7 +128,6 @@ class CallResult constructor(
                     }, kResponse)
             }
         } else {
-
             owner?.lifecycleScope?.launchWhenCreated {
                 withContext(Dispatchers.IO) {
                     kResponse.doOnLoading()
