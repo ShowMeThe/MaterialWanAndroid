@@ -17,6 +17,7 @@ import com.show.kcore.extras.display.dp
 import com.show.kcore.extras.gobal.read
 import com.show.kcore.extras.status.statusBar
 import com.show.slideback.annotation.SlideBackBinder
+import com.show.slideback.annotation.SlideBackPreview
 import com.show.wanandroid.R
 import com.show.wanandroid.bean.Collect
 import com.show.wanandroid.databinding.ActivityCollectBinding
@@ -29,6 +30,7 @@ import com.show.wanandroid.widget.swipe.TextMenu
 import com.showmethe.skinlib.SkinManager
 import kotlinx.coroutines.Dispatchers
 
+@SlideBackPreview
 @SlideBackBinder
 @Transition(mode = TransitionMode.SlideStart)
 class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
