@@ -5,25 +5,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.databinding.DataBindingUtil
-import com.show.kcore.base.BundleAutoInject
-import com.show.kcore.base.BundleInject
-import com.show.kcore.base.setUpTransition
+import androidx.fragment.app.FragmentActivity
+import com.show.kcore.base.*
 import com.show.kcore.extras.status.statusBar
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ActivityWebBinding
 import com.showmethe.skinlib.SkinManager
 
+@Transition(mode = TransitionMode.SlideStart)
 class WebActivity : AppCompatActivity() {
 
     companion object {
-        fun start(context: ComponentActivity, title: String, url: String) {
-            val intent = Intent(context, WebActivity::class.java)
+        fun start(context: FragmentActivity, title: String, url: String) {
             val bundle = Bundle().apply {
                 putString("title",title)
                 putString("url",url)
             }
-            intent.putExtras(bundle)
-            context.startActivity(intent)
+            context.startActivity<WebActivity>(bundle,true)
         }
     }
 
