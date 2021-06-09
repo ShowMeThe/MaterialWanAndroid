@@ -1,22 +1,18 @@
 package com.show.wanandroid.app
 
-import android.app.Application
 import com.show.kInject.core.initScope
 import com.show.kcore.base.BaseApplication
 import com.show.kcore.http.Http
 import com.show.kcore.http.jsonToClazz
 import com.show.kcore.rden.Stores
-import com.show.wanandroid.*
+import com.show.wanandroid.R
 import com.show.wanandroid.api.Main
+import com.show.wanandroid.bannerPlugin
 import com.show.wanandroid.plugin.*
+import com.show.wanandroid.themes_name
 import com.show.wanandroid.utils.AssetFile
 import com.showmethe.skinlib.SkinManager
 import com.showmethe.skinlib.entity.ColorEntity
-import com.tencent.matrix.Matrix
-import com.tencent.matrix.iocanary.IOCanaryPlugin
-import com.tencent.matrix.iocanary.config.IOConfig
-import com.tencent.matrix.trace.TracePlugin
-import com.tencent.matrix.trace.config.TraceConfig
 
 class AppApplication : BaseApplication() {
 
@@ -29,23 +25,6 @@ class AppApplication : BaseApplication() {
         }
 
         initTheme()
-
-        val builder  = Matrix.Builder(this)
-        builder.patchListener(TestPluginListener(this))
-
-       val tracePlugin = TracePlugin(
-           TraceConfig.Builder()
-               .dynamicConfig(DynamicConfigImplDemo())
-               .enableFPS(true)
-               .enableStartup(true)
-               .enableEvilMethodTrace(true)
-               .enableAnrTrace(true)
-           .build())
-
-        builder.plugin(tracePlugin)
-        Matrix.init(builder.build())
-        tracePlugin.start()
-
     }
 
     private fun initTheme() {

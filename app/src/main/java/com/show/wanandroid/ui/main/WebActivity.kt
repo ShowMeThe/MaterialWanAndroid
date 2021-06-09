@@ -8,10 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import com.show.kcore.base.*
 import com.show.kcore.extras.status.statusBar
+import com.show.slideback.annotation.SlideBackBinder
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ActivityWebBinding
 import com.showmethe.skinlib.SkinManager
 
+@SlideBackBinder
 @Transition(mode = TransitionMode.SlideStart)
 class WebActivity : AppCompatActivity() {
 
