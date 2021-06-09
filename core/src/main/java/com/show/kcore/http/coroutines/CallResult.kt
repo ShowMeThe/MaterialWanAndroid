@@ -16,8 +16,8 @@ fun LifecycleOwner.androidScope(scope: LifecycleOwner.() -> Unit) {
     scope(this)
 }
 
-fun  LifecycleOwner?.callResult(scope: CallResult.() -> Unit) {
-   CallResult(this, scope)
+fun LifecycleOwner?.callResult(scope: CallResult.() -> Unit) {
+    CallResult(this, scope)
 }
 
 fun callResult(scope: CallResult.() -> Unit) {
@@ -59,94 +59,92 @@ class CallResult constructor(
         val kResponse = KResponse<R>(data)
         val kRequest1 = KRequest(request1)
         val kRequest2 = KRequest(request2)
-        val onError1 : suspend ( e: Throwable)-> Unit = { e ->
-            if(e is TimeoutCancellationException){
+        val onError1: suspend (e: Throwable) -> Unit = { e ->
+            if (e is TimeoutCancellationException) {
                 e.printStackTrace()
                 kResponse.doOnTimeOut()
-            }else{
-                kResponse.doOnError(e,null)
+            } else {
+                kResponse.doOnError(e, null)
             }
         }
-        val onError2 : suspend (e:Throwable)-> Unit = { e ->
-            if(e is TimeoutCancellationException){
+        val onError2: suspend (e: Throwable) -> Unit = { e ->
+            if (e is TimeoutCancellationException) {
                 e.printStackTrace()
                 kResponse.doOnTimeOut()
-            }else{
-                kResponse.doOnError(e,null)
+            } else {
+                kResponse.doOnError(e, null)
             }
         }
         if (owner == null || owner?.lifecycle?.currentState == Lifecycle.State.INITIALIZED) {
             GlobalScope.launch(Dispatchers.IO) {
-                kResponse.doOnLoading()
-                mergeResult(
-                    response = kRequest1
-                        .timeOut(timeOut)
-                        .repeatTime(repeatTime)
-                        .addAsync(this,onError1),
-
-                    response2 = kRequest2
-                        .timeOut(timeOut)
-                        .repeatTime(repeatTime)
-                        .addAsync(this,onError2), iFunction,kResponse)
-            }
-        }else{
-            owner?.lifecycleScope?.launchWhenCreated {
-                withContext(Dispatchers.IO) {
-                    kResponse.doOnLoading()
-                    mergeResult(
-                        response = kRequest1
-                        .timeOut(timeOut)
-                        .repeatTime(repeatTime)
-                        .addAsync(this,onError1),
-                        response2 = kRequest2
-                            .timeOut(timeOut)
-                            .repeatTime(repeatTime)
-                            .addAsync(this,onError2), iFunction,kResponse)
-                }
-            }
-        }
-        return kResponse
-    }
-
-
-    fun <T> hold(data: MutableLiveData<KResult<T>>? = null,request: suspend () -> Response<T>):KResponse<T>{
-        val kResponse = KResponse<T>(data)
-        val kRequest = KRequest(request)
-        if (owner == null || owner?.lifecycle?.currentState == Lifecycle.State.INITIALIZED) {
-            GlobalScope.launch(Dispatchers.IO) {
-                kResponse.doOnLoading()
-                singleResult(kRequest
-                    .timeOut(timeOut)
-                    .repeatTime(repeatTime)
-                    .addAsync(this){
-                        if(this is TimeoutCancellationException){
-                            this.printStackTrace()
-                            kResponse.doOnTimeOut()
-                        }else{
-                            kResponse.doOnError(this,null)
-                        }
-                    }, kResponse)
+                merge(kResponse,iFunction,kRequest1, onError1, kRequest2, onError2)
             }
         } else {
             owner?.lifecycleScope?.launchWhenCreated {
                 withContext(Dispatchers.IO) {
-                    kResponse.doOnLoading()
-                    singleResult(kRequest
-                        .timeOut(timeOut)
-                        .repeatTime(repeatTime)
-                        .addAsync(this) {
-                            this.printStackTrace()
-                           if(this is TimeoutCancellationException){
-                               kResponse.doOnTimeOut()
-                           }else{
-                               kResponse.doOnError(this,null)
-                           }
-                        }, kResponse)
-
+                    merge(kResponse,iFunction,kRequest1, onError1, kRequest2, onError2)
                 }
             }
         }
         return kResponse
     }
+
+
+    private suspend fun <T1, T2, R> CoroutineScope.merge(
+        kResponse: KResponse<R>,
+        iFunction: IFunction<T1, T2, R>,
+        kRequest1: KRequest<T1>, onError1: suspend (e: Throwable) -> Unit,
+        kRequest2: KRequest<T2>, onError2: suspend (e: Throwable) -> Unit
+    ) {
+        kResponse.doOnLoading()
+        mergeResult(
+            response = kRequest1
+                .timeOut(timeOut)
+                .repeatTime(repeatTime)
+                .addAsync(this, onError1),
+            response2 = kRequest2
+                .timeOut(timeOut)
+                .repeatTime(repeatTime)
+                .addAsync(this, onError2), iFunction, kResponse
+        )
+    }
+
+
+    fun <T> hold(
+        data: MutableLiveData<KResult<T>>? = null,
+        request: suspend () -> Response<T>
+    ): KResponse<T> {
+        val kResponse = KResponse<T>(data)
+        val kRequest = KRequest(request)
+        if (owner == null || owner?.lifecycle?.currentState == Lifecycle.State.INITIALIZED) {
+            GlobalScope.launch(Dispatchers.IO) {
+                single(kResponse, kRequest)
+            }
+        } else {
+            owner?.lifecycleScope?.launchWhenCreated {
+                withContext(Dispatchers.IO) {
+                    single(kResponse, kRequest)
+                }
+            }
+        }
+        return kResponse
+    }
+
+    private suspend fun <T> CoroutineScope.single(kResponse: KResponse<T>, kRequest: KRequest<T>) {
+        kResponse.doOnLoading()
+        singleResult(kRequest
+            .timeOut(timeOut)
+            .repeatTime(repeatTime)
+            .addAsync(this) {
+                this.printStackTrace()
+                if (this is TimeoutCancellationException) {
+                    kResponse.doOnTimeOut()
+                } else {
+                    kResponse.doOnError(this, null)
+                }
+            }, kResponse
+        )
+    }
+
 
 }
