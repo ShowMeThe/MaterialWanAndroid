@@ -34,5 +34,6 @@ data class ColorEntity(var theme_viewGroup_background :String? =null,
                        var theme_edit_highlightColor :String? = null,
                        var theme_inputLayout_boxColor :String? = null,
                        var theme_inputLayout_hintColor :String? = null,
+                       var theme_edge_color :String? = null,
                        var colorObjects : List<String> = ArrayList()
                        )

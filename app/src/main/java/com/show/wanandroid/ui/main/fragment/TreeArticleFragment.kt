@@ -16,6 +16,7 @@ import com.show.wanandroid.bean.JsonData
 import com.show.wanandroid.databinding.FragmentTreeArticleBinding
 import com.show.wanandroid.databinding.FragmentTreeBodyBinding
 import com.show.wanandroid.getShareViewModel
+import com.show.wanandroid.ui.main.WebActivity
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.TreeViewModel
 import com.showmethe.skinlib.SkinManager
@@ -89,6 +90,10 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
                 getArticle()
             }
 
+
+            adapter.setOnItemClickListener { view, data, position ->
+                WebActivity.start(requireActivity(),data.title,data.link)
+            }
         }
     }
 

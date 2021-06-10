@@ -2,6 +2,7 @@ package com.show.kcore.widget
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
@@ -11,6 +12,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import androidx.core.content.ContextCompat
 import com.show.kcore.R
 import com.show.kcore.databinding.SmartEmptyLayoutBinding
 import com.show.kcore.databinding.SmartErrorLayoutBinding
@@ -20,9 +22,10 @@ import java.lang.ref.WeakReference
 import java.util.ArrayList
 
 
-class SmartRelativeLayout @JvmOverloads constructor(context: Context,
-                                                    val attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : RelativeLayout(context, attrs, defStyleAttr) {
+class SmartRelativeLayout @JvmOverloads constructor(
+    context: Context,
+    val attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : RelativeLayout(context, attrs, defStyleAttr) {
 
     private lateinit var loadingView: View
     private lateinit var emptyView: View
@@ -32,18 +35,22 @@ class SmartRelativeLayout @JvmOverloads constructor(context: Context,
     private var errorLayout = errorId
     private var currentState = 0
     private val views = ArrayList<View>()
+    private val loadingBinding by lazy { SmartLoadingLayoutBinding.bind(loadingView) }
+    private val errorBinding by lazy { SmartErrorLayoutBinding.bind(errorView) }
+    private val emptyBinding by lazy { SmartEmptyLayoutBinding.bind(emptyView) }
 
-
-    private val mHandler = Handler(Looper.getMainLooper(),
+    private val mHandler = Handler(
+        Looper.getMainLooper(),
         WeakReference(Handler.Callback {
-        when (it.what) {
-            0 -> setViewState(LOADING_STATE)
-            1 -> setViewState(EMPTY_STATE)
-            2 -> setViewState(ERROR_STATE)
-            4 -> setViewState(CONTENT_STATE)
-        }
-        true
-    }).get())
+            when (it.what) {
+                0 -> setViewState(LOADING_STATE)
+                1 -> setViewState(EMPTY_STATE)
+                2 -> setViewState(ERROR_STATE)
+                4 -> setViewState(CONTENT_STATE)
+            }
+            true
+        }).get()
+    )
 
 
     init {
@@ -51,7 +58,7 @@ class SmartRelativeLayout @JvmOverloads constructor(context: Context,
     }
 
     private fun initAttrs(context: Context, attrs: AttributeSet?) {
-        val array = context.obtainStyledAttributes(attrs,R.styleable.SmartRelativeLayout)
+        val array = context.obtainStyledAttributes(attrs, R.styleable.SmartRelativeLayout)
         loadinglayout = array.getResourceId(R.styleable.SmartRelativeLayout_loading_view, loadingId)
         errorLayout = array.getResourceId(R.styleable.SmartRelativeLayout_error_view, errorId)
         emptyLayout = array.getResourceId(R.styleable.SmartRelativeLayout_empty_view, emptyId)
@@ -59,7 +66,7 @@ class SmartRelativeLayout @JvmOverloads constructor(context: Context,
     }
 
     private fun init(context: Context) {
-        initAttrs(context,attrs)
+        initAttrs(context, attrs)
 
         loadingView = LayoutInflater.from(context).inflate(loadinglayout, null)
         loadingView.layoutParams = DEFAULT_LAYOUT_PARAMS
@@ -88,15 +95,15 @@ class SmartRelativeLayout @JvmOverloads constructor(context: Context,
     }
 
 
-
     fun attachToView(
-        attachLoading:(SmartLoadingLayoutBinding.()->Unit)? = null,
-        attachError: (SmartErrorLayoutBinding.()->Unit)? = null,
-        attachEmpty : (SmartEmptyLayoutBinding.()->Unit)? = null){
+        attachLoading: (SmartLoadingLayoutBinding.() -> Unit)? = null,
+        attachError: (SmartErrorLayoutBinding.() -> Unit)? = null,
+        attachEmpty: (SmartEmptyLayoutBinding.() -> Unit)? = null
+    ) {
 
-        attachLoading?.invoke(SmartLoadingLayoutBinding.bind(loadingView))
-        attachError?.invoke(SmartErrorLayoutBinding.bind(errorView))
-        attachEmpty?.invoke(SmartEmptyLayoutBinding.bind(emptyView))
+        attachLoading?.invoke(loadingBinding)
+        attachError?.invoke(errorBinding)
+        attachEmpty?.invoke(emptyBinding)
 
     }
 
@@ -121,7 +128,7 @@ class SmartRelativeLayout @JvmOverloads constructor(context: Context,
     /**
      * 当需要遮盖Button需要设置这个
      */
-    fun moveLayoutToTop(dp:Float) {
+    fun moveLayoutToTop(dp: Float) {
         loadingView.elevation = dp
         emptyView.elevation = dp
         errorView.elevation = dp
@@ -140,7 +147,17 @@ class SmartRelativeLayout @JvmOverloads constructor(context: Context,
 
     }
 
+    fun setDefaultLoadingColorRes(color: Int) {
+        loadingBinding.apply {
+            progressbar.setIndicatorColor(ContextCompat.getColor(context,color))
+        }
+    }
 
+    fun setDefaultLoadingColor(color: Int) {
+        loadingBinding.apply {
+            progressbar.setIndicatorColor(color)
+        }
+    }
 
     companion object {
 
@@ -153,7 +170,8 @@ class SmartRelativeLayout @JvmOverloads constructor(context: Context,
         const val CONTENT_STATE = 4
 
 
-        private val DEFAULT_LAYOUT_PARAMS = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+        private val DEFAULT_LAYOUT_PARAMS =
+            LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
     }
 
 

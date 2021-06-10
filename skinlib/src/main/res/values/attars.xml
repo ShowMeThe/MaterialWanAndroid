@@ -59,4 +59,6 @@
     <attr name="theme_inputLayout_boxColor" format="reference|color"/>
     <attr name="theme_inputLayout_hintColor" format="reference|color"/>
 
+    <attr name="theme_edge_color" format="reference|color"/>
+
 </resources>

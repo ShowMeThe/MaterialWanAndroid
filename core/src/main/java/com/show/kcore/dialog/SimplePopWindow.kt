@@ -1,5 +1,6 @@
 package com.show.kcore.dialog
 
+import android.app.ActionBar
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
@@ -26,17 +27,20 @@ abstract class SimplePopWindow(private val context: Context){
 
     abstract fun getViewId() :Int
 
-    abstract fun build(context:Context?) :Int
+    /**
+     * @return PopupWindow width and height
+     */
+    abstract fun build(context:Context?) :Pair<Int,Int>
 
     fun doCreate(){
         popWindow = PopupWindow(context)
-        val mWidth = build(context)
+        val pair = build(context)
         val viewId = getViewId()
         viewId.apply {
             val view = View.inflate(context, viewId, null)
             with(popWindow){
-                width = mWidth
-                height = ViewGroup.LayoutParams.WRAP_CONTENT
+                width = pair.first
+                height = pair.second
                 contentView = view
                 isFocusable = true
                 isOutsideTouchable = true

@@ -32,6 +32,7 @@ internal suspend fun <T> singleResult(
 ) {
     runCatching {
         if (response == null) {
+            iResponse.doOnError(Exception("response is null"),null)
             return
         }
         response.apply {

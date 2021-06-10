@@ -55,6 +55,7 @@
          <item name="theme_inputLayout_boxColor">@color/colorAccent</item>
          <item name="theme_inputLayout_hintColor">@color/colorAccent</item>
          <item name="theme_edit_highlightColor">@color/colorAccent</item>
+         <item name="theme_edge_color">@color/color_3f4fc3f7</item>
     </style>
 
 
@@ -76,6 +77,7 @@
         <item name="theme_inputLayout_boxColor">@color/color_ff4081</item>
         <item name="theme_inputLayout_hintColor">@color/color_ff4081</item>
         <item name="theme_edit_highlightColor">@color/color_ff4081</item>
+        <item name="theme_edge_color">@color/color_3fff4081</item>
     </style>
 
     <style name="MaterialTheme.Purple">
@@ -96,7 +98,10 @@
         <item name="theme_inputLayout_boxColor">@color/color_7c4dff</item>
         <item name="theme_inputLayout_hintColor">@color/color_7c4dff</item>
         <item name="theme_edit_highlightColor">@color/color_7c4dff</item>
+        <item name="theme_edge_color">@color/color_3f7c4dff</item>
     </style>
+
+
 
 
 </resources>

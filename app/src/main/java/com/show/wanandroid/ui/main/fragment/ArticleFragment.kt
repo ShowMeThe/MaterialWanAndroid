@@ -15,6 +15,7 @@ import com.show.wanandroid.bean.DatasBean
 import com.show.wanandroid.bean.JsonData
 import com.show.wanandroid.const.BundleConst
 import com.show.wanandroid.databinding.FragmentArticleBinding
+import com.show.wanandroid.ui.main.WebActivity
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.showmethe.skinlib.SkinManager
@@ -126,6 +127,11 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
                 }else{
                     viewModel.homeUnCollect(item.id)
                 }
+            }
+
+
+            adapter.setOnItemClickListener { view, data, position ->
+                WebActivity.start(requireActivity(),data.title,data.link)
             }
 
         }

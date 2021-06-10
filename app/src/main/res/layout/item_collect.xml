@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="Bean"
+            type="com.show.wanandroid.bean.Collect.DatasBean" />
+
+        <import type="android.view.View"/>
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:cardCornerRadius="0dp"
+        app:cardBackgroundColor="@color/white"
+        app:strokeColor="@color/colorAccent"
+        app:strokeWidth="0.5dp"
+        skin="@{`strokeColor`}"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivCover"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginStart="14dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivAuthor"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@+id/ivCover"
+                app:layout_constraintTop_toTopOf="parent"
+                android:tint="@color/colorAccent"
+                android:src="@drawable/ic_author"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                skin="@{`tint`}"
+                />
+
+            <TextView
+                android:id="@+id/tvAuthor"
+                android:text="@{Bean.author}"
+                android:fontFamily="sans-serif-light"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivAuthor"
+                app:layout_constraintTop_toTopOf="@+id/ivAuthor"
+                app:layout_constraintStart_toEndOf="@+id/ivAuthor"
+                tools:text="作者"
+                />
+
+
+
+            <TextView
+                android:id="@+id/tvTit"
+                android:textStyle="bold"
+                android:text="@{Bean.title}"
+                android:maxEms="13"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textSize="20dp"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAuthor"
+                app:layout_constraintStart_toStartOf="@+id/ivAuthor"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivTime"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvTit"
+                app:layout_constraintStart_toStartOf="@+id/tvTit"
+                android:layout_marginBottom="25dp"
+                android:tint="@color/colorAccent"
+                android:src="@drawable/ic_time"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                skin="@{`tint`}"
+                />
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:text="@{Bean.niceDate}"
+                android:fontFamily="sans-serif-light"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivTime"
+                app:layout_constraintTop_toTopOf="@+id/ivTime"
+                app:layout_constraintStart_toEndOf="@+id/ivTime"
+                tools:text="作者"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</layout>

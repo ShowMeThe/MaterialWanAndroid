@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="Main"
+            type="com.show.wanandroid.ui.main.WebActivity" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.main.WebActivity">
+
+
+        <com.show.kcore.widget.FakeStatusView
+            android:id="@+id/fade"
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            skin="@{`backgroundColor`}"
+            />
+
+        <RelativeLayout
+            android:id="@+id/titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@+id/fade"
+            skin="@{`backgroundColor`}"
+            >
+
+             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow_back_24px"
+                app:tint="@color/white"
+                android:onClick="@{()->Main.onBackPressed()}"
+                />
+
+            <com.show.wanandroid.widget.MarqueeTextView
+                android:id="@+id/tvTitle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <com.show.kcore.widget.SmartRelativeLayout
+            android:id="@+id/smart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            plugin="@{`SmartIPlugin`}"
+            >
+
+
+            <com.show.wanandroid.widget.ProgressWebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+        </com.show.kcore.widget.SmartRelativeLayout>
+
+    </LinearLayout>
+</layout>

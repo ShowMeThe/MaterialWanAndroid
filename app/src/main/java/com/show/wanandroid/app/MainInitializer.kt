@@ -28,7 +28,7 @@ class MainInitializer : Initializer<Boolean> {
             config {
                 baseUrl = "https://www.wanandroid.com/"
                 interceptors = arrayListOf(
-                    RequestNewHeaderInterceptor(),ReadWriteCacheInterceptor(),
+                    RequestNewHeaderInterceptor(), ReadWriteCacheInterceptor(),
                     RequestLogInterceptor(), ReadCookieInterceptor()
                 )
             }

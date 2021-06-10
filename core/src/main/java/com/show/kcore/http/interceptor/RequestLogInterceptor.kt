@@ -18,8 +18,7 @@ class RequestLogInterceptor : Interceptor {
         val requestBody = request.body
         val responseBody = response.body
         val responseBodyString = responseBody?.string()
-        var requestMessage: String
-        requestMessage = request.method + ' '.toString() + request.url
+        var requestMessage: String = request.method + ' '.toString() + request.url
 
         if (requestBody != null) {
             val buffer = Buffer()
@@ -27,7 +26,6 @@ class RequestLogInterceptor : Interceptor {
             requestMessage += "?\n" + buffer.readString(UTF8)
         }
         Logger.eLog("RequestLogInterceptor", requestMessage)
-        Logger.eLog("RequestLogInterceptor", request.method + ' '.toString() + request.url + ' '.toString() + responseBodyString)
         return response.newBuilder().body(responseBodyString?.toByteArray()?.toResponseBody(responseBody.contentType())).build()
     }
 

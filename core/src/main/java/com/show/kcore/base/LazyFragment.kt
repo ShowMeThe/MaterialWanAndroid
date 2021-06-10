@@ -3,6 +3,7 @@ package com.show.kcore.base
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -112,13 +113,12 @@ abstract class LazyFragment<V : ViewBinding, VM : AndroidViewModel> : Fragment()
     override fun onResume() {
         super.onResume()
         if (firstLoad) {
-
             observerUI()
             init(savedInstanceState)
             initListener()
             firstLoad = false
         }
-        if (isAdded && !isHidden) {//用isVisible此时为false，因为mView.getWindowToken为null
+        if (isAdded && !isHidden) {
             onVisible()
         }
     }
@@ -132,6 +132,11 @@ abstract class LazyFragment<V : ViewBinding, VM : AndroidViewModel> : Fragment()
             onHidden()
         super.onPause()
     }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
 
 
     //默认fragment创建的时候是可见的，但是不会调用该方法！切换可见状态的时候会调用，但是调用onResume，onPause的时候却不会调用

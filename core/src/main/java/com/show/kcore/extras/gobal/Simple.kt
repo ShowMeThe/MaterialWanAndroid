@@ -3,6 +3,7 @@ package com.show.kcore.extras.gobal
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.lifecycle.*
@@ -25,26 +26,36 @@ fun <T> MutableLiveData<KResult<T>>.read(lifecycleOwner:LifecycleOwner,
                                          error:((exception:Exception?,t:T?)->Unit)? = null,
                                          data:((data:T?)->Unit)? = null,){
 
-
-
-    this.observe(lifecycleOwner, Observer {
-        it?.apply {
-            when(status){
-                KResult.Loading ->{
-                    loading?.invoke()
-                }
-                KResult.Success ->{
-                    data?.invoke(response)
-                }
-                KResult.Failure ->{
-                    error?.invoke(exception,it.response)
-                }
-                KResult.TimeOut ->{
-                    timeOut?.invoke()
+    val observer = Observer<KResult<T>> {
+        if(it!= null){
+            it.apply {
+                when(status){
+                    KResult.Loading ->{
+                        loading?.invoke()
+                    }
+                    KResult.Success ->{
+                        data?.invoke(response)
+                    }
+                    KResult.Failure ->{
+                        error?.invoke(exception,it.response)
+                    }
+                    KResult.TimeOut ->{
+                        timeOut?.invoke()
+                    }
                 }
             }
+        }else{
+            error?.invoke(Exception("KResult data is null"),null)
         }
-    })
+    }
+
+    this.observe(lifecycleOwner,observer)
+    val eventObserver = LifecycleEventObserver{_ , event  ->
+        if(event == Lifecycle.Event.ON_DESTROY){
+            this.removeObserver(observer)
+        }
+    }
+    lifecycleOwner.lifecycle.addObserver(eventObserver)
 }
 
 

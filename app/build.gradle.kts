@@ -51,9 +51,9 @@ android{
         }
 
         findByName("debug")?.apply {
-            isMinifyEnabled = true
-            isZipAlignEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isZipAlignEnabled = false
+            isShrinkResources = false
             isDebuggable = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),file("proguard-rules.pro"))
             signingConfig = signingConfigs.findByName("release")
@@ -90,4 +90,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+
+
 }
+
+
+

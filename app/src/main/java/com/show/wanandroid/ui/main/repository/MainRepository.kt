@@ -23,8 +23,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun getBanner(data: KResultData<JsonData<List<Banner>>>) {
         androidScope {
             callResult {
-                hold { api.banner() }
-                    .bindData(data)
+                hold(data) { api.banner() }
             }
         }
     }
@@ -32,8 +31,8 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun getHomeArticle(page: Int, liveData: KResultData<JsonData<Article>>) {
         androidScope {
             callResult {
-                hold { api.getHomeArticle(page) }
-                    .bindData(liveData)
+                hold(liveData) { api.getHomeArticle(page) }
+
             }
         }
     }
@@ -41,7 +40,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun getArticleTop(liveData: KResultData<List<DatasBean>>) {
         androidScope {
             callResult {
-                merge({ api.getHomeArticle(0) },
+                merge(liveData, { api.getHomeArticle(0) },
                     { api.getHomeTop() },
                     object :
                         IFunction<JsonData<Article>, JsonData<List<DatasBean>>, List<DatasBean>> {
@@ -66,7 +65,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
                             return list
                         }
 
-                    }).bindData(liveData)
+                    })
             }
         }
     }
@@ -75,8 +74,8 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun getChapters(data: KResultData<JsonData<List<TabBeanItem>>>) {
         androidScope {
             callResult {
-                hold { api.getChapters() }
-                    .bindData(data)
+                hold(data) { api.getChapters() }
+
             }
         }
     }
@@ -84,8 +83,8 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun getChaptersArticle(id: Int, page: Int, data: KResultData<JsonData<Article>>) {
         androidScope {
             callResult {
-                hold { api.getArticle(id, page) }
-                    .bindData(data)
+                hold(data) { api.getArticle(id, page) }
+
             }
         }
     }
@@ -93,8 +92,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun getTree(data: KResultData<JsonData<List<Tree>>>) {
         androidScope {
             callResult {
-                hold { api.getTree() }
-                    .bindData(data)
+                hold(data) { api.getTree() }
             }
         }
     }
@@ -102,8 +100,8 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun getTreeArticle(id: Int, page: Int, data: KResultData<JsonData<Article>>) {
         androidScope {
             callResult {
-                hold { api.getTreeArticle(page, id) }
-                    .bindData(data)
+                hold(data) { api.getTreeArticle(page, id) }
+
             }
         }
     }
@@ -112,8 +110,8 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun getCateTab(data: KResultData<JsonData<List<CateTab>>>) {
         androidScope {
             callResult {
-                hold { api.getCateTab() }
-                    .bindData(data)
+                hold(data) { api.getCateTab() }
+
             }
         }
     }
@@ -122,8 +120,12 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun getCate(pager: Int, cid: Int, data: KResultData<JsonData<CateBean>>) {
         androidScope {
             callResult {
-                hold { api.getCate(pager, cid) }
-                    .bindData(data)
+                hold(data) { api.getCate(pager, cid) }
+                    .success {
+                        this.response?.data?.datas?.apply {
+                            Log.e("222222", "${this[0].chapterId}")
+                        }
+                    }
             }
         }
     }
@@ -161,9 +163,9 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun search(pager: Int, k: String, data: MutableLiveData<KResult<JsonData<Article>>>) {
         androidScope {
             callResult {
-                hold {
+                hold(data) {
                     api.search(pager, k)
-                }.bindData(data)
+                }
             }
         }
     }
@@ -171,9 +173,29 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun getHotKey(data: MutableLiveData<KResult<JsonData<List<KeyWord>>>>) {
         androidScope {
             callResult {
-                hold {
+                hold(data) {
                     api.getHotKey()
-                }.bindData(data)
+                }
+            }
+        }
+    }
+
+    fun getCollects(pager: Int, data: MutableLiveData<KResult<JsonData<Collect>>>) {
+        androidScope {
+            callResult {
+                hold(data) {
+                    api.getCollect(pager)
+                }
+            }
+        }
+    }
+
+    fun unCollect(id: Int, originId: Int) {
+        androidScope {
+            callResult {
+                hold {
+                    api.unCollect(id, originId)
+                }
             }
         }
     }

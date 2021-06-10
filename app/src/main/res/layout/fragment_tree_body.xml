@@ -21,6 +21,7 @@
             android:layout_height="match_parent"
             adapter="@{Main.adapter}"
             layoutManager="@{Main.layoutManager}"
+            skin="@{`edgeColor`}"
             />
 
     </com.show.kcore.widget.SmartRelativeLayout>

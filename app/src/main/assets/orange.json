@@ -16,6 +16,7 @@
   "theme_edit_highlightColor": "ff3d00",
   "theme_inputLayout_boxColor": "ff3d00",
   "theme_inputLayout_hintColor": "ff3d00",
+  "theme_edge_color": "3fff3d00",
   "colorObjects": [
     "ff3d00",
     "2cf4511e"

@@ -1,6 +1,5 @@
 package com.show.wanandroid.app
 
-import android.util.Log
 import com.show.kInject.core.initScope
 import com.show.kcore.base.BaseApplication
 import com.show.kcore.http.Http
@@ -12,7 +11,6 @@ import com.show.wanandroid.bannerPlugin
 import com.show.wanandroid.plugin.*
 import com.show.wanandroid.themes_name
 import com.show.wanandroid.utils.AssetFile
-import com.show.wanandroid.widget.SmartIPlugin
 import com.showmethe.skinlib.SkinManager
 import com.showmethe.skinlib.entity.ColorEntity
 
@@ -27,7 +25,6 @@ class AppApplication : BaseApplication() {
         }
 
         initTheme()
-
     }
 
     private fun initTheme() {
@@ -45,7 +42,7 @@ class AppApplication : BaseApplication() {
             .addPlugin(
                 RefreshPlugin(), SmartIPlugin(), LikePlugin(),
                 ExpandIPlugin(), SearchChipGroup(),
-                bannerPlugin, ShakingImageViewIPlugin(),
+                bannerPlugin, ShakingImageViewIPlugin(),BallPlugin()
             )
             .build()
         if (Stores.getString("theme", "").isNullOrEmpty()) {
