@@ -22,7 +22,7 @@ repositories {
 dependencies {
     compileOnly(gradleApi())
     compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21")
-    compileOnly("com.android.tools.build:gradle:4.1.0")
+    compileOnly("com.android.tools.build:gradle:4.1.2")
 }
 
 gradlePlugin {
