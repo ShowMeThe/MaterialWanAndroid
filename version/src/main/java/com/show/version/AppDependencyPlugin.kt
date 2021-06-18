@@ -48,7 +48,7 @@ class AppDependencyPlugin : Plugin<Project>{
         kapt("androidx.room:room-compiler:${AndroidX.room}")
         kapt("com.squareup.moshi:moshi-kotlin-codegen:${Http.moshi_kotlin}")
 
-        implementation("com.github.ShowMeThe:SlideBack:v2.2.2")
+        implementation("com.github.ShowMeThe:SlideBack:v2.2.3")
     }
 
 }
