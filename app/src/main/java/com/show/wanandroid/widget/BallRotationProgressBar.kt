@@ -3,6 +3,7 @@ package com.show.wanandroid.widget
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.animation.ValueAnimator.RESTART
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -12,6 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnticipateOvershootInterpolator
 import androidx.annotation.ColorInt
+import androidx.annotation.Keep
+import com.show.kcore.extras.display.dp
 import com.show.wanandroid.R
 
 class BallRotationProgressBar @JvmOverloads constructor(
@@ -22,7 +25,7 @@ class BallRotationProgressBar @JvmOverloads constructor(
 
 
     //画笔
-    private var mPaint: Paint? = null
+    private val mPaint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) }
 
     //球的最大半径
     private var maxRadius = DEFAULT_MAX_RADIUS.toFloat()
@@ -36,8 +39,8 @@ class BallRotationProgressBar @JvmOverloads constructor(
     //动画的时间
     private var duration = DEFAULT_ANIMATOR_DURATION.toLong()
 
-    private var mFirstBall: Ball? = null
-    private var mSecondBall: Ball? = null
+    private val mFirstBall by lazy { Ball() }
+    private val mSecondBall by lazy { Ball() }
 
     private var mCenterX: Float = 0.toFloat()
     private var mCenterY: Float = 0.toFloat()
@@ -50,16 +53,12 @@ class BallRotationProgressBar @JvmOverloads constructor(
 
     private fun init(context: Context, attrs: AttributeSet?) {
 
-        mFirstBall = Ball()
-        mSecondBall = Ball()
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.BallRotationProgressBar)
-        mFirstBall!!.color =
+        mFirstBall.color =
             a.getColor(R.styleable.BallRotationProgressBar_firstBallColor, DEFAULT_ONE_BALL_COLOR)
-        mSecondBall!!.color =
+        mSecondBall.color =
             a.getColor(R.styleable.BallRotationProgressBar_secondBallColor, DEFAULT_TWO_BALL_COLOR)
-
-        mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
 
         a.recycle()
@@ -77,39 +76,46 @@ class BallRotationProgressBar @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        mCenterX = (width / 2).toFloat()
-        mCenterY = (height / 2).toFloat()
+        var widthSize = MeasureSpec.getSize(widthMeasureSpec)
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        var heightSize = MeasureSpec.getSize(heightMeasureSpec)
+        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
 
-        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
-        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
 
-        val mWidth = measuredWidth / 3
-        val mHeight = 150
-
-        if (layoutParams.width == ViewGroup.LayoutParams.WRAP_CONTENT && layoutParams.height == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            setMeasuredDimension(mWidth, mHeight)
-        } else if (layoutParams.width == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            setMeasuredDimension(mWidth, heightSize)
-        } else if (layoutParams.height == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            setMeasuredDimension(widthSize, mHeight)
+        if (widthMode == MeasureSpec.AT_MOST) {
+            widthSize = (distance + 4 * maxRadius * 1.5f).toInt()
         }
 
+        if (heightMode == MeasureSpec.AT_MOST) {
+            heightSize = (4 * maxRadius).toInt()
+        }
+
+        mCenterX = (widthSize / 2).toFloat()
+        mCenterY = (heightSize / 2).toFloat()
+
+        setMeasuredDimension(
+            MeasureSpec.makeMeasureSpec(widthSize, widthMode),
+            MeasureSpec.makeMeasureSpec(heightSize, heightMode)
+        )
+
+        mFirstBall.centerY = mCenterY
+        mSecondBall.centerY = mCenterY
     }
 
     override fun onDraw(canvas: Canvas) {
         //画两个小球，半径小的先画，半径大的后画
-        if (mFirstBall!!.radius > mSecondBall!!.radius) {
-            mPaint!!.color = mSecondBall!!.color
-            canvas.drawCircle(mSecondBall!!.centerX, mCenterY, mSecondBall!!.radius, mPaint!!)
+        if (mFirstBall.radius > mSecondBall.radius) {
+            mPaint.color = mSecondBall.color
+            canvas.drawCircle(mSecondBall.centerX, mSecondBall.centerY, mSecondBall.radius, mPaint)
 
-            mPaint!!.color = mFirstBall!!.color
-            canvas.drawCircle(mFirstBall!!.centerX, mCenterY, mFirstBall!!.radius, mPaint!!)
+            mPaint.color = mFirstBall.color
+            canvas.drawCircle(mFirstBall.centerX, mFirstBall.centerY, mFirstBall.radius, mPaint)
         } else {
-            mPaint!!.color = mFirstBall!!.color
-            canvas.drawCircle(mFirstBall!!.centerX, mCenterY, mFirstBall!!.radius, mPaint!!)
+            mPaint.color = mFirstBall.color
+            canvas.drawCircle(mFirstBall.centerX, mFirstBall.centerY, mFirstBall.radius, mPaint)
 
-            mPaint!!.color = mSecondBall!!.color
-            canvas.drawCircle(mSecondBall!!.centerX, mCenterY, mSecondBall!!.radius, mPaint!!)
+            mPaint.color = mSecondBall.color
+            canvas.drawCircle(mSecondBall.centerX, mSecondBall.centerY, mSecondBall.radius, mPaint)
         }
     }
 
@@ -137,9 +143,8 @@ class BallRotationProgressBar @JvmOverloads constructor(
         oneCenterAnimator.addUpdateListener { animation ->
             val value = animation.animatedValue as Float
             val x = mCenterX + distance * value
-            mFirstBall!!.centerX = x
-            //不停的刷新view，让view不停的重绘
-            invalidate()
+            mFirstBall.centerX = x
+
         }
 
         //第二个小球缩放动画
@@ -156,31 +161,51 @@ class BallRotationProgressBar @JvmOverloads constructor(
         twoCenterAnimator.addUpdateListener { animation ->
             val value = animation.animatedValue as Float
             val x = mCenterX + distance * value
-            mSecondBall!!.centerX = x
+            mSecondBall.centerX = x
+            postInvalidate()
+        }
+
+        val oneCenterY = ValueAnimator.ofFloat(1f, 0f, -1f, 0f, 1f)
+        oneCenterY.repeatCount = ValueAnimator.INFINITE
+        oneCenterY.addUpdateListener { animation ->
+            val value = animation.animatedValue as Float
+            val y = mCenterY + mCenterY * 0.4f * value
+            mFirstBall.centerY = y
+        }
+
+        val twoCenterY = ValueAnimator.ofFloat(-1f, 0f, 1f, 0f, -1f)
+        oneCenterY.repeatCount = ValueAnimator.INFINITE
+        oneCenterY.addUpdateListener { animation ->
+            val value = animation.animatedValue as Float
+            val y = mCenterY + mCenterY * 0.4f * value
+            mSecondBall.centerY = y
         }
 
         //属性动画集合
         animatorSet = AnimatorSet()
         //四个属性动画一块执行
-        animatorSet!!.playTogether(
-            oneScaleAnimator,
-            oneCenterAnimator,
-            twoScaleAnimator,
-            twoCenterAnimator
-        )
-        //动画一次运行时间
-        animatorSet!!.duration = DEFAULT_ANIMATOR_DURATION.toLong()
-        //时间插值器
-        animatorSet!!.interpolator = AnticipateOvershootInterpolator()
+        animatorSet?.apply {
+            interpolator = AnticipateOvershootInterpolator()
+            duration = DEFAULT_ANIMATOR_DURATION.toLong()
+            playTogether(
+                oneScaleAnimator,
+                oneCenterAnimator,
+                twoScaleAnimator,
+                twoCenterAnimator,
+                oneCenterY,twoCenterY
+            )
+        }
     }
 
     /**
      * 小球
      */
+    @Keep
     class Ball {
-        var radius: Float = 0f//半径
-        var centerX: Float = 0f//圆心
-        var color: Int = 0//颜色
+        var radius = DEFAULT_MAX_RADIUS//半径
+        var centerX = DEFAULT_MIN_RADIUS / 2f //圆心
+        var centerY = 0f
+        var color = 0//颜色
     }
 
     override fun setVisibility(v: Int) {
@@ -219,7 +244,7 @@ class BallRotationProgressBar @JvmOverloads constructor(
      * @param color
      */
     fun setFirstBallColor(@ColorInt color: Int) {
-        mFirstBall!!.color = color
+        mFirstBall.color = color
     }
 
     /**
@@ -228,7 +253,7 @@ class BallRotationProgressBar @JvmOverloads constructor(
      * @param color
      */
     fun setSecondBallColor(@ColorInt color: Int) {
-        mSecondBall!!.color = color
+        mSecondBall.color = color
     }
 
     /**
@@ -237,7 +262,7 @@ class BallRotationProgressBar @JvmOverloads constructor(
      * @param maxRadius
      */
     fun setMaxRadius(maxRadius: Float) {
-        this.maxRadius = maxRadius
+        this.maxRadius = maxRadius.coerceAtMost(DEFAULT_MAX_RADIUS)
         configAnimator()
     }
 
@@ -247,7 +272,7 @@ class BallRotationProgressBar @JvmOverloads constructor(
      * @param minRadius
      */
     fun setMinRadius(minRadius: Float) {
-        this.minRadius = minRadius
+        this.minRadius = minRadius.coerceAtLeast(DEFAULT_MIN_RADIUS)
         configAnimator()
     }
 
@@ -256,7 +281,7 @@ class BallRotationProgressBar @JvmOverloads constructor(
      *
      * @param distance
      */
-    fun setDistance(distance: Int) {
+    fun setDistance(distance: Float) {
         this.distance = distance
     }
 
@@ -292,13 +317,13 @@ class BallRotationProgressBar @JvmOverloads constructor(
     companion object {
 
         //默认小球最大半径
-        private const val DEFAULT_MAX_RADIUS = 25
+        private val DEFAULT_MAX_RADIUS = 8f.dp
 
         //默认小球最小半径
-        private const val DEFAULT_MIN_RADIUS = 3
+        private val DEFAULT_MIN_RADIUS = 3f.dp
 
         //默认两个小球运行轨迹直径距离
-        private const val DEFAULT_DISTANCE = 40
+        private val DEFAULT_DISTANCE = 18f.dp
 
         //默认第一个小球颜色
         private val DEFAULT_ONE_BALL_COLOR = Color.parseColor("#40df73")
