@@ -76,6 +76,7 @@ android{
     }
 
 
+    val version = "73fe3dd31c7c52516af31901a3d485c820394dbc"
     dependencies {
         implementation(fileTree(baseDir = "libs"){
             include("*.jar","*.aar")
@@ -83,14 +84,12 @@ android{
         //debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
         implementation(project(":core"))
         implementation(project(":skinlib"))
+
+        implementation("com.google.guava:guava:28.1-android")
+        implementation("io.flutter:flutter_embedding_release:1.0.0-${version}")
+        implementation("io.flutter:arm64_v8a_release:1.0.0-${version}")
+
     }
-
-}
-dependencies {
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
-
 
 }
 

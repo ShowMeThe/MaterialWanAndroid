@@ -6,6 +6,7 @@ buildscript {
         google()
         maven{url 'http://maven.aliyun.com/nexus/content/groups/public/'}
         mavenCentral()
+        maven { url "http://download.flutter.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.1'
@@ -22,7 +23,14 @@ allprojects {
         maven{url 'https://maven.aliyun.com/nexus/content/groups/public/'}
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        
+        maven { url "http://download.flutter.io" }
+        maven {
+            url 'D:\\lib\\flutter_wan\\build\\host\\outputs\\repo'
+        }
+        maven {
+            url "https://storage.flutter-io.cn/download.flutter.io"
+        }
+
     }
 }
 

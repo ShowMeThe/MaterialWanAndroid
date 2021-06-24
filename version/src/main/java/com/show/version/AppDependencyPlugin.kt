@@ -48,6 +48,7 @@ class AppDependencyPlugin : Plugin<Project>{
         kapt("com.squareup.moshi:moshi-kotlin-codegen:${Http.moshi_kotlin}")
 
         implementation("com.github.ShowMeThe:SlideBack:v2.3")
+
     }
 
 }

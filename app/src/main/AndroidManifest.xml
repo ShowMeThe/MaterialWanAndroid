@@ -11,7 +11,20 @@
         android:roundIcon="@drawable/ic_android"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
-        <activity android:name=".ui.main.CollectActivity"></activity>
+        <activity android:name=".ui.main.FlutterMainActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"
+            >
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme" />
+            <meta-data
+                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+                android:resource="@drawable/launch_background" />
+        </activity>
+        <activity android:name=".ui.main.CollectActivity" />
         <activity android:name=".ui.main.WebActivity" />
         <activity android:name=".ui.main.SearchResultActivity" />
         <activity android:name=".ui.main.SearchActivity" />

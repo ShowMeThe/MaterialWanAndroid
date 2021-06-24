@@ -184,6 +184,20 @@
                 skin="@{`iconTint|textColor|rippleColor`}"
                 />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFlutter"
+                android:text="@string/flutter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_flutter_line"
+                android:textColor="@color/colorAccent"
+                android:textSize="15dp"
+                android:gravity="center|start"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:layout_constraintTop_toBottomOf="@+id/btnCollect"
+                android:onClick="@{()->Main.onFlutter()}"
+                skin="@{`iconTint|textColor|rippleColor`}"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

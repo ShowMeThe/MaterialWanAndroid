@@ -2,6 +2,7 @@ package com.show.wanandroid.app
 
 import android.content.Context
 import androidx.annotation.Keep
+import com.show.kcore.extras.display.dp
 import com.show.kcore.http.http
 import com.show.kcore.http.interceptor.ReadCookieInterceptor
 import com.show.kcore.http.interceptor.RequestLogInterceptor
@@ -21,7 +22,8 @@ class MainInitializer : Initializer<Boolean> {
         continuation: CancellableContinuation<Boolean>?
     ) {
         SlideRegister.config {
-            shadowWidth = 100
+            shadowWidth = 30f.dp.toInt()
+            maxSideLength = 25f.dp
         }
 
         context.http {
