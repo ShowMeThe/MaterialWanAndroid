@@ -41,7 +41,7 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
     @BundleInject(BundleConst.Id)
     private var cid = 0
 
-    private var page = 0
+    private var page = 1
     private val articles by lazy { KResultData<JsonData<CateBean>>() }
     private val list = ObservableArrayList<Data>()
     val adapter by lazy { ProjectAdapter(requireContext(),list) }
@@ -64,7 +64,7 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
         }){
             refreshData.value = false
             it?.data?.apply {
-                if(page == 0){
+                if(page == 1){
                     list.clear()
                 }
                 list.addAll(datas)
@@ -96,7 +96,7 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
         binding {
 
             refresh.setOnRefreshListener {
-                page = 0
+                page = 1
                 getArticle()
             }
 
