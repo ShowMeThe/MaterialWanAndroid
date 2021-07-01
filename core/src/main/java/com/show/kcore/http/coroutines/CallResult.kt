@@ -51,7 +51,7 @@ class CallResult constructor(
 
 
     fun <T1, T2, R> merge(
-        data: KResultData<R>? = null,
+        data: MutableLiveData<KResult<R>>? = null,
         request1: suspend () -> Response<T1>,
         request2: suspend () -> Response<T2>,
         iFunction: IFunction<T1, T2, R>

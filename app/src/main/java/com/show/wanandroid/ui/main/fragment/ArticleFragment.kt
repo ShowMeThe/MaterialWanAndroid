@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.show.kcore.base.BundleInject
 import com.show.kcore.base.LazyFragment
 import com.show.kcore.extras.gobal.read
-import com.show.kcore.http.coroutines.KResultData
+import com.show.kcore.http.coroutines.KResult
 import com.show.wanandroid.R
 import com.show.wanandroid.bean.Article
 import com.show.wanandroid.bean.DatasBean
@@ -39,7 +39,7 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
     private var tabId = -1
 
     private var page = 0
-    private val article = KResultData<JsonData<Article>>()
+    private val article = MutableLiveData<KResult<JsonData<Article>>>()
     private val list = ObservableArrayList<DatasBean>()
 
     val layoutManager by lazy {

@@ -1,16 +1,14 @@
 package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
-import android.util.Log
-import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.show.kcore.base.BundleInject
 import com.show.kcore.base.LazyFragment
 import com.show.kcore.extras.gobal.read
-import com.show.kcore.extras.log.Logger
-import com.show.kcore.http.coroutines.KResultData
+import com.show.kcore.http.coroutines.KResult
 import com.show.wanandroid.R
 import com.show.wanandroid.bean.CateBean
 import com.show.wanandroid.bean.Data
@@ -21,6 +19,7 @@ import com.show.wanandroid.ui.main.WebActivity
 import com.show.wanandroid.ui.main.adapter.ProjectAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.showmethe.skinlib.SkinManager
+import java.util.*
 
 
 class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainViewModel>() {
@@ -42,9 +41,18 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
     private var cid = 0
 
     private var page = 1
-    private val articles by lazy { KResultData<JsonData<CateBean>>() }
-    private val list = ObservableArrayList<Data>()
-    val adapter by lazy { ProjectAdapter(requireContext(),list) }
+    private val articles by lazy { MutableLiveData<KResult<JsonData<CateBean>>>() }
+    private val list = ArrayList<Data>()
+    val adapter by lazy { ProjectAdapter(requireContext(),object : DiffUtil.ItemCallback<Data>() {
+        override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
+            return  oldItem.title == newItem.title
+        }
+
+    }) }
     val layoutManager by lazy { StaggeredGridLayoutManager(2,RecyclerView.VERTICAL) }
     val refreshData by lazy { MutableLiveData(true) }
 
@@ -68,6 +76,7 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
                     list.clear()
                 }
                 list.addAll(datas)
+                adapter.submitList(list)
                 binding.rvList.finishLoading()
                 binding.rvList.setEnableLoadMore(datas.isNotEmpty())
             }

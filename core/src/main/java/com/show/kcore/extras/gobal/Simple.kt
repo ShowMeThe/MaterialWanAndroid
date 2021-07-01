@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.show.kcore.base.AppContext
-import com.show.kcore.http.coroutines.KResult
+import com.show.kcore.http.coroutines.*
 
 
 inline fun <reified T : ViewModel> Class<T>.getAppViewModel() = ViewModelProvider(
@@ -29,17 +29,17 @@ fun <T> MutableLiveData<KResult<T>>.read(lifecycleOwner:LifecycleOwner,
     val observer = Observer<KResult<T>> {
         if(it!= null){
             it.apply {
-                when(status){
-                    KResult.Loading ->{
+                when(this){
+                    is LoadingResult<T> ->{
                         loading?.invoke()
                     }
-                    KResult.Success ->{
+                    is SuccessResult<T> ->{
                         data?.invoke(response)
                     }
-                    KResult.Failure ->{
+                    is FailedResult<T> ->{
                         error?.invoke(exception,it.response)
                     }
-                    KResult.TimeOut ->{
+                    is TimeOutResult<T> ->{
                         timeOut?.invoke()
                     }
                 }

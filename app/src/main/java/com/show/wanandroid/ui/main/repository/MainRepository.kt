@@ -7,7 +7,6 @@ import com.show.kInject.core.ext.single
 import com.show.kcore.base.BaseRepository
 import com.show.kcore.http.coroutines.IFunction
 import com.show.kcore.http.coroutines.KResult
-import com.show.kcore.http.coroutines.KResultData
 import com.show.kcore.http.coroutines.callResult
 import com.show.wanandroid.R
 import com.show.wanandroid.api.Main
@@ -20,7 +19,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
 
     private val api: Main by single()
 
-    fun getBanner(data: KResultData<JsonData<List<Banner>>>) {
+    fun getBanner(data: MutableLiveData<KResult<JsonData<List<Banner>>>>) {
         androidScope {
             callResult {
                 hold(data) { api.banner() }
@@ -28,7 +27,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getHomeArticle(page: Int, liveData: KResultData<JsonData<Article>>) {
+    fun getHomeArticle(page: Int, liveData: MutableLiveData<KResult<JsonData<Article>>>) {
         androidScope {
             callResult {
                 hold(liveData) { api.getHomeArticle(page) }
@@ -37,7 +36,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getArticleTop(liveData: KResultData<List<DatasBean>>) {
+    fun getArticleTop(liveData: MutableLiveData<KResult<List<DatasBean>>>) {
         androidScope {
             callResult {
                 merge(liveData, { api.getHomeArticle(0) },
@@ -71,7 +70,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     }
 
 
-    fun getChapters(data: KResultData<JsonData<List<TabBeanItem>>>) {
+    fun getChapters(data: MutableLiveData<KResult<JsonData<List<TabBeanItem>>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getChapters() }
@@ -80,7 +79,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getChaptersArticle(id: Int, page: Int, data: KResultData<JsonData<Article>>) {
+    fun getChaptersArticle(id: Int, page: Int, data: MutableLiveData<KResult<JsonData<Article>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getArticle(id, page) }
@@ -89,7 +88,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getTree(data: KResultData<JsonData<List<Tree>>>) {
+    fun getTree(data: MutableLiveData<KResult<JsonData<List<Tree>>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getTree() }
@@ -97,7 +96,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getTreeArticle(id: Int, page: Int, data: KResultData<JsonData<Article>>) {
+    fun getTreeArticle(id: Int, page: Int, data: MutableLiveData<KResult<JsonData<Article>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getTreeArticle(page, id) }
@@ -107,7 +106,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     }
 
 
-    fun getCateTab(data: KResultData<JsonData<List<CateTab>>>) {
+    fun getCateTab(data: MutableLiveData<KResult<JsonData<List<CateTab>>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getCateTab() }
@@ -117,13 +116,12 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     }
 
 
-    fun getCate(pager: Int, cid: Int, data: KResultData<JsonData<CateBean>>) {
+    fun getCate(pager: Int, cid: Int, data: MutableLiveData<KResult<JsonData<CateBean>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getCate(pager, cid) }
                     .success {
                         this.response?.data?.datas?.apply {
-                            Log.e("222222", "${this[0].chapterId}")
                         }
                     }
             }

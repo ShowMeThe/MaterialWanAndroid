@@ -42,7 +42,7 @@ abstract class DataDifferBaseAdapter<D, V : ViewBinding>(val context: Context,
 
 
 
-    private fun inflateItemView(viewGroup: ViewGroup, layoutId: Int): View {
+    protected fun inflateItemView(viewGroup: ViewGroup, layoutId: Int): View {
         return LayoutInflater.from(viewGroup.context).inflate(layoutId, viewGroup, false)
     }
 

@@ -6,10 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import java.lang.Exception
 
 @Keep
-data class KResult<T>(var status:String,
-                 var response: T? = null,
-                 var exception: Exception? = null
-){
+sealed class KResult<T>{
 
     companion object{
 
@@ -17,10 +14,60 @@ data class KResult<T>(var status:String,
         const val Success = "Success"
         const val Failure = "Failure"
         const val TimeOut = "TimeOut"
-
     }
 
+    lateinit var status:String
+    var response: T? = null
+    var exception: Exception? = null
 }
 
+@Keep
+class  SuccessResult<T> : KResult<T>(){
+
+    companion object{
+
+        fun <T> create(response:T?) : SuccessResult<T>{
+            return  SuccessResult<T>().apply {
+                status = Loading
+                this.response = response
+            }
+        }
+    }
+}
+
+@Keep
+class  FailedResult<T> : KResult<T>(){
+    companion object{
+        fun <T> create(exception : Exception?,t:T?=null) : FailedResult<T>{
+            return  FailedResult<T>().apply {
+                status = Failure
+                this.response = t
+                this.exception = exception
+            }
+        }
+    }
+}
+
+@Keep
+class  TimeOutResult<T> : KResult<T>(){
+    companion object{
+        fun <T> create() : TimeOutResult<T>{
+            return  TimeOutResult<T>().apply {
+                status = TimeOut
+            }
+        }
+    }
+}
+
+@Keep
+class  LoadingResult<T> : KResult<T>(){
+    companion object{
+        fun <T> create() : LoadingResult<T>{
+            return  LoadingResult<T>().apply {
+                status = Loading
+            }
+        }
+    }
+}
 
 typealias KResultData<T> = MutableLiveData<KResult<T>>
