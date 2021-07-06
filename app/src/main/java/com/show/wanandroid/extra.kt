@@ -24,7 +24,7 @@ import com.show.wanandroid.ui.main.LoginActivity
 
 fun BottomNavigationView.setOnNavigationSingleItemSelectedListener(listener:(it:MenuItem)->Unit){
     var lastTime = 0L
-    setOnNavigationItemSelectedListener {
+    setOnItemSelectedListener {
         if (System.currentTimeMillis() - lastTime >= 300){
             lastTime = System.currentTimeMillis()
             listener.invoke(it)
