@@ -18,6 +18,10 @@ class AppContext private constructor(){
         private val instant by lazy (mode = LazyThreadSafetyMode.SYNCHRONIZED){ AppContext() }
 
         fun get() = instant
+
+        fun getContext() = instant.context
+
+        fun getActivity() = instant.getActivity()
     }
 
 
