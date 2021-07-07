@@ -3,6 +3,8 @@ package com.show.kcore.http.coroutines
 import android.util.Log
 import com.show.kcore.extras.log.Logger
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
@@ -30,8 +32,10 @@ class KRequest<T>(private val request: suspend () -> Response<T>) {
     suspend fun addAsync(
         scope: CoroutineScope,
         onError: (suspend Throwable.() -> Unit)?
-    ): Response<T>? {
-        return tryRepeat(scope, onError)
+    ): Flow<Response<T>?> {
+        return flow {
+            emit(tryRepeat(scope, onError))
+        }
     }
 
     private suspend fun <T> Deferred<T>.awaitWithTimeout(time: Long): T? {
