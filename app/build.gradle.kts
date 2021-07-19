@@ -9,6 +9,7 @@ plugins{
     id("app-dependency")
 }
 
+
 android{
     buildFeatures.dataBinding = true
     buildFeatures.viewBinding = true
@@ -76,6 +77,7 @@ android{
     }
 
 
+
     dependencies {
         implementation(fileTree(baseDir = "libs"){
             include("*.jar","*.aar")
@@ -83,14 +85,9 @@ android{
         //debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
         implementation(project(":core"))
         implementation(project(":skinlib"))
+
+        implementation("com.show.flutter_wan:flutter_release:1.0")
     }
-
-}
-dependencies {
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
-
 
 }
 

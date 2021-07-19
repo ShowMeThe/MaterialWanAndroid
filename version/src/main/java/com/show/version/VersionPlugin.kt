@@ -145,7 +145,7 @@ class VersionPlugin : Plugin<Project> {
 
         const val compileSdkVersion = 30
 
-        const val buildToolsVersion = "30.0.1"
+        const val buildToolsVersion = "30.0.2"
 
         const val minSdkVersion = 26
 

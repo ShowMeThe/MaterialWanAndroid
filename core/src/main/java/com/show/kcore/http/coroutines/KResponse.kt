@@ -11,19 +11,19 @@ class KResponse<T>(val data: MutableLiveData<KResult<T>>? = null) : IResponse<T>
 
 
     override suspend fun doOnLoading() {
-        postData(KResult(KResult.Loading))
+        postData(LoadingResult.create())
         onLoading?.apply {
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main.immediate) {
                 invoke()
             }
         }
     }
 
     override suspend fun doOnTimeOut() {
-        val out = KResult<T>(KResult.TimeOut)
+        val out = TimeOutResult.create<T>()
         postData(out)
         loadingTimeOut?.apply {
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main.immediate) {
                 invoke(out)
             }
         }
@@ -31,20 +31,20 @@ class KResponse<T>(val data: MutableLiveData<KResult<T>>? = null) : IResponse<T>
 
 
     override suspend fun doOnError(e: Throwable, t: T?) {
-        val out = KResult<T>(KResult.Failure, exception = Exception(e), response = t)
+        val out = FailedResult.create<T>(Exception(e))
         postData(out)
         onError?.apply {
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main.immediate) {
                 invoke(out)
             }
         }
     }
 
     override suspend fun doOnSuccess(t: T?) {
-        val out = KResult(KResult.Success, t)
+        val out = SuccessResult.create(t)
         postData(out)
         onSuccess?.apply {
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main.immediate) {
                 invoke(out)
             }
         }

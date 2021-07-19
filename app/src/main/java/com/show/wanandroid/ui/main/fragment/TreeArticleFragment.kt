@@ -1,21 +1,18 @@
 package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.show.kcore.base.BaseFragment
 import com.show.kcore.extras.gobal.read
-import com.show.kcore.http.coroutines.KResultData
+import com.show.kcore.http.coroutines.KResult
 import com.show.wanandroid.R
 import com.show.wanandroid.bean.Article
 import com.show.wanandroid.bean.DatasBean
 import com.show.wanandroid.bean.JsonData
 import com.show.wanandroid.databinding.FragmentTreeArticleBinding
-import com.show.wanandroid.databinding.FragmentTreeBodyBinding
-import com.show.wanandroid.getShareViewModel
 import com.show.wanandroid.ui.main.WebActivity
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.TreeViewModel
@@ -27,10 +24,16 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
     private var page = 0
     private var articleId = 0
     private val list = ObservableArrayList<DatasBean>()
-    private val treeArticle by lazy { KResultData<JsonData<Article>>() }
+    private val treeArticle by lazy { MutableLiveData<KResult<JsonData<Article>>>() }
 
-    val adapter by lazy { ArticleListAdapter(requireContext(),list) }
-    val layoutManager by lazy { LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false) }
+    val adapter by lazy { ArticleListAdapter(requireContext(), list) }
+    val layoutManager by lazy {
+        LinearLayoutManager(
+            requireContext(),
+            RecyclerView.VERTICAL,
+            false
+        )
+    }
     val refreshData = MutableLiveData(true)
 
 
@@ -41,9 +44,9 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
 
     override fun observerUI() {
 
-        viewModel.navigator.observe(this){
+        viewModel.navigator.observe(this) {
             it?.apply {
-                binding{
+                binding {
                     tvTitle.text = second
                     articleId = first
                     page = 0
@@ -52,9 +55,9 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
             }
         }
 
-        treeArticle.read(this){
+        treeArticle.read(this) {
             it?.data?.apply {
-                if(page == 0){
+                if (page == 0) {
                     list.clear()
                 }
                 list.addAll(datas)
@@ -68,7 +71,7 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
 
     override fun init(savedInstanceState: Bundle?) {
         binding {
-            SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
+            SkinManager.getManager().autoTheme(SkinManager.currentStyle, binding)
             main = this@TreeArticleFragment
             executePendingBindings()
 
@@ -92,16 +95,16 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
 
 
             adapter.setOnItemClickListener { view, data, position ->
-                WebActivity.start(requireActivity(),data.title,data.link)
+                WebActivity.start(requireActivity(), data.title, data.link)
             }
         }
     }
 
-    private fun getArticle(){
-        viewModel.getTreeArticle(articleId,page,treeArticle)
+    private fun getArticle() {
+        viewModel.getTreeArticle(articleId, page, treeArticle)
     }
 
-    fun popBack(){
+    fun popBack() {
         viewModel.navigator.value = null
     }
 

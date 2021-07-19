@@ -53,6 +53,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     private val exitDialog by DialogFragmentRef(ExitDialog::class.java)
     private val dialog by DialogFragmentRef(ThemeDialog::class.java)
 
+
     override fun getViewId(): Int = R.layout.activity_main
 
     override fun onBundle(bundle: Bundle) {
@@ -84,6 +85,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
             main = this@MainActivity
             executePendingBindings()
+
+
 
         }
 
@@ -194,6 +197,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         }else{
             startActivity<CollectActivity>(transition = true)
         }
+    }
+
+    fun onFlutter() {
+        startActivity<FlutterMainActivity>(transition = false)
     }
 
 }

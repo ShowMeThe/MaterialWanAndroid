@@ -46,4 +46,9 @@
         <attr name="secondBallColor" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="DrawingTextView">
+        <attr name="contentText" format="string"/>
+        <attr name="contentTextSize" format="dimension"/>
+    </declare-styleable>
+
 </resources>

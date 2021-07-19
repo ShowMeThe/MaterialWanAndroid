@@ -1,0 +1,20 @@
+package com.show.wanandroid.ui.main
+
+import android.os.Bundle
+import com.show.wanandroid.utils.plugin.ToastPlugin
+import io.flutter.embedding.android.FlutterActivity
+
+
+class FlutterMainActivity : FlutterActivity() {
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        flutterEngine?.apply {
+            plugins.add(ToastPlugin())
+        }
+
+    }
+
+}
