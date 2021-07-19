@@ -23,7 +23,7 @@
             skin="@{`tint`}"
             />
 
-        <com.show.wanandroid.widget.JumpAnimView
+        <com.show.wanandroid.widget.DrawingTextView
             android:id="@+id/jump"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,6 +31,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:contentText="A n d r o i d"
+            app:contentTextSize="35dp"
             />
 
 

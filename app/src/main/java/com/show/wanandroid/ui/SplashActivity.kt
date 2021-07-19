@@ -26,6 +26,7 @@ class SplashActivity : AppCompatActivity() {
 
         binding.apply {
             SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
+            jump.startDrawing()
 
             mainDispatcher {
                 delay(1000)
