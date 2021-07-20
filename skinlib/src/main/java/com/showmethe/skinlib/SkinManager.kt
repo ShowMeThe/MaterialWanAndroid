@@ -583,15 +583,14 @@ class SkinManager private constructor() {
                 }
             }
             ViewType.ImageView -> {
-                theme?.apply {
+                theme.apply {
                     val iv = view as ImageView
-                    attrs.forEach {
-                        when {
-                            it.trim() == "tint" -> {
-                                this["theme_imageView_tint"]?.apply {
-                                    iv.imageTintList = getColorStateList()
-                                }
+                    for(attr in attrs){
+                        if(attr.trim() == "tint"){
+                            this["theme_imageView_tint"]?.apply {
+                                iv.imageTintList = getColorStateList()
                             }
+                            break
                         }
                     }
                 }
@@ -871,14 +870,12 @@ class SkinManager private constructor() {
                 }
             }
             ViewType.ImageView -> {
-                theme?.apply {
+                theme.apply {
                     val iv = view as ImageView
-                    attrs.forEach {
-                        when {
-                            it.trim() == "tint" -> {
-                                theme_imageView_tint?.apply {
-                                    iv.imageTintList = getColorStateList()
-                                }
+                    for(attr in attrs){
+                        if(attr.trim() == "tint"){
+                            theme_imageView_tint?.apply {
+                                iv.imageTintList = getColorStateList()
                             }
                         }
                     }
@@ -886,7 +883,7 @@ class SkinManager private constructor() {
             }
             ViewType.TextView, ViewType.MaterialTextView -> {
                 val tv = view as TextView
-                theme?.apply {
+                theme.apply {
                     attrs.forEach {
                         when {
                             it.trim() == "textColor" -> {
@@ -930,7 +927,7 @@ class SkinManager private constructor() {
             }
             ViewType.Button, ViewType.MaterialButton -> {
                 val button = view as Button
-                theme?.apply {
+                theme.apply {
                     attrs.forEach {
                         when {
                             it.trim() == "textColor" -> {
@@ -1020,7 +1017,7 @@ class SkinManager private constructor() {
             }
             ViewType.RadioButton, ViewType.MaterialRadioButton -> {
                 val button = view as RadioButton
-                theme?.apply {
+                theme.apply {
                     attrs.forEach {
                         when {
                             it.trim() == "textColor" -> {
@@ -1071,7 +1068,7 @@ class SkinManager private constructor() {
                 }
             }
             else -> {
-                theme?.apply {
+                theme.apply {
                     attrs.forEach {
                         when {
                             it.trim() == "edgeColor" ->{

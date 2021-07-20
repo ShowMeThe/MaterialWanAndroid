@@ -17,7 +17,7 @@ import com.show.wanandroid.R
 
 class DrawingTextView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : AppCompatTextView(context, attrs, defStyleAttr) {
+) : View(context, attrs, defStyleAttr) {
 
     private val mInterpolator by lazy { FastOutLinearInInterpolator() }
     private val mDuration = 800L
@@ -101,6 +101,10 @@ class DrawingTextView @JvmOverloads constructor(
         mPaintingText = text
         requestLayout()
         initPath()
+    }
+
+    fun setTextColor(color: Int){
+        mPaint.color = color
     }
 
     fun startDrawing() {

@@ -41,7 +41,7 @@ class AppApplication : BaseApplication() {
             .addJson(themes_name[3] to colorEntity, themes_name[4] to colorEntity2)
             .addPlugin(
                 RefreshPlugin(), SmartIPlugin(), LikePlugin(),
-                ExpandIPlugin(), SearchChipGroup(),
+                ExpandIPlugin(), SearchChipGroup(),DrawingPlugin(),
                 bannerPlugin, ShakingImageViewIPlugin(),BallPlugin()
             )
             .build()

@@ -32,7 +32,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:contentText="A n d r o i d"
-            app:contentTextSize="35dp"
+            app:contentTextSize="40dp"
+            plugin="@{`DrawingPlugin`}"
             />
 
 
