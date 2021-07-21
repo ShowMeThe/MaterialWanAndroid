@@ -1,5 +1,6 @@
 package com.show.wanandroid.ui.main
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import com.show.slideback.annotation.SlideBackBinder
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.ActivityWebBinding
 import com.showmethe.skinlib.SkinManager
+import kotlin.math.acos
 
 @SlideBackBinder
 @Transition(mode = TransitionMode.SlideStart)
@@ -24,6 +26,16 @@ class WebActivity : AppCompatActivity() {
                 putString("url",url)
             }
             context.startActivity<WebActivity>(bundle,true)
+        }
+
+        fun start(context: Activity, title: String, url: String) {
+            val bundle = Bundle().apply {
+                putString("title",title)
+                putString("url",url)
+            }
+            val intent = Intent(context,WebActivity::class.java)
+            intent.putExtras(bundle)
+            context.startActivity(intent)
         }
     }
 
