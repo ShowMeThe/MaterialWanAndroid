@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.show.kcore.extras.gobal.mainDispatcher
 import com.show.kcore.extras.status.statusBar
 import com.show.wanandroid.R
@@ -35,6 +36,7 @@ class SplashActivity : AppCompatActivity() {
                 )
                 finishAfterTransition()
             }
+
 
         }
 

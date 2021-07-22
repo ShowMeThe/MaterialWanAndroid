@@ -48,7 +48,7 @@ object AndroidX{
 
     const val constraintlayout = "2.1.0-beta02"
     const val recyclerview = "1.2.0-beta02"
-    const val material = "1.4.0-beta01"
+    const val material = "1.5.0-alpha01"
     const val gridlayout = "1.0.0"
     const val viewpager2 = "1.1.0-alpha01"
     const val palette = "1.0.0"
