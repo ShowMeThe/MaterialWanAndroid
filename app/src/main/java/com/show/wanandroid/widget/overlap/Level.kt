@@ -42,6 +42,13 @@ class LevelChildren {
     var labelWidth = 100f.dp
     var labelHeight = 100f.dp
     var edge = BubbleDirection.BOTTOM
+    val circleAngle
+        get() = when(edge){
+        BubbleDirection.TOP -> 180f
+        BubbleDirection.BOTTOM -> 0f
+        BubbleDirection.LEFT -> 90f
+        BubbleDirection.RIGHT -> 270f
+    }
     var offset = 0.5f
 
     fun labelText(text: String, edge: BubbleDirection, offset: Float = 0.5f) {
