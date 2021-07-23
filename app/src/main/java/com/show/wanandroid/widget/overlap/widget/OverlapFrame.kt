@@ -6,6 +6,7 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -21,11 +22,16 @@ class OverlapFrame @JvmOverloads constructor(
 
     private val mSrcOutMode = PorterDuffXfermode(PorterDuff.Mode.SRC_OUT)
 
-    private val defaultTextLayoutParams by lazy { LayoutParams(LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT) }
-
-    private val defaultBubbleLayoutParams by lazy { LayoutParams(LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT) }
+    private val defaultBubbleLayoutParams by lazy {
+        LayoutParams(
+            LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+    }
 
     private val padding = 2f.dp.toInt()
+
+    private val insidePadding =  10f.dp
 
     private val mPaint = Paint().apply {
         isAntiAlias = true
@@ -56,28 +62,65 @@ class OverlapFrame @JvmOverloads constructor(
         removeAllViews()
         level.children.forEachIndexed { index, it ->
             val pair = createBubbleWithXY(it)
-            addViewInLayout(pair.first,index,pair.second,false)
+            addViewInLayout(pair.first, index, pair.second, false)
         }
     }
 
     private fun createBubbleWithXY(child: LevelChildren): Pair<View, LayoutParams> {
         val bubbleLayout = BubbleLayout(context)
         val textView = createText(child)
-        bubbleLayout.addView(textView, defaultTextLayoutParams)
-        textView.setPadding(padding,padding,padding,padding)
+        bubbleLayout.addView(textView, FrameLayout
+            .LayoutParams(LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                gravity = child.labelTextGravity
+            })
+        textView.setPadding(padding, padding, padding, padding)
         val x = child.centerX
         val y = child.centerY
         val radius = child.radius
-        val layoutParams =  LayoutParams(child.labelWidth.toInt(),child.labelHeight.toInt())
-        if(x < measuredWidth / 2f && y < measuredHeight /2f){
+        val layoutParams = LayoutParams(child.labelWidth.toInt(), child.labelHeight.toInt())
+        if (x < measuredWidth / 2f && y < measuredHeight / 2f) {
             layoutParams.apply {
                 topToTop = 0
                 startToStart = 0
-                topMargin = (y).toInt()
-                leftMargin = (x + radius).toInt()
+                topMargin = (y - child.labelHeight / 2f).toInt()
+                leftMargin = (x + radius + insidePadding).toInt()
             }
             bubbleLayout.setBackGroundColor(child.labelColor)
             bubbleLayout.setEdge(child.edge)
+        }else if (x >= measuredWidth / 2f && y < measuredHeight / 2f) {
+            layoutParams.apply {
+                topToTop = 0
+                endToEnd = 0
+                topMargin = (y - child.labelHeight / 2f).toInt()
+                rightMargin = ((measuredWidth - x) + radius + insidePadding).toInt()
+
+            }
+            bubbleLayout.setBackGroundColor(child.labelColor)
+            bubbleLayout.setEdge(child.edge)
+            bubbleLayout.setOffset(child.offset)
+
+        }else if (x >= measuredWidth / 2f && y >= measuredHeight / 2f) {
+            layoutParams.apply {
+                bottomToBottom = 0
+                endToEnd = 0
+                bottomMargin = ((measuredHeight - y) - child.labelHeight / 2f).toInt()
+                rightMargin = ((measuredWidth - x) + radius + insidePadding).toInt()
+
+            }
+            bubbleLayout.setBackGroundColor(child.labelColor)
+            bubbleLayout.setEdge(child.edge)
+            bubbleLayout.setOffset(child.offset)
+        }else if (x < measuredWidth / 2f && y >= measuredHeight / 2f) {
+            layoutParams.apply {
+                bottomToBottom = 0
+                startToStart = 0
+                bottomMargin = ((measuredHeight - y) - child.labelHeight / 2f).toInt()
+                leftMargin = (x + radius + insidePadding).toInt()
+
+            }
+            bubbleLayout.setBackGroundColor(child.labelColor)
+            bubbleLayout.setEdge(child.edge)
+            bubbleLayout.setOffset(child.offset)
         }
 
         return bubbleLayout to layoutParams
@@ -96,7 +139,7 @@ class OverlapFrame @JvmOverloads constructor(
         canvas.save()
 
         mPaint.color = level.backgroundColor
-        mPaint.alpha = (255 * 0.75f).toInt()
+        mPaint.alpha = (255 * 0.8f).toInt()
         mPaint.xfermode = null
         canvas.drawRect(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat(), mPaint)
 

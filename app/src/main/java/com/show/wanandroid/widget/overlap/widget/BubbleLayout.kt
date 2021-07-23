@@ -16,13 +16,10 @@ class BubbleLayout @JvmOverloads constructor(
 
     companion object {
 
-        const val LEFT = 1
-        const val TOP = 2
-        const val RIGHT = 3
-        const val BOTTOM = 4
+
     }
 
-    private var direction = RIGHT
+    private var direction = BubbleDirection.BOTTOM
 
     private var radius = 10f.dp
 
@@ -66,10 +63,10 @@ class BubbleLayout @JvmOverloads constructor(
 
 
         when (direction) {
-            LEFT -> drawLeftTriangle(canvas)
-            TOP -> drawTopTriangle(canvas)
-            RIGHT -> drawRightTriangle(canvas)
-            BOTTOM -> drawBottomTriangle(canvas)
+            BubbleDirection.LEFT -> drawLeftTriangle(canvas)
+            BubbleDirection.TOP -> drawTopTriangle(canvas)
+            BubbleDirection.RIGHT -> drawRightTriangle(canvas)
+            BubbleDirection.BOTTOM -> drawBottomTriangle(canvas)
         }
 
     }
@@ -133,7 +130,7 @@ class BubbleLayout @JvmOverloads constructor(
         }
         path.addRoundRect(rectF, radius, radius, Path.Direction.CCW)
 
-        val centerY = (rectF.right - rectF.left) * offset + defaultPadding
+        val centerY = (rectF.bottom - rectF.top) * offset + defaultPadding
         val x = rectF.right
 
         path.moveTo(x, centerY - triangularLength)
@@ -165,7 +162,7 @@ class BubbleLayout @JvmOverloads constructor(
         postInvalidate()
     }
 
-    fun setEdge(@IntRange(from = 0, to = 4) direction: Int) {
+    fun setEdge(direction:  BubbleDirection) {
         this.direction = direction
         postInvalidate()
     }

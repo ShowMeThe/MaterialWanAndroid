@@ -22,4 +22,4 @@ inline val Float.sp
 
 
 val screenW by lazy { Resources.getSystem().displayMetrics.widthPixels }
-val screenH by lazy { Resources.getSystem().displayMetrics.widthPixels }
+val screenH by lazy { Resources.getSystem().displayMetrics.heightPixels }

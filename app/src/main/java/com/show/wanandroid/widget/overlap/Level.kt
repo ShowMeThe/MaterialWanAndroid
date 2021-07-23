@@ -1,7 +1,9 @@
 package com.show.wanandroid.widget.overlap
 
 import android.graphics.Color
+import android.view.Gravity
 import com.show.kcore.extras.display.dp
+import com.show.wanandroid.widget.overlap.widget.BubbleDirection
 import com.show.wanandroid.widget.overlap.widget.BubbleLayout
 
 
@@ -14,7 +16,7 @@ fun level(block: Level.() -> Unit): Level {
 class Level {
 
     val children = ArrayList<LevelChildren>()
-    var backgroundColor = Color.parseColor("#696969")
+    var backgroundColor = Color.parseColor("#000000")
 
     fun backgroundColor(color: Int) {
         this.backgroundColor = color
@@ -34,14 +36,15 @@ class LevelChildren {
     var centerY = 0f
     var radius = 0f
     var labelText = ""
+    var labelTextGravity = Gravity.CENTER
     var labelColor = Color.parseColor("#888888")
     var labelTextColor = Color.parseColor("#000000")
     var labelWidth = 100f.dp
     var labelHeight = 100f.dp
-    var edge = BubbleLayout.BOTTOM
+    var edge = BubbleDirection.BOTTOM
     var offset = 0.5f
 
-    fun labelText(text: String, edge: Int, offset: Float = 0.5f) {
+    fun labelText(text: String, edge: BubbleDirection, offset: Float = 0.5f) {
         labelText = text
         this.edge = edge
         this.offset = offset
@@ -50,6 +53,10 @@ class LevelChildren {
     fun labelWidthHeight(labelWidth:Float,labelHeight: Float){
         this.labelWidth = labelWidth
         this.labelHeight = labelHeight
+    }
+
+    fun labelTextGravity(gravity: Int) {
+        this.labelTextGravity = gravity
     }
 
     fun labelColor(color: Int) {
