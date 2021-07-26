@@ -2,6 +2,7 @@ package com.show.wanandroid.app
 
 import android.content.Context
 import androidx.annotation.Keep
+import com.orcc.app.core.CoreClient
 import com.show.kcore.extras.display.dp
 import com.show.kcore.http.http
 import com.show.kcore.http.interceptor.ReadCookieInterceptor
@@ -28,7 +29,7 @@ class MainInitializer : Initializer<Boolean> {
 
         context.http {
             config {
-                baseUrl = "https://www.wanandroid.com/"
+                baseUrl = CoreClient.getUrl()
                 interceptors = arrayListOf(
                     RequestNewHeaderInterceptor(), ReadWriteCacheInterceptor(),
                     RequestLogInterceptor(), ReadCookieInterceptor()

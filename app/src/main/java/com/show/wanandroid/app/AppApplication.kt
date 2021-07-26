@@ -1,11 +1,13 @@
 package com.show.wanandroid.app
 
+import android.util.Log
 import com.show.kInject.core.initScope
 import com.show.kcore.base.BaseApplication
 import com.show.kcore.http.Http
 import com.show.kcore.http.jsonToClazz
 import com.show.kcore.rden.Stores
 import com.show.wanandroid.R
+import com.show.wanandroid.SignatureUtils
 import com.show.wanandroid.api.Main
 import com.show.wanandroid.bannerPlugin
 import com.show.wanandroid.plugin.*
