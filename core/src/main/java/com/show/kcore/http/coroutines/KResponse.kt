@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.show.kcore.http.coroutines.KResult
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-class KResponse<T>(val data: MutableLiveData<KResult<T>>? = null) : IResponse<T> {
+class KResponse<T>(val data: MutableSharedFlow<KResult<T>>? = null) : IResponse<T> {
 
 
     override suspend fun doOnLoading() {
@@ -80,13 +82,10 @@ class KResponse<T>(val data: MutableLiveData<KResult<T>>? = null) : IResponse<T>
         return this
     }
 
-    private fun setData(call: KResult<T>): KResult<T> {
-        data?.value = call
-        return call
-    }
 
-    private fun postData(call: KResult<T>): KResult<T> {
-        data?.postValue(call)
+
+    private suspend fun postData(call: KResult<T>): KResult<T> {
+        data?.emit(call)
         return call
     }
 

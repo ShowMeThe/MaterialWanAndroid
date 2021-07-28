@@ -20,7 +20,7 @@ inline fun <reified T : ViewModel> Class<T>.getAppViewModel() = ViewModelProvide
     AppContext.get().context.applicationContext as ViewModelStoreOwner,
     ViewModelProvider.AndroidViewModelFactory(AppContext.get().context.applicationContext as Application)).get(this)
 
-fun <T> MutableLiveData<KResult<T>>.read(lifecycleOwner:LifecycleOwner,
+fun <T> LiveData<KResult<T>>.read(lifecycleOwner:LifecycleOwner,
                                          loading:(()->Unit)? = null,
                                          timeOut :(()->Unit)? = null,
                                          error:((exception:Exception?,t:T?)->Unit)? = null,

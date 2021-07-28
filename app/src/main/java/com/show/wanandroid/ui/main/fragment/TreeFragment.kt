@@ -3,6 +3,7 @@ package com.show.wanandroid.ui.main.fragment
 import android.os.Bundle
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.lifecycle.asLiveData
 import com.google.android.material.transition.MaterialSharedAxis
 import com.show.kcore.base.BaseFragment
 import com.show.wanandroid.R
@@ -23,7 +24,9 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
 
     override fun observerUI() {
 
-        viewModel.navigator.observe(viewLifecycleOwner){
+        viewModel.navigator
+            .asLiveData()
+            .observe(viewLifecycleOwner){
             if(it == null){
                 childFragmentManager.popBackStack()
                 getShareViewModel().popBack.value = 1

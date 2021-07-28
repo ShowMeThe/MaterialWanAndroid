@@ -4,6 +4,7 @@ package com.show.wanandroid.ui.main.fragment
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.asLiveData
 import com.google.android.material.tabs.TabLayoutMediator
 import com.show.kcore.base.BaseFragment
 import com.show.kcore.extras.gobal.read
@@ -31,7 +32,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding, MainViewModel>() {
 
     override fun observerUI() {
 
-        viewModel.tabs.read(this){ jsonData ->
+        viewModel.tabs.asLiveData().read(this) { jsonData ->
             jsonData?.data?.apply {
                 titles.clear()
                 fragments.clear()
@@ -44,15 +45,13 @@ class AccountFragment : BaseFragment<FragmentAccountBinding, MainViewModel>() {
         }
 
 
-
-
     }
 
 
     override fun init(savedInstanceState: Bundle?) {
 
 
-        SkinManager.getManager().autoTheme(SkinManager.currentStyle,binding)
+        SkinManager.getManager().autoTheme(SkinManager.currentStyle, binding)
         viewModel.getChapters()
     }
 
@@ -67,7 +66,8 @@ class AccountFragment : BaseFragment<FragmentAccountBinding, MainViewModel>() {
 
             vp2.adapter = adapter
             vp2.offscreenPageLimit = fragments.size
-            TabLayoutMediator(tabLayout, vp2
+            TabLayoutMediator(
+                tabLayout, vp2
             ) { tab, position ->
                 tab.text = titles[position]
             }.attach()

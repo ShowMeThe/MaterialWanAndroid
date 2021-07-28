@@ -3,6 +3,8 @@ package com.show.kcore.http.coroutines
 import android.util.Log
 import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import java.lang.Exception
 
 @Keep
@@ -69,5 +71,3 @@ class  LoadingResult<T> : KResult<T>(){
         }
     }
 }
-
-typealias KResultData<T> = MutableLiveData<KResult<T>>

@@ -2,22 +2,23 @@ package com.show.wanandroid.ui.main.vm
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.show.kcore.http.coroutines.KResponse
 import com.show.kcore.http.coroutines.KResult
-import com.show.kcore.http.coroutines.KResultData
 import com.show.wanandroid.bean.*
 import com.show.wanandroid.ui.main.repository.MainRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     private val repository by lazy { MainRepository(this) }
 
-    val banner by lazy { KResultData<JsonData<List<Banner>>>() }
-    val homeArticle by lazy { KResultData<JsonData<Article>>()  }
-    val homeTops by lazy { KResultData<List<DatasBean>>() }
-    val tabs by lazy { KResultData<JsonData<List<TabBeanItem>>>() }
-    val cateTab by lazy { KResultData<JsonData<List<CateTab>>>() }
-    val collects by lazy { KResultData<JsonData<Collect>>() }
+    val banner by lazy { MutableSharedFlow<KResult<JsonData<List<Banner>>>>() }
+    val homeArticle by lazy { MutableSharedFlow<KResult<JsonData<Article>>>()  }
+    val homeTops by lazy { MutableSharedFlow<KResult<List<DatasBean>>>() }
+    val tabs by lazy { MutableSharedFlow<KResult<JsonData<List<TabBeanItem>>>>() }
+    val cateTab by lazy { MutableSharedFlow<KResult<JsonData<List<CateTab>>>>() }
+    val collects by lazy { MutableSharedFlow<KResult<JsonData<Collect>>>() }
 
     fun getBanner(){
         repository.getBanner(banner)
@@ -37,7 +38,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun getChaptersArticle(id:Int,page:Int,data: KResultData<JsonData<Article>>){
+    fun getChaptersArticle(id:Int,page:Int,data: MutableSharedFlow<KResult<JsonData<Article>>>){
         repository.getChaptersArticle(id, page, data)
     }
 
@@ -45,7 +46,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         repository.getCateTab(cateTab)
     }
 
-    fun getCate(pager:Int,cid:Int,data: KResultData<JsonData<CateBean>>){
+    fun getCate(pager:Int,cid:Int,data: MutableSharedFlow<KResult<JsonData<CateBean>>>){
         repository.getCate(pager, cid, data)
     }
 

@@ -1,8 +1,10 @@
 package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.show.kcore.base.BaseFragment
@@ -17,6 +19,7 @@ import com.show.wanandroid.ui.main.WebActivity
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.TreeViewModel
 import com.showmethe.skinlib.SkinManager
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewModel>() {
 
@@ -24,7 +27,7 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
     private var page = 0
     private var articleId = 0
     private val list = ObservableArrayList<DatasBean>()
-    private val treeArticle by lazy { MutableLiveData<KResult<JsonData<Article>>>() }
+    private val treeArticle by lazy { MutableSharedFlow<KResult<JsonData<Article>>>(extraBufferCapacity = 1) }
 
     val adapter by lazy { ArticleListAdapter(requireContext(), list) }
     val layoutManager by lazy {
@@ -44,7 +47,9 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
 
     override fun observerUI() {
 
-        viewModel.navigator.observe(this) {
+        viewModel.navigator
+            .asLiveData()
+            .observe(this) {
             it?.apply {
                 binding {
                     tvTitle.text = second
@@ -55,7 +60,9 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
             }
         }
 
-        treeArticle.read(this) {
+        treeArticle
+            .asLiveData()
+            .read(this) {
             it?.data?.apply {
                 if (page == 0) {
                     list.clear()
@@ -105,7 +112,7 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
     }
 
     fun popBack() {
-        viewModel.navigator.value = null
+        viewModel.navigator.tryEmit(null)
     }
 
 }

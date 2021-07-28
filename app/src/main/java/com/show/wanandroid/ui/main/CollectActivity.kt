@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.show.kcore.base.BaseActivity
@@ -62,7 +63,9 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
     }
 
     override fun observerUI() {
-        viewModel.collects.read(this, timeOut = {
+        viewModel.collects
+            .asLiveData()
+            .read(this, timeOut = {
             refreshData.value = false
         }, error = { _, it ->
             it?.apply {
