@@ -3,6 +3,7 @@ package com.show.wanandroid.ui.main.fragment
 import android.os.Bundle
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.show.kcore.base.BundleInject
@@ -19,6 +20,7 @@ import com.show.wanandroid.ui.main.WebActivity
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.showmethe.skinlib.SkinManager
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 
 class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
@@ -39,7 +41,7 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
     private var tabId = -1
 
     private var page = 0
-    private val article = MutableLiveData<KResult<JsonData<Article>>>()
+    private val article = MutableSharedFlow<KResult<JsonData<Article>>>()
     private val list = ObservableArrayList<DatasBean>()
 
     val layoutManager by lazy {
@@ -62,7 +64,9 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
     override fun observerUI() {
 
 
-        article.read(viewLifecycleOwner,
+        article
+            .asLiveData()
+            .read(viewLifecycleOwner,
             error = { _,_->
                 refreshData.value = false
             },

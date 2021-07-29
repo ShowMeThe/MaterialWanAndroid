@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.asLiveData
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.show.kcore.base.BaseActivity
 import com.show.kcore.base.Transition
@@ -37,7 +38,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
     override fun observerUI() {
 
-        viewModel.login.read(this, loading = {
+        viewModel.login
+            .asLiveData()
+            .read(this, loading = {
             showLoading()
         }, error = { exception, t ->
             dismissLoading()
@@ -55,7 +58,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             }
         }
 
-        viewModel.register.read(this, loading = {
+        viewModel.register
+            .asLiveData()
+            .read(this, loading = {
             showLoading()
         }, error = { exception, t ->
             dismissLoading()

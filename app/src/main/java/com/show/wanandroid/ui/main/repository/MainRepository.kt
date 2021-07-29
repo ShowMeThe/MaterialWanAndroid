@@ -13,13 +13,14 @@ import com.show.wanandroid.api.Main
 import com.show.wanandroid.bean.*
 import com.show.wanandroid.toast
 import com.squareup.moshi.Json
+import kotlinx.coroutines.flow.MutableSharedFlow
 import java.lang.Exception
 
 class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
 
     private val api: Main by single()
 
-    fun getBanner(data: MutableLiveData<KResult<JsonData<List<Banner>>>>) {
+    fun getBanner(data: MutableSharedFlow<KResult<JsonData<List<Banner>>>>) {
         androidScope {
             callResult {
                 hold(data) { api.banner() }
@@ -27,7 +28,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getHomeArticle(page: Int, liveData: MutableLiveData<KResult<JsonData<Article>>>) {
+    fun getHomeArticle(page: Int, liveData: MutableSharedFlow<KResult<JsonData<Article>>>) {
         androidScope {
             callResult {
                 hold(liveData) { api.getHomeArticle(page) }
@@ -36,7 +37,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getArticleTop(liveData: MutableLiveData<KResult<List<DatasBean>>>) {
+    fun getArticleTop(liveData: MutableSharedFlow<KResult<List<DatasBean>>>) {
         androidScope {
             callResult {
                 merge(liveData, { api.getHomeArticle(0) },
@@ -70,7 +71,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     }
 
 
-    fun getChapters(data: MutableLiveData<KResult<JsonData<List<TabBeanItem>>>>) {
+    fun getChapters(data: MutableSharedFlow<KResult<JsonData<List<TabBeanItem>>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getChapters() }
@@ -79,7 +80,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getChaptersArticle(id: Int, page: Int, data: MutableLiveData<KResult<JsonData<Article>>>) {
+    fun getChaptersArticle(id: Int, page: Int, data: MutableSharedFlow<KResult<JsonData<Article>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getArticle(id, page) }
@@ -88,7 +89,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getTree(data: MutableLiveData<KResult<JsonData<List<Tree>>>>) {
+    fun getTree(data: MutableSharedFlow<KResult<JsonData<List<Tree>>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getTree() }
@@ -96,7 +97,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getTreeArticle(id: Int, page: Int, data: MutableLiveData<KResult<JsonData<Article>>>) {
+    fun getTreeArticle(id: Int, page: Int, data: MutableSharedFlow<KResult<JsonData<Article>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getTreeArticle(page, id) }
@@ -106,7 +107,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     }
 
 
-    fun getCateTab(data: MutableLiveData<KResult<JsonData<List<CateTab>>>>) {
+    fun getCateTab(data: MutableSharedFlow<KResult<JsonData<List<CateTab>>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getCateTab() }
@@ -116,7 +117,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     }
 
 
-    fun getCate(pager: Int, cid: Int, data: MutableLiveData<KResult<JsonData<CateBean>>>) {
+    fun getCate(pager: Int, cid: Int, data: MutableSharedFlow<KResult<JsonData<CateBean>>>) {
         androidScope {
             callResult {
                 hold(data) { api.getCate(pager, cid) }
@@ -158,7 +159,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun search(pager: Int, k: String, data: MutableLiveData<KResult<JsonData<Article>>>) {
+    fun search(pager: Int, k: String, data: MutableSharedFlow<KResult<JsonData<Article>>>) {
         androidScope {
             callResult {
                 hold(data) {
@@ -168,7 +169,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getHotKey(data: MutableLiveData<KResult<JsonData<List<KeyWord>>>>) {
+    fun getHotKey(data: MutableSharedFlow<KResult<JsonData<List<KeyWord>>>>) {
         androidScope {
             callResult {
                 hold(data) {
@@ -178,7 +179,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
         }
     }
 
-    fun getCollects(pager: Int, data: MutableLiveData<KResult<JsonData<Collect>>>) {
+    fun getCollects(pager: Int, data: MutableSharedFlow<KResult<JsonData<Collect>>>) {
         androidScope {
             callResult {
                 hold(data) {

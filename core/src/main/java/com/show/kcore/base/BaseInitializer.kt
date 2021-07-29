@@ -7,6 +7,7 @@ import com.show.kcore.extras.blur.BlurK
 import com.show.kcore.extras.gobal.CrashHandler
 import com.show.kcore.rden.Stores
 import com.show.launch.Initializer
+import com.show.launch.InitializerType
 import kotlinx.coroutines.CancellableContinuation
 import kotlin.coroutines.resume
 
@@ -25,8 +26,22 @@ class BaseInitializer  : Initializer<Boolean> {
         continuation: CancellableContinuation<Boolean>?
     ) {
         AppContext.get().attach(context)
-        BlurK.init(context)
         Stores.initialize(context)
-        CrashHandler.init(context,CrashHandler.Mode.KeepAlive)
     }
+}
+
+@Keep
+class AsyncInitializer  : Initializer<Boolean> {
+
+    override fun onCreate(
+        context: Context,
+        isMainProcess: Boolean,
+        continuation: CancellableContinuation<Boolean>?
+    ) {
+        BlurK.init(context)
+        CrashHandler.init(context,CrashHandler.Mode.KeepAlive)
+        continuation?.resume(true)
+    }
+
+    override fun initializerType(): InitializerType = InitializerType.Async
 }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.ArrayMap
 import android.view.View
 import androidx.databinding.ObservableArrayList
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -49,7 +50,9 @@ class TreeBodyFragment : BaseFragment<FragmentTreeBodyBinding, TreeViewModel>() 
     }
 
     override fun observerUI() {
-        viewModel.trees.read(this) {
+        viewModel.trees
+            .asLiveData()
+            .read(this) {
             it?.data?.apply {
                 mainDispatcher {
                     val result = withContext(Dispatchers.IO){
@@ -100,7 +103,7 @@ class TreeBodyFragment : BaseFragment<FragmentTreeBodyBinding, TreeViewModel>() 
             chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(colors[ThreadLocalRandom.current()
                 .nextInt(0, colors.size)]))
             chip.setOnClickListener {
-                viewModel.navigator.value = bean.id to bean.name
+                viewModel.navigator.tryEmit(bean.id to bean.name)
             }
             chips.add(chip)
         }

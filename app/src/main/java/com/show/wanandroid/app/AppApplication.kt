@@ -1,11 +1,13 @@
 package com.show.wanandroid.app
 
+import android.util.Log
 import com.show.kInject.core.initScope
 import com.show.kcore.base.BaseApplication
 import com.show.kcore.http.Http
 import com.show.kcore.http.jsonToClazz
 import com.show.kcore.rden.Stores
 import com.show.wanandroid.R
+import com.show.wanandroid.SignatureUtils
 import com.show.wanandroid.api.Main
 import com.show.wanandroid.bannerPlugin
 import com.show.wanandroid.plugin.*
@@ -41,7 +43,7 @@ class AppApplication : BaseApplication() {
             .addJson(themes_name[3] to colorEntity, themes_name[4] to colorEntity2)
             .addPlugin(
                 RefreshPlugin(), SmartIPlugin(), LikePlugin(),
-                ExpandIPlugin(), SearchChipGroup(),
+                ExpandIPlugin(), SearchChipGroup(),DrawingPlugin(),
                 bannerPlugin, ShakingImageViewIPlugin(),BallPlugin()
             )
             .build()

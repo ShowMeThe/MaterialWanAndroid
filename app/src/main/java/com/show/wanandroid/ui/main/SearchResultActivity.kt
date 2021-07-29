@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.show.kcore.base.BaseActivity
@@ -47,7 +48,9 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding,SearchView
 
     override fun observerUI() {
 
-        viewModel.search.read(this,timeOut = {
+        viewModel.search
+            .asLiveData()
+            .read(this,timeOut = {
             refreshData.value = false
         },error = {exception, t ->
             refreshData.value = false

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.asLiveData
 import com.google.android.material.chip.Chip
 import com.show.kcore.base.BaseActivity
 import com.show.kcore.extras.gobal.read
@@ -40,7 +41,9 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
     override fun observerUI() {
 
 
-        viewModel.hotKey.read(this){
+        viewModel.hotKey
+            .asLiveData()
+            .read(this){
             it?.data?.apply {
                 addGroup(this)
             }

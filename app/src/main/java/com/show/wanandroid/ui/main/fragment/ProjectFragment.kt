@@ -2,6 +2,7 @@ package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.asLiveData
 import com.google.android.material.tabs.TabLayoutMediator
 import com.show.kcore.base.BaseFragment
 import com.show.kcore.extras.gobal.read
@@ -26,7 +27,9 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding, MainViewModel>() {
 
     override fun observerUI() {
 
-        viewModel.cateTab.read(viewLifecycleOwner){
+        viewModel.cateTab
+            .asLiveData()
+            .read(viewLifecycleOwner){
             it?.data?.apply {
                 titles.clear()
                 fragments.clear()

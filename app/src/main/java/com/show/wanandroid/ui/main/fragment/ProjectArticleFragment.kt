@@ -2,6 +2,7 @@ package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -19,6 +20,7 @@ import com.show.wanandroid.ui.main.WebActivity
 import com.show.wanandroid.ui.main.adapter.ProjectAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.showmethe.skinlib.SkinManager
+import kotlinx.coroutines.flow.MutableSharedFlow
 import java.util.*
 
 
@@ -41,7 +43,7 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
     private var cid = 0
 
     private var page = 1
-    private val articles by lazy { MutableLiveData<KResult<JsonData<CateBean>>>() }
+    private val articles by lazy { MutableSharedFlow<KResult<JsonData<CateBean>>>() }
     private val list = ArrayList<Data>()
     val adapter by lazy { ProjectAdapter(requireContext(),object : DiffUtil.ItemCallback<Data>() {
         override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
@@ -65,7 +67,9 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
     override fun observerUI() {
 
 
-        articles.read(requireActivity(),timeOut = {
+        articles
+            .asLiveData()
+            .read(requireActivity(),timeOut = {
             refreshData.value = false
         },error = { _,_->
             refreshData.value = false

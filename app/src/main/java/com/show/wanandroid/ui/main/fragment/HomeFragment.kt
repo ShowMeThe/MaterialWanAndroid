@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.show.kcore.base.BaseFragment
@@ -42,7 +43,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
 
     override fun observerUI() {
 
-        viewModel.banner.read(viewLifecycleOwner){
+        viewModel.banner
+            .asLiveData()
+            .read(viewLifecycleOwner){
             it?.data?.apply {
                 val urls = this.map { it.imagePath }
                 binding {
@@ -58,7 +61,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
             }
         }
 
-        viewModel.homeTops.read(viewLifecycleOwner,
+        viewModel.homeTops
+            .asLiveData()
+            .read(viewLifecycleOwner,
             error = { e, t ->
                 refreshData.value = false
             },
@@ -74,7 +79,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
             }
         }
 
-        viewModel.homeArticle.read(this){
+        viewModel.homeArticle
+            .asLiveData()
+            .read(this){
             it?.data?.apply {
                 list.addAll(datas)
                 binding.rvList.finishLoading()

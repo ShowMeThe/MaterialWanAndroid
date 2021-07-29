@@ -1,6 +1,7 @@
 package com.show.wanandroid.ui.main
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.util.Pair
@@ -19,6 +20,9 @@ import com.show.kcore.base.BaseActivity
 import com.show.kcore.base.Transition
 import com.show.kcore.base.TransitionMode
 import com.show.kcore.extras.binding.DialogFragmentRef
+import com.show.kcore.extras.display.dp
+import com.show.kcore.extras.display.screenH
+import com.show.kcore.extras.display.screenW
 import com.show.kcore.extras.status.statusBar
 import com.show.kcore.rden.Stores
 import com.show.slideback.annotation.SlideBackPreview
@@ -35,6 +39,10 @@ import com.show.wanandroid.ui.main.fragment.ProjectFragment
 import com.show.wanandroid.ui.main.fragment.TreeFragment
 import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.widget.IconSwitch
+import com.show.wanandroid.widget.overlap.OverLap
+import com.show.wanandroid.widget.overlap.level
+import com.show.wanandroid.widget.overlap.widget.BubbleDirection
+import com.show.wanandroid.widget.overlap.widget.BubbleLayout
 import com.showmethe.skinlib.SkinManager
 
 @SlideBackPreview
@@ -90,9 +98,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
         }
 
+        if(Stores.getBoolean(StoreConst.ShowMask,false).not()){
+            Stores.put(StoreConst.ShowMask,true)
+            showGuideMask()
+        }
+
         replaceFragment(fragments[0])
 
     }
+
 
     override fun initListener() {
 
@@ -163,6 +177,36 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             intent.addCategory(Intent.CATEGORY_HOME)
             startActivity(intent)
         }
+    }
+
+    private fun showGuideMask(){
+        OverLap.builder(this.window)
+            .levels(level {
+                child {
+                    center(25f.dp,55f.dp)
+                    radius(35f.dp)
+                    labelText("左滑菜单", BubbleDirection.LEFT)
+                    labelColor(Color.WHITE)
+                    labelWidthHeight(100f.dp,65f.dp)
+                }
+                child {
+                    center(screenW.toFloat() - 25f.dp,55f.dp)
+                    radius(35f.dp)
+                    labelText("搜索", BubbleDirection.RIGHT)
+                    labelColor(Color.WHITE)
+                    labelWidthHeight(100f.dp,65f.dp)
+                }
+
+            }, level {
+                child {
+                    center(screenW.toFloat() - 50f.dp, screenH.toFloat() - 95f.dp)
+                    radius(45f.dp)
+                    labelText("悬浮按钮", BubbleDirection.RIGHT)
+                    labelColor(Color.WHITE)
+                    labelWidthHeight(100f.dp,65f.dp)
+                }
+            })
+            .build()
     }
 
     fun onSearch(){

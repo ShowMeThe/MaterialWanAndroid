@@ -2,6 +2,7 @@ import com.show.version.getDateTime
 
 plugins{
     id("com.android.application")
+    id("Orca")
     id("kotlin-android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
@@ -40,11 +41,20 @@ android{
 
     }
 
+    Orca.go{
+        storeSet{
+            create("url"){
+                value = "https://www.wanandroid.com/"
+            }
+
+        }
+        signature = "-815485697"
+    }
+
     buildTypes{
 
         findByName("release")?.apply {
             isMinifyEnabled = true
-            isZipAlignEnabled = true
             isShrinkResources = true
             isDebuggable = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),file("proguard-rules.pro"))
@@ -53,7 +63,6 @@ android{
 
         findByName("debug")?.apply {
             isMinifyEnabled = false
-            isZipAlignEnabled = false
             isShrinkResources = false
             isDebuggable = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),file("proguard-rules.pro"))

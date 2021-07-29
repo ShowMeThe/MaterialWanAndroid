@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.show.kcore.extras.log.Logger
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableSharedFlow
 import retrofit2.Response
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -51,7 +52,7 @@ class CallResult constructor(
 
 
     fun <T1, T2, R> merge(
-        data: MutableLiveData<KResult<R>>? = null,
+        data: MutableSharedFlow<KResult<R>>? = null,
         request1: suspend () -> Response<T1>,
         request2: suspend () -> Response<T2>,
         iFunction: IFunction<T1, T2, R>
@@ -111,7 +112,7 @@ class CallResult constructor(
 
 
     fun <T> hold(
-        data: MutableLiveData<KResult<T>>? = null,
+        data: MutableSharedFlow<KResult<T>>? = null,
         request: suspend () -> Response<T>
     ): KResponse<T> {
         val kResponse = KResponse<T>(data)
