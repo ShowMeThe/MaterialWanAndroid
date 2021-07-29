@@ -27,7 +27,7 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
     private var page = 0
     private var articleId = 0
     private val list = ObservableArrayList<DatasBean>()
-    private val treeArticle by lazy { MutableSharedFlow<KResult<JsonData<Article>>>(extraBufferCapacity = 1) }
+    private val treeArticle by lazy { MutableSharedFlow<KResult<JsonData<Article>>>() }
 
     val adapter by lazy { ArticleListAdapter(requireContext(), list) }
     val layoutManager by lazy {

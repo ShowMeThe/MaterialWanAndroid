@@ -3,14 +3,15 @@ package com.show.kcore.http.coroutines
 import android.util.Log
 import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import java.lang.Exception
 
 @Keep
-sealed class KResult<T>{
+sealed class KResult<T> {
 
-    companion object{
+    companion object {
 
         const val Loading = "Loading"
         const val Success = "Success"
@@ -18,18 +19,18 @@ sealed class KResult<T>{
         const val TimeOut = "TimeOut"
     }
 
-    lateinit var status:String
+    lateinit var status: String
     var response: T? = null
     var exception: Exception? = null
 }
 
 @Keep
-class  SuccessResult<T> : KResult<T>(){
+class SuccessResult<T> : KResult<T>() {
 
-    companion object{
+    companion object {
 
-        fun <T> create(response:T?) : SuccessResult<T>{
-            return  SuccessResult<T>().apply {
+        fun <T> create(response: T?): SuccessResult<T> {
+            return SuccessResult<T>().apply {
                 status = Loading
                 this.response = response
             }
@@ -38,10 +39,10 @@ class  SuccessResult<T> : KResult<T>(){
 }
 
 @Keep
-class  FailedResult<T> : KResult<T>(){
-    companion object{
-        fun <T> create(exception : Exception?,t:T?=null) : FailedResult<T>{
-            return  FailedResult<T>().apply {
+class FailedResult<T> : KResult<T>() {
+    companion object {
+        fun <T> create(exception: Exception?, t: T? = null): FailedResult<T> {
+            return FailedResult<T>().apply {
                 status = Failure
                 this.response = t
                 this.exception = exception
@@ -51,10 +52,10 @@ class  FailedResult<T> : KResult<T>(){
 }
 
 @Keep
-class  TimeOutResult<T> : KResult<T>(){
-    companion object{
-        fun <T> create() : TimeOutResult<T>{
-            return  TimeOutResult<T>().apply {
+class TimeOutResult<T> : KResult<T>() {
+    companion object {
+        fun <T> create(): TimeOutResult<T> {
+            return TimeOutResult<T>().apply {
                 status = TimeOut
             }
         }
@@ -62,12 +63,19 @@ class  TimeOutResult<T> : KResult<T>(){
 }
 
 @Keep
-class  LoadingResult<T> : KResult<T>(){
-    companion object{
-        fun <T> create() : LoadingResult<T>{
-            return  LoadingResult<T>().apply {
+class LoadingResult<T> : KResult<T>() {
+    companion object {
+        fun <T> create(): LoadingResult<T> {
+            return LoadingResult<T>().apply {
                 status = Loading
             }
         }
     }
 }
+
+
+fun <T> kResultFlow(
+    replay: Int = 0,
+    extraBufferCapacity: Int = 0,
+    onBufferOverflow: BufferOverflow = BufferOverflow.SUSPEND
+) = MutableSharedFlow<T>(replay, extraBufferCapacity, onBufferOverflow)
