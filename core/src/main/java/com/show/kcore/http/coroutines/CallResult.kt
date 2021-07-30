@@ -1,10 +1,7 @@
 package com.show.kcore.http.coroutines
 
 import android.util.Log
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import com.show.kcore.extras.log.Logger
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -13,20 +10,17 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 
-fun LifecycleOwner.androidScope(scope: LifecycleOwner.() -> Unit) {
-    scope(this)
-}
-
-fun LifecycleOwner?.callResult(scope: CallResult.() -> Unit) {
+fun Coroutines.callResult(scope: CallResult.() -> Unit) {
     CallResult(this, scope)
 }
 
-fun callResult(scope: CallResult.() -> Unit) {
-    CallResult(null, scope)
-}
+data class Coroutines(
+    val viewModelScope: CoroutineScope? = null,
+    val owner : LifecycleOwner? = null
+)
 
 class CallResult constructor(
-    private var owner: LifecycleOwner?,
+    private var coroutines: Coroutines,
     var callResult: (CallResult.() -> Unit)?
 ) {
 
@@ -76,14 +70,16 @@ class CallResult constructor(
                 kResponse.doOnError(e, null)
             }
         }
-        if (owner == null || owner?.lifecycle?.currentState == Lifecycle.State.INITIALIZED) {
-            GlobalScope.launch(Dispatchers.IO) {
-                merge(kResponse,iFunction,kRequest1, onError1, kRequest2, onError2)
+        val owner = coroutines.owner
+        val viewModelScope = coroutines.viewModelScope
+        if (owner == null || owner.lifecycle.currentState == Lifecycle.State.INITIALIZED) {
+            viewModelScope?.launch(Dispatchers.IO) {
+                merge(kResponse, iFunction, kRequest1, onError1, kRequest2, onError2)
             }
         } else {
-            owner?.lifecycleScope?.launchWhenCreated {
+            owner.lifecycleScope.launchWhenCreated {
                 withContext(Dispatchers.IO) {
-                    merge(kResponse,iFunction,kRequest1, onError1, kRequest2, onError2)
+                    merge(kResponse, iFunction, kRequest1, onError1, kRequest2, onError2)
                 }
             }
         }
@@ -117,12 +113,14 @@ class CallResult constructor(
     ): KResponse<T> {
         val kResponse = KResponse<T>(data)
         val kRequest = KRequest(request)
-        if (owner == null || owner?.lifecycle?.currentState == Lifecycle.State.INITIALIZED) {
-            GlobalScope.launch(Dispatchers.IO) {
+        val owner = coroutines.owner
+        val viewModelScope = coroutines.viewModelScope
+        if (owner == null || owner.lifecycle.currentState == Lifecycle.State.INITIALIZED) {
+            viewModelScope?.launch(Dispatchers.IO) {
                 single(kResponse, kRequest)
             }
         } else {
-            owner?.lifecycleScope?.launchWhenCreated {
+            owner.lifecycleScope.launchWhenCreated {
                 withContext(Dispatchers.IO) {
                     single(kResponse, kRequest)
                 }
@@ -133,17 +131,18 @@ class CallResult constructor(
 
     private suspend fun <T> CoroutineScope.single(kResponse: KResponse<T>, kRequest: KRequest<T>) {
         kResponse.doOnLoading()
-        singleResult(kRequest
-            .timeOut(timeOut)
-            .repeatTime(repeatTime)
-            .addAsync(this) {
-                this.printStackTrace()
-                if (this is TimeoutCancellationException) {
-                    kResponse.doOnTimeOut()
-                } else {
-                    kResponse.doOnError(this, null)
-                }
-            }, kResponse
+        singleResult(
+            kRequest
+                .timeOut(timeOut)
+                .repeatTime(repeatTime)
+                .addAsync(this) {
+                    this.printStackTrace()
+                    if (this is TimeoutCancellationException) {
+                        kResponse.doOnTimeOut()
+                    } else {
+                        kResponse.doOnError(this, null)
+                    }
+                }, kResponse
         )
     }
 
