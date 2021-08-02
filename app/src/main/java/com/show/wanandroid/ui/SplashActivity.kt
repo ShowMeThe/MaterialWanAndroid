@@ -30,7 +30,7 @@ class SplashActivity : AppCompatActivity() {
             jump.startDrawing()
 
             mainDispatcher {
-                delay(1000)
+                delay(1200)
                 startActivity(
                     Intent(this@SplashActivity, MainActivity::class.java)
                 )

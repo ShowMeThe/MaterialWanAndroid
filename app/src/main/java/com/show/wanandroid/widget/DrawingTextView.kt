@@ -20,7 +20,7 @@ class DrawingTextView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val mInterpolator by lazy { FastOutLinearInInterpolator() }
-    private val mDuration = 800L
+    private val mDuration = 1000L
     private var mAnimator: ValueAnimator? = null
     private var mPaintingText = ""
     private val mPaint by lazy {
@@ -39,6 +39,7 @@ class DrawingTextView @JvmOverloads constructor(
     private var mProgress = 0.0f
     private val mDestRectPath by lazy { Path() }
     private var mFontRectPath = Path()
+    private var mSumLength = 0f
 
 
     init {
@@ -87,11 +88,14 @@ class DrawingTextView @JvmOverloads constructor(
 
         mTextMeasure.setPath(mFontRectPath, false)
 
-        val length = mTextMeasure.length * mProgress
+        mSumLength = mTextMeasure.length
+        var length = mSumLength * mProgress
         mTextMeasure.getSegment(0f, length, mDestRectPath, true)
         canvas.drawPath(mDestRectPath, mPaint)
 
         while (mTextMeasure.nextContour()) {
+            mSumLength += mTextMeasure.length
+            length = mSumLength * mProgress
             mTextMeasure.getSegment(0f, length, mDestRectPath, true)
             canvas.drawPath(mDestRectPath, mPaint)
         }
