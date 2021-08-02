@@ -32,7 +32,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding, MainViewModel>() {
 
     override fun observerUI() {
 
-        viewModel.tabs.asLiveData().read(this) { jsonData ->
+        viewModel.tabs.asLiveData().read(viewLifecycleOwner) { jsonData ->
             jsonData?.data?.apply {
                 titles.clear()
                 fragments.clear()

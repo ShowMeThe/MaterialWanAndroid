@@ -49,7 +49,7 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
 
         viewModel.navigator
             .asLiveData()
-            .observe(this) {
+            .observe(viewLifecycleOwner) {
             it?.apply {
                 binding {
                     tvTitle.text = second
