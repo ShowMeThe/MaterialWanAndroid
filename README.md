@@ -4,6 +4,7 @@
 这个版本大部分内容都是建立在Databinding下，但是改善了过分使用的情况。逻辑也从Databinding中抽出来，例如利用LiveData和Extra方法去更新UI的操作，</br>
 虽然这个特性是Databinding的特色，但是还是被我移出来了。</br>
 ### 更新日志：
+#### 2021/8/5：CallResult类大量修改，使用SharedFlow，数据状态使用Sealed区分状态，首页Android动画改成路径绘制文字动画,并加入Flutter WanAndroid</br>
 #### 2020/4/8：修改不合理设计</br>
 #### 2020/4/5：皮肤切换添加支持json输入</br>
 规则大致如下
@@ -107,19 +108,19 @@
 
 
 
-  fun getHomeArticle(page: Int, liveData: KResultData<JsonData<Article>>) {
+fun getHomeArticle(page: Int, liveData: MutableSharedFlow<KResult<JsonData<Article>>>) {
         androidScope {
             callResult {
-                hold { api.getHomeArticle(page) }
-                    .bindData(liveData)
+                hold(liveData) { api.getHomeArticle(page) }
+
             }
         }
     }
 
-    fun getArticleTop(liveData: KResultData<List<DatasBean>>) {
+    fun getArticleTop(liveData: MutableSharedFlow<KResult<List<DatasBean>>>) {
         androidScope {
             callResult {
-                merge({ api.getHomeArticle(0) },
+                merge(liveData, { api.getHomeArticle(0) },
                     { api.getHomeTop() },
                     object :
                         IFunction<JsonData<Article>, JsonData<List<DatasBean>>, List<DatasBean>> {
@@ -144,10 +145,11 @@
                             return list
                         }
 
-                    }).bindData(liveData)
+                    })
             }
         }
     }
+
 
 ```  
 post的方法可以把MutableLiveData<KResult<*>> 更新数据，所以使用时候需要谨慎处理response null的问题。</br>
