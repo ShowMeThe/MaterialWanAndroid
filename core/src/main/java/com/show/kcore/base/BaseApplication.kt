@@ -11,9 +11,9 @@ import com.show.launch.isMainProcess
 
 
 @Keep
-open class BaseApplication : MultiDexApplication(),LifecycleObserver,ViewModelStoreOwner {
+open class BaseApplication : MultiDexApplication(),LifecycleObserver {
 
-    private val modelStore by lazy { ViewModelStore() }
+
 
     override fun onCreate() {
         super.onCreate()
@@ -40,8 +40,5 @@ open class BaseApplication : MultiDexApplication(),LifecycleObserver,ViewModelSt
     open fun background() {
 
     }
-
-    override fun getViewModelStore(): ViewModelStore = modelStore
-
 
 }
