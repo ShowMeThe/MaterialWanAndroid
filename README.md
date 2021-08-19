@@ -92,8 +92,10 @@
 其中的boxColor和hitColor是修改TextInputLayout的外边框颜色，cursor是修改光标图片，</br>
 题外话如果是使用 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"</br>
 的话那个高亮的底线是需要和boxColor一起修改，即TextInputLayout的setBoxStrokeColor和TextView的setHighlightColor使用，没错你们看错，是TextView,我采用反射的操作方法进行修改的。
-### @InjectOwner这个注解和VMRouter的使用
-这个InjectOwner是我配合利用反射，初始化数据仓库class *** : BaseRepository
+
+### BaseRepository 注入LifeOwner
+用了这个库：（注解库）[https://github.com/ShowMeThe/Kinject]
+没用反射的，速度还是比较快的
 
 ### CallResult的改进
 增加合并的接口的处理，通过注解viewModel的对象到仓库，androidScope中通过getLifeOwner获取预先注入的LifecycleOwner，每个viewmodel对应着一个LifecycleOwner, Fragment共用Activity的LifecycleOwner
