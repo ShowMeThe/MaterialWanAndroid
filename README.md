@@ -94,7 +94,7 @@
 的话那个高亮的底线是需要和boxColor一起修改，即TextInputLayout的setBoxStrokeColor和TextView的setHighlightColor使用，没错你们看错，是TextView,我采用反射的操作方法进行修改的。
 
 ### BaseRepository 注入LifeOwner
-用了这个库：（注解库）[https://github.com/ShowMeThe/Kinject]
+用了这个库：（变量注入库）[https://github.com/ShowMeThe/Kinject]
 没用反射的，速度还是比较快的
 
 ### CallResult的改进
