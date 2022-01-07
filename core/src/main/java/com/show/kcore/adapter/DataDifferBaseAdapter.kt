@@ -31,9 +31,9 @@ abstract class DataDifferBaseAdapter<D, V : ViewBinding>(val context: Context,
 
     override fun onBindViewHolder(holder: DataBindingViewHolder<V>, position: Int) {
         holder.itemView.setOnSingleClickListener {
-            onItemClick?.invoke(it,getItem(position),holder.layoutPosition)
+            onItemClick?.invoke(it,getItem(holder.layoutPosition),holder.layoutPosition)
         }
-        bindItems(holder.binding,getItem(position), position)
+        bindItems(holder.binding,getItem(holder.layoutPosition), holder.layoutPosition)
     }
 
     abstract fun getItemLayout() : Int

@@ -98,12 +98,12 @@ abstract class BaseRecyclerViewAdapter<D, V : RecyclerView.ViewHolder>(
 
     override fun onBindViewHolder(viewHolder: V, position: Int) {
         viewHolder.itemView.setOnSingleClickListener { v ->
-            onItemClick?.invoke(v, data[position],viewHolder.layoutPosition)
+            onItemClick?.invoke(v, data[viewHolder.layoutPosition],viewHolder.layoutPosition)
         }
 
 
-        val item = data[position]
-        bindItems(viewHolder, item, position)
+        val item = data[viewHolder.layoutPosition]
+        bindItems(viewHolder, item, viewHolder.layoutPosition)
 
 
     }
