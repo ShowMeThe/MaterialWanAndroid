@@ -31,16 +31,28 @@ abstract class DataDifferBaseAdapter<D, V : ViewBinding>(val context: Context,
 
     override fun onBindViewHolder(holder: DataBindingViewHolder<V>, position: Int) {
         holder.itemView.setOnSingleClickListener {
-            onItemClick?.invoke(it,getItem(position),holder.layoutPosition)
+            onItemClick?.invoke(it,getItem(holder.bindingAdapterPosition),holder.layoutPosition)
         }
-        bindItems(holder.binding,getItem(position), position)
+        bindItems(holder.binding,getItem(holder.bindingAdapterPosition), position)
+    }
+
+    override fun onBindViewHolder(
+        holder: DataBindingViewHolder<V>,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            bindItemsByPayloads(holder.binding, position, payloads)
+        }
     }
 
     abstract fun getItemLayout() : Int
 
     abstract fun bindItems(binding: V?, item: D, position: Int)
 
-
+    protected fun bindItemsByPayloads(binding: V?, position: Int, payloads: MutableList<Any>) {}
 
     protected fun inflateItemView(viewGroup: ViewGroup, layoutId: Int): View {
         return LayoutInflater.from(viewGroup.context).inflate(layoutId, viewGroup, false)

@@ -56,7 +56,7 @@ object AndroidX{
 
     const val room = "2.4.0-alpha02"
 
-    const val lifecycle = "2.4.0-alpha01"
+    const val lifecycle = "2.4.0"
 }
 
 

@@ -1,6 +1,7 @@
 package com.show.wanandroid.ui.main.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -46,6 +47,14 @@ class ArticleListAdapter(context: Context, data: ObservableArrayList<DatasBean>)
     private var onLikeClick: ((item: DatasBean, isCollect: Boolean) -> Unit)? = null
     fun setOnLikeClickListener(onLikeClick: ((item: DatasBean, isCollect: Boolean) -> Unit)) {
         this.onLikeClick = onLikeClick
+    }
+
+    override fun bindItemsByPayloads(
+        holder: ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+
     }
 
 

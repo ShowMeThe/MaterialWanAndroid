@@ -26,7 +26,6 @@ class SwipeMenuLayout @JvmOverloads constructor(
     private val mTouchSlop by lazy { config.scaledTouchSlop }
     private val mScaledMinimumFlingVelocity by lazy { config.scaledMinimumFlingVelocity }
     private val mScaledMaximumFlingVelocity by lazy { config.scaledMaximumFlingVelocity }
-    private val mOverFlingDistance by lazy { config.getScaledOverflingDistance() }
 
     private var mVelocityTracker: VelocityTracker? = null
 
@@ -39,8 +38,6 @@ class SwipeMenuLayout @JvmOverloads constructor(
     private var deltaX = 0f
 
     private var isDragging = false
-
-    private var isMenuOpen = false
 
     private var mActivePointerId = INVALID_POINTER
 
@@ -57,60 +54,56 @@ class SwipeMenuLayout @JvmOverloads constructor(
     }
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
-        val action = event.action
-
-        Log.e("MotionEvent","onInterceptTouchEvent ${event.action}")
-
         if (!clickInContent(event)) {
             return false
-        }
-
-        if (action == MotionEvent.ACTION_MOVE) {
-            return true
         }
 
         if (super.onInterceptTouchEvent(event)) {
             return true
         }
 
-        when (event.action and MotionEvent.ACTION_MASK) {
-            MotionEvent.ACTION_MOVE -> {
-                val x = event.getX(mActivePointerId)
-                val deltaX = mLastX - event.x
-                val deltaY = mDownY - event.y
-                val activePointerId: Int = mActivePointerId
-                if (activePointerId != INVALID_POINTER && abs(deltaX) > mTouchSlop && abs(deltaX) > abs(deltaY)) {
-                    mLastX = x
-                    isDragging = true
-                    parent?.requestDisallowInterceptTouchEvent(true)
+        kotlin.runCatching {
+            when (event.action and MotionEvent.ACTION_MASK) {
+                MotionEvent.ACTION_MOVE -> {
+                    val x = event.getX(mActivePointerId)
+                    val deltaX = mLastX - event.x
+                    val deltaY = mDownY - event.y
+                    val activePointerId: Int = mActivePointerId
+                    if (activePointerId != INVALID_POINTER && abs(deltaX) > mTouchSlop && abs(deltaX) > abs(deltaY)) {
+                        mLastX = x
+                        isDragging = true
+                        parent?.requestDisallowInterceptTouchEvent(true)
 
-                    initVelocityTrackerIfNull()
-                    mVelocityTracker?.addMovement(event)
+                        initVelocityTrackerIfNull()
+                        mVelocityTracker?.addMovement(event)
+                    }
+                }
+                MotionEvent.ACTION_DOWN -> {
+                    mLastX = event.x;
+                    mActivePointerId = event.getPointerId(0)
+
+                    mDownX = event.x
+                    mDownY = event.y
+
+                    isDragging = !mScroller.isFinished
+                }
+                MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
+                    isDragging = false
+                    mActivePointerId = INVALID_POINTER
+
+                    if (!mScroller.isFinished) mScroller.abortAnimation()
+                }
+                MotionEvent.ACTION_POINTER_DOWN -> {
+                    val index = event.actionIndex;
+                    mLastX = event.getX(index)
+                    mActivePointerId = event.getPointerId(index)
+                }
+                MotionEvent.ACTION_POINTER_UP -> {
+                    mLastX = event.getX(event.findPointerIndex(mActivePointerId))
                 }
             }
-            MotionEvent.ACTION_DOWN -> {
-                mLastX = event.x;
-                mActivePointerId = event.getPointerId(0)
-
-                mDownX = event.x
-                mDownY = event.y
-
-                isDragging = !mScroller.isFinished
-            }
-            MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
-                isDragging = false
-                mActivePointerId = INVALID_POINTER
-
-                if (!mScroller.isFinished) mScroller.abortAnimation()
-            }
-            MotionEvent.ACTION_POINTER_DOWN -> {
-                val index = event.actionIndex;
-                mLastX = event.getX(index)
-                mActivePointerId = event.getPointerId(index)
-            }
-            MotionEvent.ACTION_POINTER_UP -> {
-                mLastX = event.getX(event.findPointerIndex(mActivePointerId))
-            }
+        }.onFailure {
+            it.printStackTrace()
         }
         return isDragging
     }
@@ -121,111 +114,111 @@ class SwipeMenuLayout @JvmOverloads constructor(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        initVelocityTrackerIfNull()
-        mVelocityTracker?.addMovement(event)
+        kotlin.runCatching {
+            initVelocityTrackerIfNull()
+            mVelocityTracker?.addMovement(event)
+            val action = event.action
+            when (action and MotionEvent.ACTION_MASK) {
+                MotionEvent.ACTION_DOWN -> {
+                    if (childCount == 0) {
+                        return false
+                    }
+                    mLastX = event.x
 
-        Log.e("MotionEvent", "onTouchEvent = ${event.action}")
-        val action = event.action
-        when (action and MotionEvent.ACTION_MASK) {
-            MotionEvent.ACTION_DOWN -> {
-                if (childCount == 0) {
-                    return false
-                }
-                mLastX = event.x
+                    mDownX = event.x
+                    mDownY = event.y
 
-                mDownX = event.x
-                mDownY = event.y
-
-                if (!mScroller.isFinished) {
-                    mScroller.abortAnimation()
-                }
-
-                mActivePointerId = event.getPointerId(0)
-            }
-            MotionEvent.ACTION_MOVE -> {
-                val activePointerIndex = event.findPointerIndex(mActivePointerId)
-                if (activePointerIndex != INVALID_POINTER) {
-                    val x = event.getX(activePointerIndex)
-
-                    deltaX = mLastX - x
-                    val deltaY = mDownY - event.y
-
-                    if (!isDragging && abs(deltaX) > mTouchSlop && abs(deltaX) > abs(deltaY)) {
-                        parent?.requestDisallowInterceptTouchEvent(true)
-                        isDragging = true
-
-                        if (deltaX > 0) {
-                            deltaX -= mTouchSlop
-                        } else {
-                            deltaX += mTouchSlop
-                        }
+                    if (!mScroller.isFinished) {
+                        mScroller.abortAnimation()
                     }
 
-                    if (isDragging) {
-                        mLastX = x
+                    mActivePointerId = event.getPointerId(0)
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val activePointerIndex = event.findPointerIndex(mActivePointerId)
+                    if (activePointerIndex != INVALID_POINTER) {
+                        val x = event.getX(activePointerIndex)
 
-                        if (overScrollBy(
-                                deltaX.toInt(), 0, scrollX, 0, getScrollRange(),
-                                0, mOverScrollDistance, 0, true
-                            )
-                        ) {
-                            mVelocityTracker?.clear()
+                        deltaX = mLastX - x
+                        val deltaY = mDownY - event.y
+
+                        if (!isDragging && abs(deltaX) > mTouchSlop && abs(deltaX) > abs(deltaY)) {
+                            parent?.requestDisallowInterceptTouchEvent(true)
+                            isDragging = true
+
+                            if (deltaX > 0) {
+                                deltaX -= mTouchSlop
+                            } else {
+                                deltaX += mTouchSlop
+                            }
                         }
 
+                        if (isDragging) {
+                            mLastX = x
+
+                            if (overScrollBy(
+                                    deltaX.toInt(), 0, scrollX, 0, getScrollRange(),
+                                    0, mOverScrollDistance, 0, true
+                                )
+                            ) {
+                                mVelocityTracker?.clear()
+                            }
+
+                        }
                     }
                 }
-            }
-            MotionEvent.ACTION_CANCEL ->{
-                isDragging = false
-                mActivePointerId = INVALID_POINTER
+                MotionEvent.ACTION_CANCEL ->{
+                    isDragging = false
+                    mActivePointerId = INVALID_POINTER
 
-                mVelocityTracker?.clear()
-                mVelocityTracker?.recycle()
-                mVelocityTracker = null
+                    mVelocityTracker?.clear()
+                    mVelocityTracker?.recycle()
+                    mVelocityTracker = null
 
+                }
+                MotionEvent.ACTION_UP, -> {
+                    isDragging = false
+                    mActivePointerId = INVALID_POINTER
 
+                    mVelocityTracker?.computeCurrentVelocity(
+                        1000,
+                        mScaledMaximumFlingVelocity.toFloat()
+                    )
+                    val velocityX = mVelocityTracker?.xVelocity ?: mScaledMinimumFlingVelocity.toFloat()
 
-            }
-            MotionEvent.ACTION_UP, -> {
-                isDragging = false
-                mActivePointerId = INVALID_POINTER
+                    val duration = getDuration()
 
-                mVelocityTracker?.computeCurrentVelocity(
-                    1000,
-                    mScaledMaximumFlingVelocity.toFloat()
-                )
-                val velocityX = mVelocityTracker?.xVelocity ?: mScaledMinimumFlingVelocity.toFloat()
-
-                val duration = getDuration()
-
-                val offsetX = mDownX - event.x
-                val offsetY = mDownY - event.y
-                val motionDistant = abs(sqrt(offsetX * offsetX + offsetY * offsetY))
-                if (motionDistant > mTouchSlop) {
-                    if (velocityX > 0) {
-                        // smooth close
-                        smoothCloseMenu(duration)
-                    } else if (velocityX < 0) {
-                        // smooth open
-                        smoothOpenMenu(duration)
-                    } else {
-                        val legalDistant = (leftMenuView?.width?.toFloat() ?: 0f) / 2f
-                        if (scrollX.toFloat() >= (legalDistant)) {
+                    val offsetX = mDownX - event.x
+                    val offsetY = mDownY - event.y
+                    val motionDistant = abs(sqrt(offsetX * offsetX + offsetY * offsetY))
+                    if (motionDistant > mTouchSlop) {
+                        if (velocityX > 0) {
+                            // smooth close
+                            smoothCloseMenu(duration)
+                        } else if (velocityX < 0) {
                             // smooth open
                             smoothOpenMenu(duration)
                         } else {
-                            // smooth close
-                            smoothCloseMenu(duration)
+                            val legalDistant = (leftMenuView?.width?.toFloat() ?: 0f) / 2f
+                            if (scrollX.toFloat() >= (legalDistant)) {
+                                // smooth open
+                                smoothOpenMenu(duration)
+                            } else {
+                                // smooth close
+                                smoothCloseMenu(duration)
+                            }
                         }
+                        ViewCompat.postInvalidateOnAnimation(this)
+                    } else if (clickInContent(event)) {
+                        performClick()
                     }
-                    ViewCompat.postInvalidateOnAnimation(this)
-                } else if (clickInContent(event)) {
-                    performClick()
+                    mVelocityTracker?.clear()
+                    mVelocityTracker?.recycle()
+                    mVelocityTracker = null
                 }
-                mVelocityTracker?.clear()
-                mVelocityTracker?.recycle()
-                mVelocityTracker = null
             }
+        }.onFailure {
+            it.printStackTrace()
         }
         return true
     }
@@ -252,13 +245,20 @@ class SwipeMenuLayout @JvmOverloads constructor(
         scrollTo(0, 0)
     }
 
-    private fun smoothCloseMenu(duration: Int) {
-        onSwipeChange?.invoke(false)
+    fun smoothCloseMenu(duration: Int = getDuration(),notifyChange:Boolean = true) {
+        if(notifyChange){
+            onSwipeChange?.invoke(false)
+        }
         mScroller.startScroll(scrollX, 0, -abs(scrollX), 0, duration)
+        if(notifyChange.not()){
+            ViewCompat.postInvalidateOnAnimation(this)
+        }
     }
 
-    private fun smoothOpenMenu(duration: Int) {
-        onSwipeChange?.invoke(true)
+    fun smoothOpenMenu(duration: Int = getDuration(),notifyChange:Boolean = true) {
+        if(notifyChange){
+            onSwipeChange?.invoke(true)
+        }
         mScroller.startScroll(
             abs(scrollX),
             0,
@@ -266,6 +266,9 @@ class SwipeMenuLayout @JvmOverloads constructor(
             0,
             duration
         )
+        if(notifyChange.not()){
+            ViewCompat.postInvalidateOnAnimation(this)
+        }
     }
 
     override fun computeScroll() {

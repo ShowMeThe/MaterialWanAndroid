@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
@@ -21,32 +22,38 @@ class MultiTypeAdapter<D>(
     private val adapters: ArrayList<ViewTypeAdapter<D, *>>
 ) : RecyclerView.Adapter<DataBindingViewHolder<*>>(), LifecycleObserver {
 
-    init {
-        initLife()
+
+    private val listener: ObservableList.OnListChangedCallback<ObservableArrayList<D>> by lazy {
+        createCallback(
+            this
+        )
     }
 
-    private lateinit var listener: ObservableList.OnListChangedCallback<ObservableArrayList<D>>
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
-        if (context is LifecycleOwner) {
-            context.lifecycle.removeObserver(this)
+    private val lifecycleListener by lazy {
+        LifecycleEventObserver { _, event ->
+            if (context is LifecycleOwner && event == Lifecycle.Event.ON_DESTROY) {
+                data.removeOnListChangedCallback(listener)
+                context.lifecycle.removeObserver(this)
+            }
         }
-        data.removeOnListChangedCallback(listener)
     }
+
 
     private val viewTypeSaver = ArrayMap<Int, Int>()
 
     private fun initLife() {
         if (context is LifecycleOwner) {
-            context.lifecycle.addObserver(this)
+            context.lifecycle.addObserver(lifecycleListener)
         }
-        listener = createCallback(this)
         data.addOnListChangedCallback(listener)
         adapters.forEach {
             it.parentAdapter = this
             it.dataList = data
         }
+    }
+
+    init {
+        initLife()
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {

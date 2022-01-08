@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ObservableList
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
@@ -24,25 +25,29 @@ abstract class BaseRecyclerViewAdapter<D, V : RecyclerView.ViewHolder>(
     var data: ObservableArrayList<D>
 ) : RecyclerView.Adapter<V>(), LifecycleObserver{
 
-    init {
-        initLife()
+
+    private val listener: ObservableList.OnListChangedCallback<ObservableArrayList<D>> by lazy {
+        createCallback(this)
     }
 
-    private lateinit var listener: ObservableList.OnListChangedCallback<ObservableArrayList<D>>
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
-        if (context is LifecycleOwner) {
-            context.lifecycle.removeObserver(this)
+    private val lifecycleListener by lazy {
+        LifecycleEventObserver { _, event ->
+            if (context is LifecycleOwner && event == Lifecycle.Event.ON_DESTROY) {
+                data.removeOnListChangedCallback(listener)
+                context.lifecycle.removeObserver(this)
+            }
         }
-        data.removeOnListChangedCallback(listener)
     }
 
     private fun initLife() {
         if (context is LifecycleOwner) {
-            context.lifecycle.addObserver(this)
+            context.lifecycle.addObserver(lifecycleListener)
         }
-        listener = createCallback(this)
         data.addOnListChangedCallback(listener)
+    }
+
+    init {
+        initLife()
     }
 
     private var onItemClick : ((view: View,data:D, position: Int) -> Unit)? = null
@@ -59,6 +64,8 @@ abstract class BaseRecyclerViewAdapter<D, V : RecyclerView.ViewHolder>(
     abstract fun getItemLayout() : Int
 
     protected abstract fun bindItems(holder: V, item: D, position: Int)
+
+    protected abstract fun  bindItemsByPayloads(holder: V,position: Int,payloads:MutableList<Any>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): V {
         val clazz = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments
@@ -96,16 +103,22 @@ abstract class BaseRecyclerViewAdapter<D, V : RecyclerView.ViewHolder>(
         return if(data.isEmpty()) data[position].hashCode().toLong() else 0
     }
 
-    override fun onBindViewHolder(viewHolder: V, position: Int) {
-        viewHolder.itemView.setOnSingleClickListener { v ->
-            onItemClick?.invoke(v, data[position],viewHolder.layoutPosition)
+    override fun onBindViewHolder(holder: V, position: Int) {
+        val itemData = data[holder.bindingAdapterPosition]
+        holder.itemView.setOnSingleClickListener { v ->
+            onItemClick?.invoke(v, itemData,holder.layoutPosition)
         }
-
-
         val item = data[position]
-        bindItems(viewHolder, item, position)
+        bindItems(holder, item, position)
+    }
 
 
+    override fun onBindViewHolder(holder: V, position: Int, payloads: MutableList<Any>) {
+        if(payloads.isEmpty()){
+            super.onBindViewHolder(holder,position,payloads)
+        }else{
+            bindItemsByPayloads(holder,position,payloads)
+        }
     }
 
 }
