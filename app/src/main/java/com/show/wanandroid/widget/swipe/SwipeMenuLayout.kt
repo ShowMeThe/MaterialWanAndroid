@@ -58,6 +58,8 @@ class SwipeMenuLayout @JvmOverloads constructor(
             return false
         }
 
+        parent?.requestDisallowInterceptTouchEvent(true)
+
         if (super.onInterceptTouchEvent(event)) {
             return true
         }
@@ -72,7 +74,7 @@ class SwipeMenuLayout @JvmOverloads constructor(
                     if (activePointerId != INVALID_POINTER && abs(deltaX) > mTouchSlop && abs(deltaX) > abs(deltaY)) {
                         mLastX = x
                         isDragging = true
-                        parent?.requestDisallowInterceptTouchEvent(true)
+
 
                         initVelocityTrackerIfNull()
                         mVelocityTracker?.addMovement(event)
@@ -142,32 +144,40 @@ class SwipeMenuLayout @JvmOverloads constructor(
                         deltaX = mLastX - x
                         val deltaY = mDownY - event.y
 
-                        if (!isDragging && abs(deltaX) > mTouchSlop && abs(deltaX) > abs(deltaY)) {
+
+                        if (abs(deltaX) > mTouchSlop && abs(deltaX) > abs(deltaY)) {
                             parent?.requestDisallowInterceptTouchEvent(true)
                             isDragging = true
-
-                            if (deltaX > 0) {
-                                deltaX -= mTouchSlop
-                            } else {
-                                deltaX += mTouchSlop
-                            }
                         }
+
+                        if(scrollX + deltaX >= getScrollRange() || scrollX + deltaX < 0){
+                            parent?.requestDisallowInterceptTouchEvent(false)
+                            isDragging = false
+                        }
+
 
                         if (isDragging) {
                             mLastX = x
-
-                            if (overScrollBy(
-                                    deltaX.toInt(), 0, scrollX, 0, getScrollRange(),
+                            if (overScrollBy(deltaX.toInt(),
+                                    0, scrollX, 0, getScrollRange(),
                                     0, mOverScrollDistance, 0, true
                                 )
                             ) {
                                 mVelocityTracker?.clear()
                             }
-
                         }
                     }
                 }
                 MotionEvent.ACTION_CANCEL ->{
+                    parent?.requestDisallowInterceptTouchEvent(false)
+
+                    if(scrollX + deltaX < 0){
+                        /**
+                         * 关闭菜单
+                         */
+                        closeMenu()
+                    }
+
                     isDragging = false
                     mActivePointerId = INVALID_POINTER
 
@@ -177,6 +187,8 @@ class SwipeMenuLayout @JvmOverloads constructor(
 
                 }
                 MotionEvent.ACTION_UP, -> {
+                    parent?.requestDisallowInterceptTouchEvent(false)
+
                     isDragging = false
                     mActivePointerId = INVALID_POINTER
 
