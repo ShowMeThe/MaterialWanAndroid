@@ -38,7 +38,7 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
 
 
     private var page = 0
-    private val list by lazy { ObservableArrayList<Collect.DatasBean>() }
+    private val list by lazy { ArrayList<Collect.DatasBean>() }
     private val menus by lazy {
         val builder = SwipeBuilder.builder()
         builder.addMenu(TextMenu {
@@ -54,7 +54,7 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
     var refreshData = MutableLiveData(true)
     val layoutManager by lazy { LinearLayoutManager(this, RecyclerView.VERTICAL, false) }
 
-    val adapter by lazy { CollectAdapter(this,menus,list) }
+    val adapter by lazy { CollectAdapter(this,menus) }
 
     override fun getViewId(): Int = R.layout.activity_collect
 
@@ -76,9 +76,9 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
             it?.data?.apply {
                 if(page == 0){
                     list.clear()
-                    adapter.clearRestoreState()
                 }
                 list.addAll(datas)
+                adapter.submitList(list)
                 binding {
                     refreshData.value = false
                     rvList.finishLoading()
@@ -130,8 +130,8 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
                 if(menuPosition == 0){
                     val item = list[contentPosition]
                     viewModel.unCollect(item.id,item.originId)
-                    adapter.removeRestoreState(contentPosition)
                     list.removeAt(contentPosition)
+                    adapter.removeAt(contentPosition)
                 }
             }
 

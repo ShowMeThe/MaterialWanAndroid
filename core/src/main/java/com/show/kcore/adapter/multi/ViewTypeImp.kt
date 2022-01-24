@@ -13,7 +13,7 @@ interface ViewTypeImp<D, V : ViewBinding> {
 
     fun isViewTypeLegal(data: D, position: Int): Boolean
 
-    fun onBindViewHolder(holder: DataBindingViewHolder<*>, data: D, position: Int)
+    fun onBindViewHolder(holder: RecyclerView.ViewHolder, data: D, position: Int)
 
     fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder
 }

@@ -31,7 +31,20 @@ abstract class DataDifferBaseAdapter<D, V : ViewBinding>(val context: Context,
 
     override fun onBindViewHolder(holder: DataBindingViewHolder<V>, position: Int) {
         holder.itemView.setOnSingleClickListener {
-            onItemClick?.invoke(it,getItem(holder.layoutPosition),holder.layoutPosition)
+            onItemClick?.invoke(it,getItem(holder.bindingAdapterPosition),holder.layoutPosition)
+        }
+        bindItems(holder.binding,getItem(holder.bindingAdapterPosition), position)
+    }
+
+    override fun onBindViewHolder(
+        holder: DataBindingViewHolder<V>,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            bindItemsByPayloads(holder.binding, position, payloads)
         }
         bindItems(holder.binding,getItem(holder.layoutPosition), holder.layoutPosition)
     }
@@ -40,7 +53,7 @@ abstract class DataDifferBaseAdapter<D, V : ViewBinding>(val context: Context,
 
     abstract fun bindItems(binding: V?, item: D, position: Int)
 
-
+    protected fun bindItemsByPayloads(binding: V?, position: Int, payloads: MutableList<Any>) {}
 
     protected fun inflateItemView(viewGroup: ViewGroup, layoutId: Int): View {
         return LayoutInflater.from(viewGroup.context).inflate(layoutId, viewGroup, false)

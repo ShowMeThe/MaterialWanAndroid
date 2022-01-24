@@ -1,6 +1,7 @@
 package com.show.wanandroid.ui.main.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
@@ -41,6 +42,7 @@ class ProjectAdapter(context: Context, diffCallback: DiffUtil.ItemCallback<Data>
 
     override fun bindItems(binding: ItemProjectBinding?, item: Data, position: Int) {
         binding?.apply {
+            Log.e("22222","$item")
             bean = item
             executePendingBindings()
 

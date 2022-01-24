@@ -1,34 +1,50 @@
 package com.show.wanandroid.ui.main.adapter
 
 import android.content.Context
-import android.util.Log
 import androidx.databinding.ObservableArrayList
+import androidx.recyclerview.widget.RecyclerView
 import com.show.kcore.glide.TGlide.Companion.load
-import com.show.wanandroid.widget.swipe.SwipeMenuLayout
 import com.show.wanandroid.R
 import com.show.wanandroid.bean.Collect
 import com.show.wanandroid.databinding.ItemCollectBinding
 import com.show.wanandroid.widget.swipe.Menu
 import com.show.wanandroid.widget.swipe.SwipeMenuAdapter
+import com.show.wanandroid.widget.swipe.SwipeMenuLayout
 
 class CollectAdapter(
     context: Context,
     menus: List<Menu>,
-    data: ObservableArrayList<Collect.DatasBean>
-) : SwipeMenuAdapter<Collect.DatasBean, ItemCollectBinding>(context, menus, data) {
+) : SwipeMenuAdapter<Collect.DatasBean, ItemCollectBinding>(context, menus) {
     override fun getItemLayout(): Int = R.layout.item_collect
 
     override fun bindItems(
-        binding: ItemCollectBinding?,
+        viewHolder: SwipeMenuViewHolder<ItemCollectBinding>,
         item: Collect.DatasBean,
-        layout: SwipeMenuLayout,
         position: Int
     ) {
-        binding?.apply {
+        viewHolder.binding?.apply {
             bean = item
             executePendingBindings()
 
             ivCover.load(item.envelopePic)
         }
+    }
+
+    override fun bindItemByViewType(
+        viewHolder: RecyclerView.ViewHolder,
+        viewType: Int,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+
+    }
+
+    override fun bindItemsByPayloads(
+        viewHolder: RecyclerView.ViewHolder,
+        item: Collect.DatasBean,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+
     }
 }
