@@ -73,7 +73,7 @@ object Http{
 
 object Kotlin{
 
-    const val coroutines = "1.4.2"
+    const val coroutines = "1.5.0"
 
 }
 
@@ -88,7 +88,7 @@ object Extra{
 
 
 
-    const val kInject = "1.5.0"
+    const val kInject = "1.5.1-alpha01"
     const val clock = "1.0.0"
     const val liveBus = "1.1.0"
     const val permission = "1.0.0"

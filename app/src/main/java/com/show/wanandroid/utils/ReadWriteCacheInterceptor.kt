@@ -1,6 +1,6 @@
 package com.show.wanandroid.utils;
 
-import com.show.kcore.base.AppContext
+import com.show.kInject.core.ext.androidContextNotNull
 import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -8,11 +8,11 @@ import java.io.IOException
 
 class ReadWriteCacheInterceptor : Interceptor {
 
-
-    @Throws(IOException::class)
+    @Throws(IOException::class,IllegalStateException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        if (checkConnection(AppContext.get().context)) {
+        val context = androidContextNotNull()
+        if (checkConnection(context)) {
             val response = chain.proceed(request)
             // read from cache for 30 s  有网络不会使用缓存数据
             val maxAge = 0

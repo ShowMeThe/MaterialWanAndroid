@@ -16,10 +16,6 @@ import com.show.kcore.base.AppContext
 import com.show.kcore.http.coroutines.*
 
 
-inline fun <reified T : ViewModel> Class<T>.getAppViewModel() = ViewModelProvider(
-    AppContext.get().context.applicationContext as ViewModelStoreOwner,
-    ViewModelProvider.AndroidViewModelFactory(AppContext.get().context.applicationContext as Application)).get(this)
-
 fun <T> LiveData<KResult<T>>.read(lifecycleOwner:LifecycleOwner,
                                          loading:(()->Unit)? = null,
                                          timeOut :(()->Unit)? = null,

@@ -2,8 +2,10 @@ package com.show.wanandroid.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +21,7 @@ import com.show.wanandroid.bean.DatasBean
 import com.show.wanandroid.databinding.ActivitySearchResultBinding
 import com.show.wanandroid.toast
 import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
+import com.show.wanandroid.ui.main.vm.MainViewModel
 import com.show.wanandroid.ui.main.vm.SearchViewModel
 
 @SlideBackBinder
@@ -27,6 +30,8 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding,SearchView
 
     @BundleInject("title")
     var title = ""
+
+    private val mainViewModel by viewModels<MainViewModel> { ViewModelProvider.AndroidViewModelFactory(application) }
 
     private var page = 0
     private val list = ObservableArrayList<DatasBean>()
@@ -103,6 +108,18 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding,SearchView
                 getData()
             }
 
+
+            adapter.setOnLikeClickListener { item, isCollect ->
+                if(isCollect){
+                    mainViewModel.homeCollect(item.id)
+                }else{
+                    mainViewModel.homeUnCollect(item.id)
+                }
+            }
+
+            adapter.setOnItemClickListener { view, data, position ->
+                WebActivity.start(this@SearchResultActivity,data.title,data.link)
+            }
 
         }
     }

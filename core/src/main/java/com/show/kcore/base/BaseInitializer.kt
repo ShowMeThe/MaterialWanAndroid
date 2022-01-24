@@ -1,8 +1,10 @@
 package com.show.kcore.base
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.annotation.Keep
+import com.show.kInject.core.initScope
 import com.show.kcore.extras.blur.BlurK
 import com.show.kcore.extras.gobal.CrashHandler
 import com.show.kcore.rden.Stores
@@ -25,6 +27,7 @@ class BaseInitializer  : Initializer<Boolean> {
         isMainProcess: Boolean,
         continuation: CancellableContinuation<Boolean>?
     ) {
+        initScope { androidContext(context.applicationContext as Application) }
         AppContext.get().attach(context)
         Stores.initialize(context)
     }

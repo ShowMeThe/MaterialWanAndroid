@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.show.kInject.lifecyleowner.ext.getLifeOwner
 import com.show.kcore.extras.log.Logger
+import com.show.kcore.http.coroutines.Coroutines
 
 import java.lang.ref.WeakReference
 import java.security.acl.Owner
@@ -44,12 +45,12 @@ open class BaseRepository(var viewModel: ViewModel?) : LifecycleObserver {
     }
 
 
-    fun androidScope(scope:LifecycleOwner?.()->Unit){
+    fun androidScope(scope: Coroutines.()->Unit){
         if(owner == null){
             owner = getLifeOwner(viewModel)
             owner?.lifecycle?.addObserver(this)
         }
-        scope.invoke(owner)
+        scope.invoke(Coroutines(viewModel?.viewModelScope,owner))
     }
 
 

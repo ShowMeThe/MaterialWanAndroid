@@ -4,6 +4,7 @@
 这个版本大部分内容都是建立在Databinding下，但是改善了过分使用的情况。逻辑也从Databinding中抽出来，例如利用LiveData和Extra方法去更新UI的操作，</br>
 虽然这个特性是Databinding的特色，但是还是被我移出来了。</br>
 ### 更新日志：
+#### 2021/8/5：CallResult类大量修改，使用SharedFlow，数据状态使用Sealed区分状态，首页Android动画改成路径绘制文字动画,并加入Flutter WanAndroid</br>
 #### 2020/4/8：修改不合理设计</br>
 #### 2020/4/5：皮肤切换添加支持json输入</br>
 规则大致如下
@@ -91,8 +92,11 @@
 其中的boxColor和hitColor是修改TextInputLayout的外边框颜色，cursor是修改光标图片，</br>
 题外话如果是使用 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"</br>
 的话那个高亮的底线是需要和boxColor一起修改，即TextInputLayout的setBoxStrokeColor和TextView的setHighlightColor使用，没错你们看错，是TextView,我采用反射的操作方法进行修改的。
-### @InjectOwner这个注解和VMRouter的使用
-这个InjectOwner是我配合利用反射，初始化数据仓库class *** : BaseRepository
+
+### BaseRepository 注入LifeOwner
+用了这个库：（变量注入库）[https://github.com/ShowMeThe/Kinject]</br>
+在Activity或者Fragment的地方往ViewModel里注入LifeOwner,然后调用 getLifeOwner(ViewModel) 就能拿到了viewModel对应Activity的LifeOwner了，由于我的基类中Fragment和Activity是共享ViewModel的，所以这个LifeOwner也就是Activity。库没用反射的，速度还是比较快的
+
 
 ### CallResult的改进
 增加合并的接口的处理，通过注解viewModel的对象到仓库，androidScope中通过getLifeOwner获取预先注入的LifecycleOwner，每个viewmodel对应着一个LifecycleOwner, Fragment共用Activity的LifecycleOwner
@@ -107,19 +111,19 @@
 
 
 
-  fun getHomeArticle(page: Int, liveData: KResultData<JsonData<Article>>) {
+fun getHomeArticle(page: Int, liveData: MutableSharedFlow<KResult<JsonData<Article>>>) {
         androidScope {
             callResult {
-                hold { api.getHomeArticle(page) }
-                    .bindData(liveData)
+                hold(liveData) { api.getHomeArticle(page) }
+
             }
         }
     }
 
-    fun getArticleTop(liveData: KResultData<List<DatasBean>>) {
+    fun getArticleTop(liveData: MutableSharedFlow<KResult<List<DatasBean>>>) {
         androidScope {
             callResult {
-                merge({ api.getHomeArticle(0) },
+                merge(liveData, { api.getHomeArticle(0) },
                     { api.getHomeTop() },
                     object :
                         IFunction<JsonData<Article>, JsonData<List<DatasBean>>, List<DatasBean>> {
@@ -144,10 +148,11 @@
                             return list
                         }
 
-                    }).bindData(liveData)
+                    })
             }
         }
     }
+
 
 ```  
 post的方法可以把MutableLiveData<KResult<*>> 更新数据，所以使用时候需要谨慎处理response null的问题。</br>

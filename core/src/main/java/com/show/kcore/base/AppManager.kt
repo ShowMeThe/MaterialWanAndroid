@@ -1,6 +1,8 @@
 package com.show.kcore.base
 
 import android.content.Intent
+import com.show.kInject.core.ext.androidContext
+import com.show.kInject.core.ext.androidContextNotNull
 import java.util.*
 
 /**
@@ -54,7 +56,7 @@ class AppManager private constructor(){
             while (iterator.hasNext()){
                 val name = iterator.next()
                 if(name == cls.name){
-                    val ctx = AppContext.get().context
+                    val ctx = androidContextNotNull()
                     val intent = Intent(cls.name)
                     ctx.sendBroadcast(intent)
                 }
@@ -68,7 +70,7 @@ class AppManager private constructor(){
             while (iterator.hasNext()){
                 val name = iterator.next()
                 if(name != cls.name){
-                    val ctx = AppContext.get().context
+                    val ctx = androidContextNotNull()
                     val intent = Intent(cls.name)
                         ctx.sendBroadcast(intent)
                 }

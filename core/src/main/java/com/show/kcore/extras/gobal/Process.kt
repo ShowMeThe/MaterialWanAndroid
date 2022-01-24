@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Process
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import java.lang.Runnable
@@ -77,7 +78,8 @@ fun LifecycleOwner.mainDispatcher(block: suspend () -> Unit) {
     }
 }
 
-fun ioDispatcher(block: suspend () -> Unit) {
+@DelicateCoroutinesApi
+fun ViewModel.ioDispatcher(block: suspend () -> Unit) {
     GlobalScope.launch(Dispatchers.IO) {
         block.invoke()
     }
@@ -91,6 +93,7 @@ fun LifecycleOwner.ioDispatcher(block: suspend () -> Unit) {
     }
 }
 
+@DelicateCoroutinesApi
 fun dispatcher(dispatcher: CoroutineDispatcher, block: suspend () -> Unit) {
     GlobalScope.launch(dispatcher) {
         block.invoke()

@@ -105,12 +105,13 @@ abstract class BaseRecyclerViewAdapter<D, V : RecyclerView.ViewHolder>(
 
     override fun onBindViewHolder(holder: V, position: Int) {
         val itemData = data[holder.bindingAdapterPosition]
-        holder.itemView.setOnSingleClickListener { v ->
-            onItemClick?.invoke(v, itemData,holder.layoutPosition)
+          viewHolder.itemView.setOnSingleClickListener { v ->
+            onItemClick?.invoke(v, data[viewHolder.layoutPosition],viewHolder.layoutPosition)
         }
         val item = data[position]
-        bindItems(holder, item, position)
+        bindItems(holder, item, viewHolder.layoutPosition)
     }
+
 
 
     override fun onBindViewHolder(holder: V, position: Int, payloads: MutableList<Any>) {

@@ -46,6 +46,7 @@ abstract class DataDifferBaseAdapter<D, V : ViewBinding>(val context: Context,
         } else {
             bindItemsByPayloads(holder.binding, position, payloads)
         }
+        bindItems(holder.binding,getItem(holder.layoutPosition), holder.layoutPosition)
     }
 
     abstract fun getItemLayout() : Int
