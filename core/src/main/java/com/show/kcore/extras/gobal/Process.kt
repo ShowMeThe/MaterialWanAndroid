@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.os.Handler
 import android.os.Looper
 import android.os.Process
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
@@ -15,68 +17,53 @@ import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 
-class AsyncExecutor : ExecutorImp() {
-
-    companion object {
-
-        private val instant by lazy { AsyncExecutor() }
-
-        private val diskIO =
-            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2 + 1)
-
-        private val mainHandler = Handler(Looper.getMainLooper())
-
-        fun executeOnDiskIO(runnable: Runnable): Future<*> {
-            return instant.executeOnDiskIO(runnable)
-        }
-
-        fun executeOnMainThread(runnable: Runnable) {
-            return instant.executeOnMainThread(runnable)
-        }
-
+private fun LifecycleOwner.startCoroutineScope(
+    dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
+    context: CoroutineContext = EmptyCoroutineContext,
+    onThrowable: ((context: CoroutineContext, throwable: Throwable?) -> Unit)? = null,
+    block: suspend CoroutineScope.() -> Unit
+): Job {
+    val supervisorJob = SupervisorJob(context[Job])
+    val scope =
+        CoroutineScope(dispatcher + context + supervisorJob + CoroutineExceptionHandler { coroutineContext, throwable ->
+            onThrowable?.invoke(coroutineContext, throwable)
+        })
+    val job = scope.launch {
+        block.invoke(this)
     }
-
-    override fun executeOnDiskIO(runnable: Runnable): Future<*> = diskIO.submit(runnable)
-
-    override fun postToMainThread(runnable: Runnable) {
-        mainHandler.post(runnable)
-    }
-
+    LifecycleController(lifecycle, job)
+    return job
 }
 
+class LifecycleController(
+    private val lifecycle: Lifecycle,
+    parentJob: Job
+) {
 
-abstract class ExecutorImp {
+    private val observer = LifecycleEventObserver { source, _ ->
+        if (source.lifecycle.currentState <= Lifecycle.State.DESTROYED) {
+            finish()
+            parentJob.cancel()
+        }
+    }
 
-    internal abstract fun executeOnDiskIO(runnable: Runnable): Future<*>
-
-    internal abstract fun postToMainThread(runnable: Runnable)
-
-
-    internal open fun executeOnMainThread(runnable: Runnable) {
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            runnable.run()
+    init {
+        if (lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
+            lifecycle.addObserver(observer)
         } else {
-            postToMainThread(runnable)
+            parentJob.cancel()
         }
     }
 
-}
-
-fun mainDispatcher(block: () -> Unit) {
-    GlobalScope.launch(Dispatchers.Main) {
-        block.invoke()
+    private fun finish() {
+        lifecycle.removeObserver(observer)
     }
 }
 
-fun LifecycleOwner.mainDispatcher(block: suspend () -> Unit) {
-    lifecycleScope.launchWhenCreated {
-        withContext(Dispatchers.Main) {
-            block.invoke()
-        }
-    }
-}
 
 @DelicateCoroutinesApi
 fun ViewModel.ioDispatcher(block: suspend () -> Unit) {
@@ -85,13 +72,18 @@ fun ViewModel.ioDispatcher(block: suspend () -> Unit) {
     }
 }
 
-fun LifecycleOwner.ioDispatcher(block: suspend () -> Unit) {
-    lifecycleScope.launchWhenCreated {
-        withContext(Dispatchers.IO) {
-            block.invoke()
-        }
+@DelicateCoroutinesApi
+fun mainDispatcher(block: suspend CoroutineScope. () -> Unit) {
+    GlobalScope.launch(Dispatchers.Main.immediate) {
+        block.invoke(this)
     }
 }
+
+fun LifecycleOwner.mainDispatcher(
+    onThrowable: ((context: CoroutineContext, throwable: Throwable?) -> Unit)? = null,
+    block: suspend CoroutineScope.() -> Unit
+) =
+    startCoroutineScope(onThrowable = onThrowable, block = block)
 
 @DelicateCoroutinesApi
 fun dispatcher(dispatcher: CoroutineDispatcher, block: suspend () -> Unit) {
@@ -108,6 +100,18 @@ fun LifecycleOwner.dispatcher(dispatcher: CoroutineDispatcher, block: suspend ()
     }
 }
 
+@DelicateCoroutinesApi
+fun ioDispatcher(block: suspend CoroutineScope.() -> Unit) {
+    GlobalScope.launch(Dispatchers.IO) {
+        block.invoke(this)
+    }
+}
+
+fun LifecycleOwner.ioDispatcher(
+    onThrowable: ((context: CoroutineContext, throwable: Throwable?) -> Unit)? = null,
+    block: suspend CoroutineScope.() -> Unit
+) =
+    startCoroutineScope(Dispatchers.IO, onThrowable = onThrowable, block = block)
 
 /**
  * 判断是否主进程
@@ -130,7 +134,11 @@ fun Context.isMainProcess(main: () -> Unit): Boolean {
  * @param p_name 进程名
  * @return true属于该进程名
  */
-private fun isPidOfProcessName(context: Context, pid: Int, p_name: String?): Boolean {
+private fun isPidOfProcessName(
+    context: Context,
+    pid: Int,
+    p_name: String?
+): Boolean {
     if (p_name == null) return false
     var isMain = false
     val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
@@ -152,7 +160,10 @@ private fun isPidOfProcessName(context: Context, pid: Int, p_name: String?): Boo
  */
 @Throws(PackageManager.NameNotFoundException::class)
 private fun getMainProcessName(context: Context): String? {
-    return context.packageManager.getApplicationInfo(context.packageName, 0).processName
+    return context.packageManager.getApplicationInfo(
+        context.packageName,
+        0
+    ).processName
 }
 
 /**

@@ -110,48 +110,29 @@ abstract class SimpleDialogFragment : DialogFragment() {
 
             val dm = resources.displayMetrics
 
+
             val container = FrameLayout(requireContext())
-            var view = LayoutInflater.from(requireActivity()).inflate(viewId, container, true)
+            val view = LayoutInflater.from(requireActivity()).inflate(viewId, container, true)
             val child = (view as ViewGroup).getChildAt(0)
-            view = LayoutInflater.from(requireActivity()).inflate(viewId, null, false)
 
 
+            val maxWidth = dm.widthPixels
+            val maxHeight = dm.heightPixels
 
-            val childLayoutParams = child.layoutParams as ViewGroup.MarginLayoutParams
+            onView?.invoke(child)
 
-            val layoutParamsWidth = childLayoutParams.width
-            val layoutParamsHeight = childLayoutParams.height
+            view.measure(View.MeasureSpec.makeMeasureSpec(maxWidth,View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(maxHeight,View.MeasureSpec.EXACTLY))
+
+            val width: Int =  child.measuredWidth
+            val height: Int = child.measuredHeight
 
 
-            val width: Int = when (layoutParamsWidth) {
-                ViewGroup.LayoutParams.MATCH_PARENT -> {
-                    dm.widthPixels - childLayoutParams.leftMargin - childLayoutParams.rightMargin
-                }
-                ViewGroup.LayoutParams.WRAP_CONTENT -> {
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                }
-                else -> {
-                    layoutParamsWidth
-                }
-            }
-
-            val height: Int = when (layoutParamsHeight) {
-                ViewGroup.LayoutParams.MATCH_PARENT -> {
-                    dm.heightPixels - childLayoutParams.topMargin - childLayoutParams.bottomMargin
-                }
-                ViewGroup.LayoutParams.WRAP_CONTENT -> {
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                }
-                else -> {
-                    layoutParamsHeight
-                }
-            }
-
-            onView?.invoke(view)
-
-            mDialog.setContentView(view)
+            view.removeView(child)
+            mDialog.setContentView(child)
             mDialog.setCanceledOnTouchOutside(outSideCanceled)
             mDialog.setCancelable(canceled)
+
 
             val window = mDialog.window
             window?.apply {
@@ -162,6 +143,7 @@ abstract class SimpleDialogFragment : DialogFragment() {
 
                 setBackgroundDrawable(ColorDrawable(0x00000000))
                 setGravity(gravity)
+
                 if (animRes != -1) {
                     setWindowAnimations(animRes)
                 }
@@ -180,12 +162,9 @@ abstract class SimpleDialogFragment : DialogFragment() {
 
 
     override fun dismiss() {
-        dialog?.apply {
-            if (isShowing) {
-                super.dismiss()
-            }
-        }
+        super.dismissAllowingStateLoss()
     }
+
 
 
     override fun show(manager: FragmentManager, tag: String?) {
