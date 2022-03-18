@@ -7,7 +7,7 @@
 #### 2021/8/5：CallResult类大量修改，使用SharedFlow，数据状态使用Sealed区分状态，首页Android动画改成路径绘制文字动画,并加入Flutter WanAndroid</br>
 #### 2020/4/8：修改不合理设计</br>
 #### 2020/4/5：皮肤切换添加支持json输入</br>
-#### 2022/3/18：修改Flutter端逻辑，RiverPod全面升级,预热Flutter启动</br>
+#### 2022/3/18：修改Flutter端逻辑，RiverPod全面升级，预热Flutter启动</br>
 规则大致如下
 ```
 {
