@@ -6,11 +6,13 @@ import android.view.animation.LinearInterpolator
 import androidx.lifecycle.asLiveData
 import com.google.android.material.transition.MaterialSharedAxis
 import com.show.kcore.base.BaseFragment
+import com.show.kcore.extras.gobal.mainDispatcher
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.FragmentTreeBinding
 import com.show.wanandroid.getShareViewModel
 import com.show.wanandroid.replaceFragment
 import com.show.wanandroid.ui.main.vm.TreeViewModel
+import kotlinx.coroutines.flow.collect
 
 class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
 
@@ -24,21 +26,24 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
 
     override fun observerUI() {
 
-        viewModel.navigator
-            .asLiveData()
-            .observe(viewLifecycleOwner){
-            if(it == null){
-                childFragmentManager.popBackStack()
-                getShareViewModel().popBack.value = 1
-            }else{
-                replaceFragment(TreeArticleFragment(),
-                    transition = createTransition())
-                getShareViewModel().popBack.value = 2
+        mainDispatcher {
+            viewModel.navigator.collect {
+                if (it == null) {
+                    childFragmentManager.popBackStack()
+                    getShareViewModel().popBack.value = 1
+                } else {
+                    replaceFragment(
+                        TreeArticleFragment(),
+                        transition = createTransition()
+                    )
+                    getShareViewModel().popBack.value = 2
+                }
             }
         }
 
-        getShareViewModel().popBack.observe(this){
-            if(it == null && childFragmentManager.fragments.size == 2){
+
+        getShareViewModel().popBack.observe(this) {
+            if (it == null && childFragmentManager.fragments.size == 2) {
                 childFragmentManager.popBackStack()
             }
         }
@@ -47,7 +52,7 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
     override fun init(savedInstanceState: Bundle?) {
 
 
-        replaceFragment(fragments[0],transition = createTransition())
+        replaceFragment(fragments[0], transition = createTransition())
 
     }
 

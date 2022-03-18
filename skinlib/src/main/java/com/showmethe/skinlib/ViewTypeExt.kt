@@ -1,10 +1,7 @@
 package com.showmethe.skinlib
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.NavigationRes
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 /**
  * com.example.ken.kmvvm.skin

@@ -102,18 +102,6 @@ abstract class BaseFragment<V : ViewBinding, VM : AndroidViewModel> : Fragment()
 
     }
 
-    inline fun <reified T> startActivity(bundle: Bundle? = null,transition: Boolean = false) {
-        val intent = Intent(context, T::class.java)
-        if (bundle != null) {
-            intent.putExtras(bundle)
-        }
-        startActivity(intent,if(transition){
-            ActivityOptions.makeSceneTransitionAnimation(requireActivity()).toBundle()
-        }else{
-            null
-        })
-    }
-
 
     override fun onResume() {//和activity的onResume绑定，Fragment初始化的时候必调用，但切换fragment的hide和visible的时候可能不会调用！
         super.onResume()

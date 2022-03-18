@@ -83,17 +83,7 @@ abstract class LazyFragment<V : ViewBinding, VM : AndroidViewModel> : Fragment()
     }
 
 
-    inline fun <reified T> startActivity(bundle: Bundle? = null,transition: Boolean = false) {
-        val intent = Intent(context, T::class.java)
-        if (bundle != null) {
-            intent.putExtras(bundle)
-        }
-        startActivity(intent,if(transition){
-            ActivityOptions.makeSceneTransitionAnimation(requireActivity()).toBundle()
-        }else{
-            null
-        })
-    }
+
 
     /**
      * fragment可见的时候操作，取代onResume，且在可见状态切换到可见的时候调用

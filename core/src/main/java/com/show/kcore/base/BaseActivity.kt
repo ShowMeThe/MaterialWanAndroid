@@ -137,22 +137,7 @@ abstract class BaseActivity<V : ViewBinding, VM : AndroidViewModel> : AppCompatA
     }
 
 
-    /**
-     * startActivity，加入切换动画
-     */
-    inline fun <reified T> startActivity(bundle: Bundle? = null, transition: Boolean = false) {
-        val intent = Intent(this, T::class.java)
-        if (bundle != null) {
-            intent.putExtras(bundle)
-        }
-        startActivity(
-            intent, if (transition) {
-                ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
-            } else {
-                null
-            }
-        )
-    }
+
 
 
     inline fun <reified T> startActivityWithPair(

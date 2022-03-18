@@ -13,6 +13,7 @@ import com.show.kcore.dialog.WindowParam
 import com.show.wanandroid.R
 import com.show.wanandroid.databinding.DialogThemeBinding
 import com.show.wanandroid.dialog.adapter.ThemeAdapter
+import com.show.wanandroid.flutter.FlutterRouter
 import com.show.wanandroid.themes_res
 
 
@@ -36,6 +37,7 @@ class ThemeDialog : SimpleDialogFragment() {
                 rv.addItemDecoration(GridSpaceItemDecoration(3, 15))
 
                 adapter.setOnItemClickListener { view, data, position ->
+                    FlutterRouter.updateColor(position)
                     onThemeClick?.invoke(position)
                     dialog?.dismiss()
                 }

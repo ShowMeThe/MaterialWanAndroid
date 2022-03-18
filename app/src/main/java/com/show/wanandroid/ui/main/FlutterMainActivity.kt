@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.show.wanandroid.utils.plugin.PagePlugin
 import com.show.wanandroid.utils.plugin.ToastPlugin
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.FlutterEngine
 
 
 class FlutterMainActivity : FlutterActivity() {
@@ -18,6 +19,10 @@ class FlutterMainActivity : FlutterActivity() {
 
         }
 
+
+
     }
 
 }
+
+

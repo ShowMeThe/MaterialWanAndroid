@@ -51,7 +51,6 @@ class TreeBodyFragment : BaseFragment<FragmentTreeBodyBinding, TreeViewModel>() 
 
     override fun observerUI() {
         viewModel.trees
-            .asLiveData()
             .read(viewLifecycleOwner) {
             it?.data?.apply {
                 mainDispatcher {

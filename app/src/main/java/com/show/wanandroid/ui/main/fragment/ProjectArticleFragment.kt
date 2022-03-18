@@ -68,7 +68,6 @@ class ProjectArticleFragment : LazyFragment<FragmentProjectArticleBinding, MainV
 
 
         articles
-            .asLiveData()
             .read(viewLifecycleOwner,timeOut = {
             refreshData.value = false
         },error = { _,_->

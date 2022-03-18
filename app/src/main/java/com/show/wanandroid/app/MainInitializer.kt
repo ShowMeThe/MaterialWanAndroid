@@ -8,10 +8,13 @@ import com.show.kcore.http.http
 import com.show.kcore.http.interceptor.ReadCookieInterceptor
 import com.show.kcore.http.interceptor.RequestLogInterceptor
 import com.show.launch.Initializer
+import com.show.launch.InitializerType
 import com.show.slideback.SlideRegister
+import com.show.wanandroid.flutter.FlutterRouter
 import com.show.wanandroid.utils.ReadWriteCacheInterceptor
 import com.show.wanandroid.utils.RequestNewHeaderInterceptor
 import kotlinx.coroutines.CancellableContinuation
+import kotlin.coroutines.resume
 
 
 @Keep
@@ -22,6 +25,8 @@ class MainInitializer : Initializer<Boolean> {
         isMainProcess: Boolean,
         continuation: CancellableContinuation<Boolean>?
     ) {
+        FlutterRouter.preload(context)
+
         SlideRegister.config {
             shadowWidth = 30f.dp.toInt()
             maxSideLength = 25f.dp

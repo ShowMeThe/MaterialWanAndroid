@@ -1,13 +1,13 @@
 package com.show.wanandroid.ui.main.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.show.kcore.base.BaseFragment
+import com.show.kcore.base.startActivity
 import com.show.kcore.extras.gobal.read
 import com.show.kcore.glide.TGlide.Companion.load
 import com.show.kcore.rden.Stores
@@ -44,7 +44,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
     override fun observerUI() {
 
         viewModel.banner
-            .asLiveData()
             .read(viewLifecycleOwner){
             it?.data?.apply {
                 val urls = this.map { it.imagePath }

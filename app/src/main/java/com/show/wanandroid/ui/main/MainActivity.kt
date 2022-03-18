@@ -3,22 +3,13 @@ package com.show.wanandroid.ui.main
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.util.Pair
 import android.view.View
-import android.view.ViewGroup
-import android.view.animation.LinearInterpolator
-import androidx.core.content.ContextCompat
+import androidx.annotation.FloatRange
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.transition.addListener
-import com.google.android.material.datepicker.DateValidatorPointForward
-import com.google.android.material.transition.MaterialSharedAxis
 import com.show.kcore.base.BaseActivity
-import com.show.kcore.base.Transition
-import com.show.kcore.base.TransitionMode
+import com.show.kcore.base.startActivity
 import com.show.kcore.extras.binding.DialogFragmentRef
 import com.show.kcore.extras.display.dp
 import com.show.kcore.extras.display.screenH
@@ -31,8 +22,8 @@ import com.show.wanandroid.bean.UserBean
 import com.show.wanandroid.const.StoreConst
 import com.show.wanandroid.databinding.ActivityMainBinding
 import com.show.wanandroid.dialog.ExitDialog
-import com.show.wanandroid.dialog.LoadingDialog
 import com.show.wanandroid.dialog.ThemeDialog
+import com.show.wanandroid.flutter.FlutterRouter
 import com.show.wanandroid.ui.main.fragment.AccountFragment
 import com.show.wanandroid.ui.main.fragment.HomeFragment
 import com.show.wanandroid.ui.main.fragment.ProjectFragment
@@ -42,9 +33,7 @@ import com.show.wanandroid.widget.IconSwitch
 import com.show.wanandroid.widget.overlap.OverLap
 import com.show.wanandroid.widget.overlap.level
 import com.show.wanandroid.widget.overlap.widget.BubbleDirection
-import com.show.wanandroid.widget.overlap.widget.BubbleLayout
 import com.showmethe.skinlib.SkinManager
-import okhttp3.internal.threadFactory
 
 @SlideBackPreview
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
@@ -240,12 +229,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         if(Stores.getBoolean(StoreConst.IsLogin,false).not()){
             startActivity<LoginActivity>(transition = true)
         }else{
-            startActivity<CollectActivity>(transition = true)
+           startActivity<CollectActivity>(transition = true)
         }
     }
 
     fun onFlutter() {
-        startActivity<FlutterMainActivity>(transition = false)
+//        startActivity<FlutterMainActivity>(transition = false)
+        FlutterRouter.goto(this)
     }
 
 }

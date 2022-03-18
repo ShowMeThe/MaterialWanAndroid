@@ -73,7 +73,7 @@ object Http{
 
 object Kotlin{
 
-    const val coroutines = "1.5.0"
+    const val coroutines = "1.5.2"
 
 }
 

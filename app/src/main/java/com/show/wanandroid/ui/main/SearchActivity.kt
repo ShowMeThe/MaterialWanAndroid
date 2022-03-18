@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -12,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.asLiveData
 import com.google.android.material.chip.Chip
 import com.show.kcore.base.BaseActivity
+import com.show.kcore.base.startActivity
 import com.show.kcore.extras.gobal.read
 import com.show.kcore.extras.keyborad.hideSoftKeyboard
 import com.show.kcore.extras.status.statusBar
@@ -22,10 +22,6 @@ import com.show.wanandroid.bean.KeyWord
 import com.show.wanandroid.colors
 import com.show.wanandroid.databinding.ActivitySearchBinding
 import com.show.wanandroid.ui.main.vm.SearchViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.lang.Exception
 import java.util.concurrent.ThreadLocalRandom
 
 @SlideBackPreview
@@ -43,11 +39,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
 
         viewModel.hotKey
             .asLiveData()
-            .read(this){
-            it?.data?.apply {
-                addGroup(this)
+            .read(this) {
+                it?.data?.apply {
+                    addGroup(this)
+                }
             }
-        }
 
     }
 
@@ -72,7 +68,8 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
 
             edSearch.setOnKeyListener { v, keyCode, event ->
                 if ((keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_SEARCH)
-                    && event.action == KeyEvent.ACTION_DOWN) {
+                    && event.action == KeyEvent.ACTION_DOWN
+                ) {
                     onSearch()
                     hideSoftKeyboard()
                     return@setOnKeyListener true
@@ -85,16 +82,20 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
     }
 
 
-    private fun addGroup(array:List<KeyWord>){
+    private fun addGroup(array: List<KeyWord>) {
         binding {
             group.removeAllViews()
             array.forEach { text ->
-                val chip = View.inflate(this@SearchActivity,R.layout.chip_tree_layout,null) as Chip
-                chip.text =  text.name
+                val chip =
+                    View.inflate(this@SearchActivity, R.layout.chip_tree_layout, null) as Chip
+                chip.text = text.name
                 chip.setTextColor(Color.WHITE)
-                chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(
-                    colors[ThreadLocalRandom.current()
-                        .nextInt(0, colors.size)]))
+                chip.chipBackgroundColor = ColorStateList.valueOf(
+                    Color.parseColor(
+                        colors[ThreadLocalRandom.current()
+                            .nextInt(0, colors.size)]
+                    )
+                )
                 group.addView(chip)
                 chip.setOnClickListener {
                     binding.edSearch.setText(text.name)
@@ -106,13 +107,12 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
 
     fun onSearch() {
         val search = binding.edSearch.text?.toString()
-        if(!search.isNullOrBlank()){
+        if (!search.isNullOrBlank()) {
             startActivity<SearchResultActivity>(Bundle().apply {
-                putString("title",search)
-            },true)
+                putString("title", search)
+            }, true)
         }
     }
-
 
 
     private fun setEditTextCursor() {

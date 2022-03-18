@@ -65,7 +65,6 @@ class ArticleFragment : LazyFragment<FragmentArticleBinding, MainViewModel>() {
 
 
         article
-            .asLiveData()
             .read(viewLifecycleOwner,
             error = { _,_->
                 refreshData.value = false
