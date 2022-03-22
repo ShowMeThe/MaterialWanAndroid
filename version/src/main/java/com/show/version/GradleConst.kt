@@ -34,11 +34,11 @@ fun DependencyHandler.kapt(dependency: Any){
 
 object AndroidX{
 
-    const val appcompat = "1.3.0-rc01"
+    const val appcompat = "1.6.0-alpha01"
     const val animation = "1.0.0-alpha02"
-    const val activity = "1.3.0-alpha07"
-    const val core = "1.6.0-alpha03"
-    const val fragment = "1.3.3"
+    const val activity = "1.5.0-alpha03"
+    const val core = "1.9.0-alpha01"
+    const val fragment = "1.5.0-alpha03"
     const val transition_ktx = "1.4.0"
     const val fragment_ktx = "1.3.0-rc01"
     const val legacy_support_v4 = "1.0.0"
@@ -46,7 +46,7 @@ object AndroidX{
     const val multidex = "2.0.1"
 
 
-    const val constraintlayout = "2.1.0-beta02"
+    const val constraintlayout = "2.1.3"
     const val recyclerview = "1.2.0-beta02"
     const val material = "1.5.0-alpha01"
     const val gridlayout = "1.0.0"
@@ -56,7 +56,7 @@ object AndroidX{
 
     const val room = "2.4.0-alpha02"
 
-    const val lifecycle = "2.4.0"
+    const val lifecycle = "2.5.0-alpha04"
 }
 
 
