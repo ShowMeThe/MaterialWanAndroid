@@ -14,6 +14,13 @@ data class WindowParams(val gravity:Int = Gravity.CENTER,
                         val outSideCanceled:Boolean = true,val animRes :Int = -1,
                         val canceled:Boolean = true, val dimAmount :Float = -1f)
 
+@Target(AnnotationTarget.CLASS)
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+annotation class  BottomWindowParam(val gravity:Int = Gravity.CENTER,
+                                    val styleName :String = "BaseBottomSheetStyle",
+                                    val outSideCanceled:Boolean = true,val animRes :Int = -1,
+                                    val canceled:Boolean = true, val dimAmount :Float = -1f)
+
 data class BottomWindowParams(val gravity:Int = Gravity.CENTER,
                         val styleName :String = "BaseBottomSheetStyle",
                         val outSideCanceled:Boolean = true,val animRes :Int = -1,

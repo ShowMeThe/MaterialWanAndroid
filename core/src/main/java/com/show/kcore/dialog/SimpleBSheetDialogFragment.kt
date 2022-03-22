@@ -87,7 +87,7 @@ abstract class SimpleBSheetDialogFragment  : BottomSheetDialogFragment()  {
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val param = javaClass.getAnnotation(WindowParam::class.java)?.let {
+        val param = javaClass.getAnnotation(BottomWindowParam::class.java)?.let {
             BottomWindowParams(
                 it.gravity,
                 it.styleName,
