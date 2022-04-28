@@ -14,9 +14,15 @@ class KRequest<T>(private val request: suspend () -> Response<T>) {
         private val TAG = "Request"
     }
 
+    private var intercept: IInterceptHandler? = null
     private var timeOut = 15000L
     private var repeatTime = 1
     private var tryCount = 0
+
+    fun setIntercept(intercept: IInterceptHandler?): KRequest<T> {
+        this.intercept = intercept
+        return this
+    }
 
     fun timeOut(time: Long): KRequest<T> {
         timeOut = time
@@ -49,11 +55,18 @@ class KRequest<T>(private val request: suspend () -> Response<T>) {
     ): Response<T>? {
         return kotlin.runCatching {
             val out = scope.async {
-                request.invoke()
+                val state = intercept?.onIntercept(timeOut,repeatTime,tryCount) ?: InterceptState.ContinueState
+                Logger.dLog(TAG, "tryRepeat state = $state intercept = $intercept")
+                if(state == InterceptState.ContinueState){
+                    request.invoke()
+                }else{
+                    null
+                }
             }.awaitWithTimeout(timeOut)
-            Logger.dLog(TAG, "response = $out")
+            Logger.dLog(TAG, "tryRepeat response body = ${out?.body()}")
             if (out == null && tryCount < repeatTime) {
                 tryCount++
+                Logger.dLog(TAG, "tryRepeat ${request} in Loop")
                 tryRepeat(scope, onError)
             } else {
                 out

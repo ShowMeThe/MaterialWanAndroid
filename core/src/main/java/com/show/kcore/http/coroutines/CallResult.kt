@@ -1,5 +1,6 @@
 package com.show.kcore.http.coroutines
 
+import android.util.ArrayMap
 import android.util.Log
 import androidx.lifecycle.*
 import com.show.kcore.extras.log.Logger
@@ -16,7 +17,7 @@ fun Coroutines.callResult(scope: CallResult.() -> Unit) {
 
 data class Coroutines(
     val viewModelScope: CoroutineScope? = null,
-    val owner : LifecycleOwner? = null
+    val owner: LifecycleOwner? = null
 )
 
 class CallResult constructor(
@@ -30,11 +31,23 @@ class CallResult constructor(
     private var timeOut = 15000L
     private var repeatTime = 1
 
+    private val intercepts by lazy { ArrayMap<String, IInterceptHandler>() }
+
+    private val REQUEST_TAG_1 = "REQUEST_TAG_1"
+    private val REQUEST_TAG_2 = "REQUEST_TAG_2"
 
     init {
         callResult?.invoke(this)
     }
 
+
+    fun addInterceptForRequest(intercept: IInterceptHandler) {
+        intercepts[REQUEST_TAG_1] = intercept
+    }
+
+    fun addInterceptForRequest2(intercept: IInterceptHandler) {
+        intercepts[REQUEST_TAG_2] = intercept
+    }
 
     fun timeOut(time: Long, util: TimeUnit) {
         timeOut = util.toMillis(time)
@@ -98,10 +111,12 @@ class CallResult constructor(
             response = kRequest1
                 .timeOut(timeOut)
                 .repeatTime(repeatTime)
+                .setIntercept(intercepts[REQUEST_TAG_1])
                 .addAsync(this, onError1),
             response2 = kRequest2
                 .timeOut(timeOut)
                 .repeatTime(repeatTime)
+                .setIntercept(intercepts[REQUEST_TAG_2])
                 .addAsync(this, onError2), iFunction, kResponse
         )
     }
@@ -135,6 +150,7 @@ class CallResult constructor(
             kRequest
                 .timeOut(timeOut)
                 .repeatTime(repeatTime)
+                .setIntercept(intercepts[REQUEST_TAG_1])
                 .addAsync(this) {
                     this.printStackTrace()
                     if (this is TimeoutCancellationException) {

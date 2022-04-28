@@ -1,6 +1,7 @@
 package com.show.kcore.rden
 
 import android.content.Context
+import androidx.annotation.Nullable
 import androidx.lifecycle.LifecycleOwner
 import androidx.room.Room
 import com.show.kcore.http.clazzToJson
@@ -26,8 +27,11 @@ object Stores {
             .allowMainThreadQueries().build()
     }
 
+    fun delete(@NotNull key: String){
+        mmkv.remove(key)
+    }
 
-    fun put(@NotNull key: String, @NotNull value: String) {
+    fun put(@NotNull key: String, @Nullable value: String?) {
         mmkv.encode(key, value)
     }
 
@@ -56,18 +60,18 @@ object Stores {
     }
 
 
-    fun getString(@NotNull key: String, @NotNull default: String): String? =
+    fun getString(@NotNull key: String, @Nullable default: String?): String? =
         mmkv.decodeString(key, default)
 
-    fun getFloat(@NotNull key: String, @NotNull default: Float) = mmkv.decodeFloat(key, default)
+    fun getFloat(@NotNull key: String, @Nullable default: Float) = mmkv.decodeFloat(key, default)
 
-    fun getBoolean(@NotNull key: String, @NotNull default: Boolean) = mmkv.decodeBool(key, default)
+    fun getBoolean(@NotNull key: String, @Nullable default: Boolean) = mmkv.decodeBool(key, default)
 
-    fun getInt(@NotNull key: String, @NotNull default: Int) = mmkv.decodeInt(key, default)
+    fun getInt(@NotNull key: String, @Nullable default: Int) = mmkv.decodeInt(key, default)
 
-    fun getLong(@NotNull key: String, @NotNull default: Long) = mmkv.decodeLong(key, default)
+    fun getLong(@NotNull key: String, @Nullable default: Long) = mmkv.decodeLong(key, default)
 
-    fun getByteArray(@NotNull key: String, @NotNull default: ByteArray) =
+    fun getByteArray(@NotNull key: String, @Nullable default: ByteArray?) =
         mmkv.decodeBytes(key, default)
 
     inline fun <reified T> putObject(@NotNull key: String, value: T?) {
@@ -87,15 +91,19 @@ object Stores {
         creator.roomDao().put(bean)
     }
 
-    inline fun <reified T> getLive(owner: LifecycleOwner,@NotNull key: String,crossinline onChange:(t:T?)->Unit){
-        creator.roomDao().getLiveData(key).observe(owner){
+    inline fun <reified T> getLive(
+        owner: LifecycleOwner,
+        @NotNull key: String,
+        crossinline onChange: (t: T?) -> Unit
+    ) {
+        creator.roomDao().getLiveData(key).observe(owner) {
             val data = it?.stringValue
             val out = data?.jsonToClazz<T>()
             onChange.invoke(out)
         }
     }
 
-     fun delete(key: String){
+    fun deleteObject(key: String) {
         creator.roomDao().deleteData(key)
 
     }

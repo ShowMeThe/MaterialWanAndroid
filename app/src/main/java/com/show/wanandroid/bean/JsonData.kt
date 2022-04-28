@@ -9,4 +9,10 @@ class JsonData<T> : JsonResult {
     override fun isLegal(): Boolean {
         return errorCode == 0
     }
+
+    override fun toString(): String {
+        return "JsonData(errorCode=$errorCode, errorMsg=$errorMsg, data=$data)"
+    }
+
+
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.show.kcore.base.AppContext
+import com.show.kcore.extras.log.Logger
 import com.show.kcore.http.coroutines.*
 
 
@@ -33,6 +34,7 @@ fun <T> LiveData<KResult<T>>.read(lifecycleOwner:LifecycleOwner,
                         data?.invoke(response)
                     }
                     is FailedResult<T> ->{
+                        Logger.dLog("2222222","doOnError it = $it")
                         error?.invoke(exception,it.response)
                     }
                     is TimeOutResult<T> ->{

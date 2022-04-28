@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.show.kInject.core.ext.single
 import com.show.kcore.base.BaseRepository
+import com.show.kcore.extras.log.Logger
 import com.show.kcore.http.coroutines.IFunction
 import com.show.kcore.http.coroutines.KResult
 import com.show.kcore.http.coroutines.callResult
@@ -19,6 +20,8 @@ import java.lang.Exception
 class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
 
     private val api: Main by single()
+
+    private val intercept by lazy { SessionIntercept() }
 
     fun getBanner(data: MutableSharedFlow<KResult<JsonData<List<Banner>>>>) {
         androidScope {
@@ -182,6 +185,7 @@ class MainRepository(viewModel: ViewModel?) : BaseRepository(viewModel) {
     fun getCollects(pager: Int, data: MutableSharedFlow<KResult<JsonData<Collect>>>) {
         androidScope {
             callResult {
+                addInterceptForRequest(intercept)
                 hold(data) {
                     api.getCollect(pager)
                 }

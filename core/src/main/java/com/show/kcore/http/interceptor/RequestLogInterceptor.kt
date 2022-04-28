@@ -26,6 +26,7 @@ class RequestLogInterceptor : Interceptor {
             requestMessage += "?\n" + buffer.readString(UTF8)
         }
         Logger.eLog("RequestLogInterceptor", requestMessage)
+        Logger.eLog("RequestLogInterceptor", "requestBody = $responseBodyString")
         return response.newBuilder().body(responseBodyString?.toByteArray()?.toResponseBody(responseBody.contentType())).build()
     }
 

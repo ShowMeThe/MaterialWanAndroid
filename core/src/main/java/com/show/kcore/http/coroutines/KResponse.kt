@@ -2,6 +2,7 @@ package com.show.kcore.http.coroutines
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.show.kcore.extras.log.Logger
 import com.show.kcore.http.coroutines.KResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,7 +34,7 @@ class KResponse<T>(val data: MutableSharedFlow<KResult<T>>? = null) : IResponse<
 
 
     override suspend fun doOnError(e: Throwable, t: T?) {
-        val out = FailedResult.create<T>(Exception(e))
+        val out = FailedResult.create<T>(Exception(e),t)
         postData(out)
         onError?.apply {
             withContext(Dispatchers.Main.immediate) {

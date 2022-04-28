@@ -17,14 +17,14 @@ internal suspend fun <T1, T2, R> mergeResult(
 ) {
     runCatching {
         response.combine(response2) { t1, t2 ->
-            return@combine if (t1 == null || t2 == null) {
+            return@combine if (t1 == null && t2 == null) {
                 iResponse.doOnError(Exception("Response is null"), null)
                 null
-            } else if (t1.code() != 200 || t2.code() != 200) {
+            } else if (t1?.code() != 200 && t2?.code() != 200) {
                 iResponse.doOnTimeOut()
                 null
             } else {
-                iFunction.apply(t1.body(), t2.body())
+                iFunction.apply(t1?.body(), t2?.body())
             }
         }.collect { result ->
             if (result != null) {

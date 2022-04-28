@@ -16,12 +16,14 @@ import com.show.kcore.base.TransitionMode
 import com.show.kcore.extras.counter.timer
 import com.show.kcore.extras.display.dp
 import com.show.kcore.extras.gobal.read
+import com.show.kcore.extras.log.Logger
 import com.show.kcore.extras.status.statusBar
 import com.show.slideback.annotation.SlideBackBinder
 import com.show.slideback.annotation.SlideBackPreview
 import com.show.wanandroid.R
 import com.show.wanandroid.bean.Collect
 import com.show.wanandroid.databinding.ActivityCollectBinding
+import com.show.wanandroid.logoutWhenSessionIsEmpty
 import com.show.wanandroid.toast
 import com.show.wanandroid.ui.main.adapter.CollectAdapter
 import com.show.wanandroid.ui.main.vm.MainViewModel
@@ -45,7 +47,7 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
             text = "取消收藏"
             backgroundColor = Color.RED
             textColor = Color.WHITE
-            drawableStart = ContextCompat.getDrawable(this@CollectActivity,R.drawable.ic_hidden)
+            drawableStart = ContextCompat.getDrawable(this@CollectActivity, R.drawable.ic_hidden)
             menuWidth = 130f.dp
             drawablePadding = 0f.dp
             menuPadding = 5f.dp
@@ -54,7 +56,7 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
     var refreshData = MutableLiveData(true)
     val layoutManager by lazy { LinearLayoutManager(this, RecyclerView.VERTICAL, false) }
 
-    val adapter by lazy { CollectAdapter(this,menus) }
+    val adapter by lazy { CollectAdapter(this, menus) }
 
     override fun getViewId(): Int = R.layout.activity_collect
 
@@ -66,32 +68,35 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
         viewModel.collects
             .asLiveData()
             .read(this, timeOut = {
-            refreshData.value = false
-        }, error = { _, it ->
-            it?.apply {
-                toast(errorCode,errorMsg)
-            }
-            refreshData.value = false
-        }){
-            it?.data?.apply {
-                if(page == 0){
-                    list.clear()
+                Logger.dLog("2222222","timeOut")
+                refreshData.value = false
+            }, error = { _, it ->
+                Logger.dLog("2222222","error ${it}")
+                it?.apply {
+                    toast(errorCode, errorMsg)
                 }
-                list.addAll(datas)
-                adapter.submitList(list)
-                binding {
-                    refreshData.value = false
-                    rvList.finishLoading()
-                    rvList.setEnableLoadMore(datas.isNotEmpty())
+                refreshData.value = false
+            }) {
+                it?.data?.apply {
+                    if (page == 0) {
+                        list.clear()
+                    }
+                    list.addAll(datas)
+                    adapter.submitList(list)
+                    binding {
+                        refreshData.value = false
+                        rvList.finishLoading()
+                        rvList.setEnableLoadMore(datas.isNotEmpty())
+                    }
                 }
             }
-        }
     }
 
     override fun init(savedInstanceState: Bundle?) {
         statusBar {
             uiFullScreen(true)
         }
+        logoutWhenSessionIsEmpty()
         binding {
             main = this@CollectActivity
             executePendingBindings()
@@ -101,11 +106,10 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
             rvList.hideWhenScrolling(refresh)
         }
 
-        timer(Dispatchers.Main,300){
+        timer(Dispatchers.Main, 300) {
             getData()
         }
     }
-
 
 
     override fun initListener() {
@@ -123,13 +127,13 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
 
 
             adapter.setOnItemClickListener { view, data, position ->
-                WebActivity.start(this@CollectActivity,data.title,data.link)
+                WebActivity.start(this@CollectActivity, data.title, data.link)
             }
 
             adapter.setOnMenuItemClickListener { menuPosition, contentPosition ->
-                if(menuPosition == 0){
+                if (menuPosition == 0) {
                     val item = list[contentPosition]
-                    viewModel.unCollect(item.id,item.originId)
+                    viewModel.unCollect(item.id, item.originId)
                     list.removeAt(contentPosition)
                     adapter.removeAt(contentPosition)
                 }
@@ -138,7 +142,7 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
         }
     }
 
-    private fun getData(){
+    private fun getData() {
         viewModel.getCollects(page)
     }
 

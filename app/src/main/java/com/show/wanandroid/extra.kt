@@ -1,5 +1,6 @@
 package com.show.wanandroid
 
+import android.app.ActivityOptions
 import android.app.SharedElementCallback
 import android.content.Intent
 import android.view.MenuItem
@@ -22,14 +23,14 @@ import com.show.wanandroid.plugin.BannerPlugin
 import com.show.wanandroid.ui.main.LoginActivity
 
 
-fun BottomNavigationView.setOnNavigationSingleItemSelectedListener(listener:(it:MenuItem)->Unit){
+fun BottomNavigationView.setOnNavigationSingleItemSelectedListener(listener: (it: MenuItem) -> Unit) {
     var lastTime = 0L
     setOnItemSelectedListener {
-        if (System.currentTimeMillis() - lastTime >= 300){
+        if (System.currentTimeMillis() - lastTime >= 300) {
             lastTime = System.currentTimeMillis()
             listener.invoke(it)
             true
-        }else{
+        } else {
             false
         }
     }
@@ -140,28 +141,40 @@ fun FragmentActivity.replaceFragment(replaceFragment: Fragment, id: Int = R.id.f
     transaction.commitAllowingStateLoss()
 }
 
-fun toast(error: Int, message: Int){
+fun toast(error: Int, message: Int) {
     val ctx = AppContext.get().getActivity()
-    Toast.makeText(ctx,ctx?.getString(message)?:"网络错误",Toast.LENGTH_SHORT).show()
-    if(error == -1001){
+    Toast.makeText(ctx, ctx?.getString(message) ?: "网络错误", Toast.LENGTH_SHORT).show()
+    if (error == -1001) {
         logOut()
-        ctx?.startActivity(Intent(ctx,LoginActivity::class.java))
+        ctx?.startActivity(Intent(ctx, LoginActivity::class.java))
     }
 }
 
-fun toast(error: Int, message:String?){
+fun toast(error: Int, message: String?) {
     val ctx = AppContext.get().getActivity()
-    Toast.makeText(ctx,message?:"网络错误",Toast.LENGTH_SHORT).show()
-    if(error == -1001){
+    Toast.makeText(ctx, message ?: "网络错误", Toast.LENGTH_SHORT).show()
+    if (error == -1001) {
         logOut()
-        ctx?.startActivity(Intent(ctx,LoginActivity::class.java))
+        ctx?.startActivity(Intent(ctx, LoginActivity::class.java))
     }
 }
 
-fun logOut(){
-    Stores.putObject<UserBean>(StoreConst.UserInfo,null)
-    Stores.put(StoreConst.IsLogin,false)
-    Stores.put("sessionId","")
+fun logoutWhenSessionIsEmpty() {
+    val ctx = AppContext.get().getActivity()
+    val session = Stores.getString("sessionId", null)
+    if (session == null) {
+        logOut()
+        ctx?.startActivity(
+            Intent(ctx, LoginActivity::class.java),
+            ActivityOptions.makeSceneTransitionAnimation(ctx).toBundle()
+        )
+    }
+}
+
+fun logOut() {
+    Stores.putObject<UserBean>(StoreConst.UserInfo, null)
+    Stores.put(StoreConst.IsLogin, false)
+    Stores.put("sessionId", null)
 }
 
 
