@@ -26,6 +26,7 @@ android{
         }
     }
 
+
     defaultConfig{
         applicationId = "com.show.wanandroid"
         resConfigs("zh","zh-rCN")
@@ -38,7 +39,6 @@ android{
                 isUniversalApk = false
             }
         }
-
     }
 
     Orca.go{

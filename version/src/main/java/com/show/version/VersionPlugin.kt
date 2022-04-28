@@ -21,18 +21,18 @@ import org.gradle.kotlin.dsl.withType
 class VersionPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-       config(project)
+        config(project)
     }
 
     private fun config(project: Project) {
-        project.plugins.withId("kotlin-android"){
+        project.plugins.withId("kotlin-android") {
             val extension = project.extensions.getByType(TestedExtension::class.java)
-            when(extension){
+            when (extension) {
                 is AppExtension -> {
 
-                 project.extensions.getByType<BaseAppModuleExtension>()
-                    .applyAndroidCommons(project)
-            }
+                    project.extensions.getByType<BaseAppModuleExtension>()
+                        .applyAndroidCommons(project)
+                }
                 is LibraryExtension -> {
                     project.extensions.getByType<LibraryExtension>()
                         .applyLibraryCommons(project)
@@ -47,11 +47,12 @@ class VersionPlugin : Plugin<Project> {
      */
     private fun BaseAppModuleExtension.applyAndroidCommons(project: Project) {
         apply {
-            buildFeatures{
+            buildFeatures {
                 dataBinding = true
                 viewBinding = true
             }
         }
+
         appCommons(project)
     }
 
@@ -60,7 +61,7 @@ class VersionPlugin : Plugin<Project> {
      */
     private fun LibraryExtension.applyLibraryCommons(project: Project) {
         appCommons(project)
-        buildFeatures{
+        buildFeatures {
             dataBinding = true
             viewBinding = true
         }
@@ -68,28 +69,27 @@ class VersionPlugin : Plugin<Project> {
     }
 
 
-    private fun Project.applyLibraryDependencies(){
+    private fun Project.applyLibraryDependencies() {
         dependencies.apply {
             /**
              * 添加base依赖
              */
-            implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar","*.aar"))))
+            implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
 
         }
     }
 
 
-
     /**
      * 基础配置
      */
-    private fun TestedExtension.appCommons(project: Project){
+    private fun TestedExtension.appCommons(project: Project) {
 
         compileSdkVersion(Versions.compileSdkVersion)
         buildToolsVersion(Versions.buildToolsVersion)
 
 
-        defaultConfig{
+        defaultConfig {
             minSdkVersion(Versions.minSdkVersion)
             targetSdkVersion(Versions.targetSdkVersion)
             versionName = Versions.versionName
@@ -97,22 +97,22 @@ class VersionPlugin : Plugin<Project> {
             multiDexEnabled = true
 
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-
         }
 
-        lintOptions{
+
+
+        lintOptions {
             isCheckReleaseBuilds = false
             isAbortOnError = false
         }
 
-        buildTypes{
+        buildTypes {
             getByName("debug").apply {
-                buildConfigField("boolean","LOG_ENABLE","true")
+                buildConfigField("boolean", "LOG_ENABLE", "true")
             }
 
             getByName("release").apply {
-                buildConfigField("boolean","LOG_ENABLE","false")
+                buildConfigField("boolean", "LOG_ENABLE", "false")
             }
         }
 
@@ -138,7 +138,6 @@ class VersionPlugin : Plugin<Project> {
         plugins.apply("kotlin-parcelize")
         plugins.apply("kotlin-kapt")
     }
-
 
 
     object Versions {
