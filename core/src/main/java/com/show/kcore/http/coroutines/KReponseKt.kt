@@ -41,7 +41,9 @@ internal suspend fun <T> singleResult(
 ) {
     runCatching {
         response.collect { t ->
+            Log.e("2222222","singleResult $t")
             if (t == null) {
+                Log.e("2222222","iResponse $t")
                 iResponse.doOnError(Exception("response is null"), null)
             } else {
                 t.apply {

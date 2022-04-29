@@ -54,7 +54,6 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding,SearchView
     override fun observerUI() {
 
         viewModel.search
-            .asLiveData()
             .read(this,timeOut = {
             refreshData.value = false
         },error = {exception, t ->

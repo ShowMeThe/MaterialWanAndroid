@@ -15,6 +15,7 @@ import com.show.kcore.base.Transition
 import com.show.kcore.base.TransitionMode
 import com.show.kcore.extras.counter.timer
 import com.show.kcore.extras.display.dp
+import com.show.kcore.extras.gobal.mainDispatcher
 import com.show.kcore.extras.gobal.read
 import com.show.kcore.extras.log.Logger
 import com.show.kcore.extras.status.statusBar
@@ -32,6 +33,7 @@ import com.show.wanandroid.widget.swipe.SwipeBuilder
 import com.show.wanandroid.widget.swipe.TextMenu
 import com.showmethe.skinlib.SkinManager
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 
 @SlideBackPreview
 @SlideBackBinder
@@ -66,12 +68,9 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, MainViewModel>() {
 
     override fun observerUI() {
         viewModel.collects
-            .asLiveData()
             .read(this, timeOut = {
-                Logger.dLog("2222222","timeOut")
                 refreshData.value = false
             }, error = { _, it ->
-                Logger.dLog("2222222","error ${it}")
                 it?.apply {
                     toast(errorCode, errorMsg)
                 }

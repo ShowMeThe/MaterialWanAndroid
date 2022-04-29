@@ -8,6 +8,7 @@ import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.show.kcore.base.BaseFragment
+import com.show.kcore.extras.gobal.mainDispatcher
 import com.show.kcore.extras.gobal.read
 import com.show.kcore.http.coroutines.KResult
 import com.show.wanandroid.R
@@ -20,6 +21,7 @@ import com.show.wanandroid.ui.main.adapter.ArticleListAdapter
 import com.show.wanandroid.ui.main.vm.TreeViewModel
 import com.showmethe.skinlib.SkinManager
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
 
 class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewModel>() {
 
@@ -47,32 +49,33 @@ class TreeArticleFragment : BaseFragment<FragmentTreeArticleBinding, TreeViewMod
 
     override fun observerUI() {
 
-        viewModel.navigator
-            .asLiveData()
-            .observe(viewLifecycleOwner) {
-            it?.apply {
-                binding {
-                    tvTitle.text = second
-                    articleId = first
-                    page = 0
-                    getArticle()
+        mainDispatcher {
+            viewModel.navigator
+                .collect {
+                    it?.apply {
+                        binding {
+                            tvTitle.text = second
+                            articleId = first
+                            page = 0
+                            getArticle()
+                        }
+                    }
                 }
-            }
         }
 
+
         treeArticle
-            .asLiveData()
             .read(this) {
-            it?.data?.apply {
-                if (page == 0) {
-                    list.clear()
+                it?.data?.apply {
+                    if (page == 0) {
+                        list.clear()
+                    }
+                    list.addAll(datas)
+                    refreshData.value = false
+                    binding.rvList.finishLoading()
+                    binding.rvList.setEnableLoadMore(datas.isNotEmpty())
                 }
-                list.addAll(datas)
-                refreshData.value = false
-                binding.rvList.finishLoading()
-                binding.rvList.setEnableLoadMore(datas.isNotEmpty())
             }
-        }
 
     }
 

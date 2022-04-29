@@ -44,7 +44,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
     override fun observerUI() {
 
         viewModel.banner
-            .asLiveData()
             .read(viewLifecycleOwner){
             it?.data?.apply {
                 val urls = this.map { it.imagePath }
@@ -62,7 +61,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
         }
 
         viewModel.homeTops
-            .asLiveData()
             .read(viewLifecycleOwner,
             error = { e, t ->
                 refreshData.value = false
@@ -80,7 +78,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
         }
 
         viewModel.homeArticle
-            .asLiveData()
             .read(this){
             it?.data?.apply {
                 list.addAll(datas)

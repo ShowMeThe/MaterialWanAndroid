@@ -28,7 +28,6 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding, MainViewModel>() {
     override fun observerUI() {
 
         viewModel.cateTab
-            .asLiveData()
             .read(viewLifecycleOwner){
             it?.data?.apply {
                 titles.clear()

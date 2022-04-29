@@ -42,7 +42,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
 
 
         viewModel.hotKey
-            .asLiveData()
             .read(this){
             it?.data?.apply {
                 addGroup(this)

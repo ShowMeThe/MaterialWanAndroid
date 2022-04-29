@@ -39,7 +39,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
     override fun observerUI() {
 
         viewModel.login
-            .asLiveData()
             .read(this, loading = {
             showLoading()
         }, error = { exception, t ->
@@ -59,7 +58,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
         }
 
         viewModel.register
-            .asLiveData()
             .read(this, loading = {
             showLoading()
         }, error = { exception, t ->

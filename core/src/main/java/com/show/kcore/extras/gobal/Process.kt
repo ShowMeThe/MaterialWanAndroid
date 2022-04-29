@@ -15,6 +15,7 @@ import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
+import kotlin.coroutines.CoroutineContext
 
 
 class AsyncExecutor : ExecutorImp() {
@@ -70,9 +71,14 @@ fun mainDispatcher(block: () -> Unit) {
     }
 }
 
-fun LifecycleOwner.mainDispatcher(block: suspend () -> Unit) {
+fun LifecycleOwner.mainDispatcher(
+    onThrowable: ((context: CoroutineContext, throwable: Throwable?) -> Unit)? = null,
+    block: suspend () -> Unit
+) {
     lifecycleScope.launchWhenCreated {
-        withContext(Dispatchers.Main) {
+        withContext(Dispatchers.Main.immediate + CoroutineExceptionHandler { coroutineContext, throwable ->
+            onThrowable?.invoke(coroutineContext, throwable)
+        }) {
             block.invoke()
         }
     }
@@ -85,24 +91,13 @@ fun ViewModel.ioDispatcher(block: suspend () -> Unit) {
     }
 }
 
-fun LifecycleOwner.ioDispatcher(block: suspend () -> Unit) {
+fun LifecycleOwner.ioDispatcher(
+    onThrowable: ((context: CoroutineContext, throwable: Throwable?) -> Unit)? = null,
+    block: suspend () -> Unit) {
     lifecycleScope.launchWhenCreated {
-        withContext(Dispatchers.IO) {
-            block.invoke()
-        }
-    }
-}
-
-@DelicateCoroutinesApi
-fun dispatcher(dispatcher: CoroutineDispatcher, block: suspend () -> Unit) {
-    GlobalScope.launch(dispatcher) {
-        block.invoke()
-    }
-}
-
-fun LifecycleOwner.dispatcher(dispatcher: CoroutineDispatcher, block: suspend () -> Unit) {
-    lifecycleScope.launchWhenCreated {
-        withContext(dispatcher) {
+        withContext(Dispatchers.IO + CoroutineExceptionHandler { coroutineContext, throwable ->
+            onThrowable?.invoke(coroutineContext, throwable)
+        }) {
             block.invoke()
         }
     }

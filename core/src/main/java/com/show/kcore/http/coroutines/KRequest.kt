@@ -55,26 +55,29 @@ class KRequest<T>(private val request: suspend () -> Response<T>) {
     ): Response<T>? {
         return kotlin.runCatching {
             val out = scope.async {
-                val state = intercept?.onIntercept(timeOut,repeatTime,tryCount) ?: InterceptState.ContinueState
+                val state = intercept?.onIntercept(timeOut, repeatTime, tryCount)
+                    ?: InterceptState.ContinueState
                 Logger.dLog(TAG, "tryRepeat state = $state intercept = $intercept")
-                if(state == InterceptState.ContinueState){
-                    request.invoke()
-                }else{
-                    null
+                if (state == InterceptState.ContinueState) {
+                    RequestResult(InterceptState.ContinueState, request.invoke())
+                } else {
+                    RequestResult(state, null)
                 }
             }.awaitWithTimeout(timeOut)
-            Logger.dLog(TAG, "tryRepeat response body = ${out?.body()}")
-            if (out == null && tryCount < repeatTime) {
+            Logger.dLog(TAG, "tryRepeat response body = ${out?.response?.body()}")
+            if (out?.state != InterceptState.ForceIntercept && out?.response == null && tryCount < repeatTime) {
                 tryCount++
-                Logger.dLog(TAG, "tryRepeat ${request} in Loop")
+                Logger.dLog(TAG, "tryRepeat $request in Loop")
                 tryRepeat(scope, onError)
             } else {
-                out
+                out?.response
             }
         }.onFailure {
             it.printStackTrace()
             onError?.invoke(it)
         }.getOrNull()
     }
+
+    data class RequestResult<T>(val state: InterceptState, val response: Response<T>?)
 
 }
