@@ -3,14 +3,19 @@ package com.show.kcore.extras.status
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
-import android.view.*
-import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.annotation.RequiresApi
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.LifecycleEventObserver
 
 fun ComponentActivity.statusBar(component: (Immerse.() -> Unit)) {
     component(Immerse.get())
@@ -42,7 +47,7 @@ class Immerse private constructor() {
     }
 
     /**
-     * lightColor true textColor White else black
+     * lightColor true systemBar text color is white else black
      */
     fun ComponentActivity.uiFullScreen(lightColor: Boolean = true) {
         updateStatusBarLayout(lightColor)
@@ -79,9 +84,8 @@ class Immerse private constructor() {
             hideStatusBarUnder30()
         }
         fitCutout()
-        lifecycle.addObserver(object : LifecycleObserver {
-            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-            fun onResume() {
+        lifecycle.addObserver(LifecycleEventObserver{ source,event ->
+            if(event == Lifecycle.Event.ON_RESUME){
                 if (up30) {
                     hideStatusBarUp30()
                 } else {
@@ -92,11 +96,11 @@ class Immerse private constructor() {
     }
 
     private fun ComponentActivity.hideStatusBarUp30(){
-        val controller = window.insetsController
+        val controller = ViewCompat.getWindowInsetsController(window.decorView)
         controller?.apply {
-            hide(WindowInsets.Type.statusBars())
-            hide(WindowInsets.Type.displayCutout())
-            systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            hide(WindowInsetsCompat.Type.statusBars())
+            hide(WindowInsetsCompat.Type.displayCutout())
+            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
         }
     }
 
@@ -123,17 +127,12 @@ class Immerse private constructor() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.R)
     private fun ComponentActivity.uiScreenUp30(lightColor: Boolean){
-        val controller = window.insetsController
+        val controller = ViewCompat.getWindowInsetsController(window.decorView)
         controller?.apply {
-            show(WindowInsets.Type.statusBars())
-            setSystemBarsAppearance(
-                if (lightColor) {
-                    0
-                } else {
-                    APPEARANCE_LIGHT_STATUS_BARS
-                }, APPEARANCE_LIGHT_STATUS_BARS
-            )
+            show(WindowInsetsCompat.Type.statusBars())
+            isAppearanceLightStatusBars = lightColor.not()
         }
         window.statusBarColor = Color.TRANSPARENT
         window.setDecorFitsSystemWindows(false)
