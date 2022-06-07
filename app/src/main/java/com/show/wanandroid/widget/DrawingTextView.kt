@@ -123,7 +123,7 @@ class DrawingTextView @JvmOverloads constructor(
             duration = mDuration
             addUpdateListener {
                 mProgress = it.animatedValue as Float
-                postInvalidate()
+                postInvalidateOnAnimation()
             }
             start()
         }

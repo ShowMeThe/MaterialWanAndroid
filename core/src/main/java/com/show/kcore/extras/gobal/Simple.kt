@@ -43,7 +43,6 @@ fun <T> MutableSharedFlow<KResult<T>>.read(
                         data?.invoke(response)
                     }
                     is FailedResult<T> -> {
-                        Logger.dLog("2222222", "doOnError it = $it")
                         error?.invoke(it.exception, it.response)
                     }
                     is TimeOutResult<T> -> {
@@ -75,7 +74,6 @@ fun <T> LiveData<KResult<T>>.read(
                         data?.invoke(response)
                     }
                     is FailedResult<T> -> {
-                        Logger.dLog("2222222", "doOnError it = $it")
                         error?.invoke(exception, it.response)
                     }
                     is TimeOutResult<T> -> {
